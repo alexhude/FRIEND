@@ -1,0 +1,504 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FA3CA8861DD5C6E2004F6AEF /* libcapstone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9AC1A31CCBBACC00DB198E /* libcapstone.a */; };
+		FA3CA88B1DD5E462004F6AEF /* Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA3CA8891DD5E462004F6AEF /* Settings.cpp */; };
+		FA3CA88C1DD5E462004F6AEF /* Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA3CA8891DD5E462004F6AEF /* Settings.cpp */; };
+		FA3CA88D1DD5E462004F6AEF /* Settings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA3CA88A1DD5E462004F6AEF /* Settings.hpp */; };
+		FA3CA88E1DD5E462004F6AEF /* Settings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA3CA88A1DD5E462004F6AEF /* Settings.hpp */; };
+		FA8632E61DD7E7F300F11126 /* PluginDelegate.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA8632E51DD7E7F300F11126 /* PluginDelegate.hpp */; };
+		FA8632E71DD7E7F300F11126 /* PluginDelegate.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA8632E51DD7E7F300F11126 /* PluginDelegate.hpp */; };
+		FA9AC1571CCB2E1600DB198E /* FRIEND.pmc64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA9B0F831C3D277D008E47E4 /* FRIEND.pmc64 */; };
+		FA9AC15A1CCB2EED00DB198E /* AArch64Extender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9AC1581CCB2EED00DB198E /* AArch64Extender.cpp */; };
+		FA9AC15B1CCB2EED00DB198E /* AArch64Extender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9AC1581CCB2EED00DB198E /* AArch64Extender.cpp */; };
+		FA9AC15C1CCB2EED00DB198E /* AArch64Extender.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC1591CCB2EED00DB198E /* AArch64Extender.hpp */; };
+		FA9AC15D1CCB2EED00DB198E /* AArch64Extender.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC1591CCB2EED00DB198E /* AArch64Extender.hpp */; };
+		FA9AC1601CCB315000DB198E /* Documentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9AC15E1CCB315000DB198E /* Documentation.cpp */; };
+		FA9AC1611CCB315000DB198E /* Documentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9AC15E1CCB315000DB198E /* Documentation.cpp */; };
+		FA9AC1621CCB315000DB198E /* Documentation.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC15F1CCB315000DB198E /* Documentation.hpp */; };
+		FA9AC1631CCB315000DB198E /* Documentation.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC15F1CCB315000DB198E /* Documentation.hpp */; };
+		FA9AC1681CCB630700DB198E /* pugiconfig.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC1651CCB630700DB198E /* pugiconfig.hpp */; };
+		FA9AC1691CCB630700DB198E /* pugiconfig.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC1651CCB630700DB198E /* pugiconfig.hpp */; };
+		FA9AC16A1CCB630700DB198E /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9AC1661CCB630700DB198E /* pugixml.cpp */; };
+		FA9AC16B1CCB630700DB198E /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9AC1661CCB630700DB198E /* pugixml.cpp */; };
+		FA9AC16C1CCB630700DB198E /* pugixml.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC1671CCB630700DB198E /* pugixml.hpp */; };
+		FA9AC16D1CCB630700DB198E /* pugixml.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA9AC1671CCB630700DB198E /* pugixml.hpp */; };
+		FA9AC1A41CCBBACC00DB198E /* libcapstone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9AC1A31CCBBACC00DB198E /* libcapstone.a */; };
+		FA9B0F791C3D277D008E47E4 /* FRIEND.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAA9F88417BE564100B820A5 /* FRIEND.cpp */; };
+		FAA9F88817BE564100B820A5 /* FRIEND.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAA9F88417BE564100B820A5 /* FRIEND.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FA9B0F741C3D211A008E47E4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA9B0F7E1C3D277D008E47E4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "/Applications/IDA Pro 6.95/idaq.app/Contents/MacOS/plugins";
+			dstSubfolderSpec = 0;
+			files = (
+				FA9AC1571CCB2E1600DB198E /* FRIEND.pmc64 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FA0D7B0016F6F49300EF3B9D /* FRIEND.pmc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = FRIEND.pmc; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA3CA8871DD5CAD0004F6AEF /* ProcExtender.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProcExtender.hpp; sourceTree = "<group>"; };
+		FA3CA8891DD5E462004F6AEF /* Settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Settings.cpp; sourceTree = "<group>"; };
+		FA3CA88A1DD5E462004F6AEF /* Settings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Settings.hpp; sourceTree = "<group>"; };
+		FA8632E51DD7E7F300F11126 /* PluginDelegate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PluginDelegate.hpp; sourceTree = "<group>"; };
+		FA9AC1581CCB2EED00DB198E /* AArch64Extender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AArch64Extender.cpp; sourceTree = "<group>"; };
+		FA9AC1591CCB2EED00DB198E /* AArch64Extender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AArch64Extender.hpp; sourceTree = "<group>"; };
+		FA9AC15E1CCB315000DB198E /* Documentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Documentation.cpp; sourceTree = "<group>"; };
+		FA9AC15F1CCB315000DB198E /* Documentation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Documentation.hpp; sourceTree = "<group>"; };
+		FA9AC1651CCB630700DB198E /* pugiconfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pugiconfig.hpp; path = pugixml/pugiconfig.hpp; sourceTree = "<group>"; };
+		FA9AC1661CCB630700DB198E /* pugixml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pugixml.cpp; path = pugixml/pugixml.cpp; sourceTree = "<group>"; };
+		FA9AC1671CCB630700DB198E /* pugixml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pugixml.hpp; path = pugixml/pugixml.hpp; sourceTree = "<group>"; };
+		FA9AC1A31CCBBACC00DB198E /* libcapstone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcapstone.a; path = capstone/libcapstone.a; sourceTree = "<group>"; };
+		FA9AC1A51CCBBB2E00DB198E /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = capstone/include; sourceTree = "<group>"; };
+		FA9B0F831C3D277D008E47E4 /* FRIEND.pmc64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = FRIEND.pmc64; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAA9F88417BE564100B820A5 /* FRIEND.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FRIEND.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA0D7AFD16F6F49300EF3B9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3CA8861DD5C6E2004F6AEF /* libcapstone.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA9B0F7B1C3D277D008E47E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA9AC1A41CCBBACC00DB198E /* libcapstone.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FA0D7AF716F6F49300EF3B9D = {
+			isa = PBXGroup;
+			children = (
+				FA0D7B1816F6F7C800EF3B9D /* Source */,
+				FA0D7B1B16F727EC00EF3B9D /* Libraries */,
+				FA0D7B0116F6F49300EF3B9D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA0D7B0116F6F49300EF3B9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA0D7B0016F6F49300EF3B9D /* FRIEND.pmc */,
+				FA9B0F831C3D277D008E47E4 /* FRIEND.pmc64 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA0D7B1816F6F7C800EF3B9D /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				FA8632E51DD7E7F300F11126 /* PluginDelegate.hpp */,
+				FA3CA8871DD5CAD0004F6AEF /* ProcExtender.hpp */,
+				FA9AC15F1CCB315000DB198E /* Documentation.hpp */,
+				FA9AC15E1CCB315000DB198E /* Documentation.cpp */,
+				FA9AC1591CCB2EED00DB198E /* AArch64Extender.hpp */,
+				FA9AC1581CCB2EED00DB198E /* AArch64Extender.cpp */,
+				FA3CA88A1DD5E462004F6AEF /* Settings.hpp */,
+				FA3CA8891DD5E462004F6AEF /* Settings.cpp */,
+				FAA9F88417BE564100B820A5 /* FRIEND.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		FA0D7B1B16F727EC00EF3B9D /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				FA9AC1641CCB62FD00DB198E /* pugixml */,
+				FA9AC1A21CCBBA9E00DB198E /* capstone */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		FA9AC1641CCB62FD00DB198E /* pugixml */ = {
+			isa = PBXGroup;
+			children = (
+				FA9AC1651CCB630700DB198E /* pugiconfig.hpp */,
+				FA9AC1661CCB630700DB198E /* pugixml.cpp */,
+				FA9AC1671CCB630700DB198E /* pugixml.hpp */,
+			);
+			name = pugixml;
+			sourceTree = "<group>";
+		};
+		FA9AC1A21CCBBA9E00DB198E /* capstone */ = {
+			isa = PBXGroup;
+			children = (
+				FA9AC1A51CCBBB2E00DB198E /* include */,
+				FA9AC1A31CCBBACC00DB198E /* libcapstone.a */,
+			);
+			name = capstone;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		FA0D7AFE16F6F49300EF3B9D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA8632E61DD7E7F300F11126 /* PluginDelegate.hpp in Headers */,
+				FA9AC15C1CCB2EED00DB198E /* AArch64Extender.hpp in Headers */,
+				FA9AC1681CCB630700DB198E /* pugiconfig.hpp in Headers */,
+				FA3CA88D1DD5E462004F6AEF /* Settings.hpp in Headers */,
+				FA9AC1621CCB315000DB198E /* Documentation.hpp in Headers */,
+				FA9AC16C1CCB630700DB198E /* pugixml.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA9B0F7C1C3D277D008E47E4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA8632E71DD7E7F300F11126 /* PluginDelegate.hpp in Headers */,
+				FA9AC15D1CCB2EED00DB198E /* AArch64Extender.hpp in Headers */,
+				FA9AC1691CCB630700DB198E /* pugiconfig.hpp in Headers */,
+				FA3CA88E1DD5E462004F6AEF /* Settings.hpp in Headers */,
+				FA9AC1631CCB315000DB198E /* Documentation.hpp in Headers */,
+				FA9AC16D1CCB630700DB198E /* pugixml.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		FA0D7AFF16F6F49300EF3B9D /* FRIEND_32 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA0D7B0416F6F49300EF3B9D /* Build configuration list for PBXNativeTarget "FRIEND_32" */;
+			buildPhases = (
+				FA0D7AFC16F6F49300EF3B9D /* Sources */,
+				FA0D7AFD16F6F49300EF3B9D /* Frameworks */,
+				FA0D7AFE16F6F49300EF3B9D /* Headers */,
+				FA9B0F741C3D211A008E47E4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FRIEND_32;
+			productName = fr;
+			productReference = FA0D7B0016F6F49300EF3B9D /* FRIEND.pmc */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		FA9B0F761C3D277D008E47E4 /* FRIEND_64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA9B0F801C3D277D008E47E4 /* Build configuration list for PBXNativeTarget "FRIEND_64" */;
+			buildPhases = (
+				FA9B0F771C3D277D008E47E4 /* Sources */,
+				FA9B0F7B1C3D277D008E47E4 /* Frameworks */,
+				FA9B0F7C1C3D277D008E47E4 /* Headers */,
+				FA9B0F7E1C3D277D008E47E4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FRIEND_64;
+			productName = fr;
+			productReference = FA9B0F831C3D277D008E47E4 /* FRIEND.pmc64 */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA0D7AF816F6F49300EF3B9D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Fried Apple";
+			};
+			buildConfigurationList = FA0D7AFB16F6F49300EF3B9D /* Build configuration list for PBXProject "FRIEND" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FA0D7AF716F6F49300EF3B9D;
+			productRefGroup = FA0D7B0116F6F49300EF3B9D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA0D7AFF16F6F49300EF3B9D /* FRIEND_32 */,
+				FA9B0F761C3D277D008E47E4 /* FRIEND_64 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA0D7AFC16F6F49300EF3B9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA9AC15A1CCB2EED00DB198E /* AArch64Extender.cpp in Sources */,
+				FA9AC1601CCB315000DB198E /* Documentation.cpp in Sources */,
+				FA3CA88B1DD5E462004F6AEF /* Settings.cpp in Sources */,
+				FA9AC16A1CCB630700DB198E /* pugixml.cpp in Sources */,
+				FAA9F88817BE564100B820A5 /* FRIEND.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA9B0F771C3D277D008E47E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA9AC15B1CCB2EED00DB198E /* AArch64Extender.cpp in Sources */,
+				FA9AC1611CCB315000DB198E /* Documentation.cpp in Sources */,
+				FA3CA88C1DD5E462004F6AEF /* Settings.cpp in Sources */,
+				FA9AC16B1CCB630700DB198E /* pugixml.cpp in Sources */,
+				FA9B0F791C3D277D008E47E4 /* FRIEND.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FA0D7B0216F6F49300EF3B9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FA0D7B0316F6F49300EF3B9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FA0D7B0516F6F49300EF3B9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_EXTENSION = pmc;
+				EXECUTABLE_PREFIX = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					__MAC__,
+					__IDP__,
+					__PLUGIN__,
+					USE_STANDARD_FILE_FUNCTIONS,
+					USE_DANGEROUS_FUNCTIONS,
+				);
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/module",
+					"$(SRCROOT)/../idasdk/include",
+					"$(PROJECT_DIR)/capstone/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/lib/x86_mac_gcc_32",
+					"$(PROJECT_DIR)/capstone",
+				);
+				OTHER_LDFLAGS = "-lida";
+				PRODUCT_NAME = FRIEND;
+				STRIP_STYLE = debugging;
+			};
+			name = Debug;
+		};
+		FA0D7B0616F6F49300EF3B9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				EXECUTABLE_EXTENSION = pmc;
+				EXECUTABLE_PREFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					__MAC__,
+					__IDP__,
+					__PLUGIN__,
+					USE_STANDARD_FILE_FUNCTIONS,
+					USE_DANGEROUS_FUNCTIONS,
+					NDEBUG,
+				);
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/module",
+					"$(SRCROOT)/../idasdk/include",
+					"$(PROJECT_DIR)/capstone/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/lib/x86_mac_gcc_32",
+					"$(PROJECT_DIR)/capstone",
+				);
+				OTHER_LDFLAGS = "-lida";
+				PRODUCT_NAME = FRIEND;
+				STRIP_STYLE = all;
+			};
+			name = Release;
+		};
+		FA9B0F811C3D277D008E47E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_EXTENSION = pmc64;
+				EXECUTABLE_PREFIX = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					__MAC__,
+					__IDP__,
+					__PLUGIN__,
+					__X64__,
+					USE_STANDARD_FILE_FUNCTIONS,
+					USE_DANGEROUS_FUNCTIONS,
+				);
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/module",
+					"$(SRCROOT)/../idasdk/include",
+					"$(PROJECT_DIR)/capstone/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/lib/x64_mac_gcc_64",
+					"$(PROJECT_DIR)/capstone",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_LDFLAGS = "-lida64";
+				PRODUCT_NAME = FRIEND;
+				STRIP_STYLE = debugging;
+			};
+			name = Debug;
+		};
+		FA9B0F821C3D277D008E47E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				EXECUTABLE_EXTENSION = pmc64;
+				EXECUTABLE_PREFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					__MAC__,
+					__IDP__,
+					__PLUGIN__,
+					__X64__,
+					USE_STANDARD_FILE_FUNCTIONS,
+					USE_DANGEROUS_FUNCTIONS,
+					NDEBUG,
+				);
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/module",
+					"$(SRCROOT)/../idasdk/include",
+					"$(PROJECT_DIR)/capstone/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../idasdk/lib/x64_mac_gcc_64",
+					"$(PROJECT_DIR)/capstone",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_LDFLAGS = "-lida64";
+				PRODUCT_NAME = FRIEND;
+				STRIP_STYLE = all;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA0D7AFB16F6F49300EF3B9D /* Build configuration list for PBXProject "FRIEND" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA0D7B0216F6F49300EF3B9D /* Debug */,
+				FA0D7B0316F6F49300EF3B9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA0D7B0416F6F49300EF3B9D /* Build configuration list for PBXNativeTarget "FRIEND_32" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA0D7B0516F6F49300EF3B9D /* Debug */,
+				FA0D7B0616F6F49300EF3B9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA9B0F801C3D277D008E47E4 /* Build configuration list for PBXNativeTarget "FRIEND_64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA9B0F811C3D277D008E47E4 /* Debug */,
+				FA9B0F821C3D277D008E47E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FA0D7AF816F6F49300EF3B9D /* Project object */;
+}

@@ -1,0 +1,348 @@
+diff --git a/arch/AArch64/AArch64InstPrinter.c b/arch/AArch64/AArch64InstPrinter.c
+index 123e69b..75e37f9 100644
+--- a/arch/AArch64/AArch64InstPrinter.c
++++ b/arch/AArch64/AArch64InstPrinter.c
+@@ -346,18 +346,18 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+ 				if (Op1Val == 0 && Op2Val == 0) {
+ 					Asm = "ic\tialluis";
+ 					insn_id = ARM64_INS_IC;
+-					op_ic = ARM64_IC_IALLUIS;
++					op_ic = A64IC_IALLUIS;
+ 				}
+ 				break;
+ 			case 5:
+ 				if (Op1Val == 0 && Op2Val == 0) {
+ 					Asm = "ic\tiallu";
+ 					insn_id = ARM64_INS_IC;
+-					op_ic = ARM64_IC_IALLU;
++					op_ic = A64IC_IALLU;
+ 				} else if (Op1Val == 3 && Op2Val == 1) {
+ 					Asm = "ic\tivau";
+ 					insn_id = ARM64_INS_IC;
+-					op_ic = ARM64_IC_IVAU;
++					op_ic = A64IC_IVAU;
+ 				}
+ 				break;
+ 
+@@ -366,48 +366,48 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+ 				if (Op1Val == 3 && Op2Val == 1) {
+ 					Asm = "dc\tzva";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_ZVA;
++					op_dc = A64DC_ZVA;
+ 				}
+ 				break;
+ 			case 6:
+ 				if (Op1Val == 0 && Op2Val == 1) {
+ 					Asm = "dc\tivac";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_IVAC;
++					op_dc = A64DC_IVAC;
+ 				}
+ 				if (Op1Val == 0 && Op2Val == 2) {
+ 					Asm = "dc\tisw";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_ISW;
++					op_dc = A64DC_ISW;
+ 				}
+ 				break;
+ 			case 10:
+ 				if (Op1Val == 3 && Op2Val == 1) {
+ 					Asm = "dc\tcvac";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_CVAC;
++					op_dc = A64DC_CVAC;
+ 				} else if (Op1Val == 0 && Op2Val == 2) {
+ 					Asm = "dc\tcsw";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_CSW;
++					op_dc = A64DC_CSW;
+ 				}
+ 				break;
+ 			case 11:
+ 				if (Op1Val == 3 && Op2Val == 1) {
+ 					Asm = "dc\tcvau";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_CVAU;
++					op_dc = A64DC_CVAU;
+ 				}
+ 				break;
+ 			case 14:
+ 				if (Op1Val == 3 && Op2Val == 1) {
+ 					Asm = "dc\tcivac";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_CIVAC;
++					op_dc = A64DC_CIVAC;
+ 				} else if (Op1Val == 0 && Op2Val == 2) {
+ 					Asm = "dc\tcisw";
+ 					insn_id = ARM64_INS_DC;
+-					op_dc = ARM64_DC_CISW;
++					op_dc = A64DC_CISW;
+ 				}
+ 				break;
+ 
+@@ -420,30 +420,30 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "at\ts1e1r"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E1R; break;
+-							case 1: Asm = "at\ts1e1w"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E1W; break;
+-							case 2: Asm = "at\ts1e0r"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E0R; break;
+-							case 3: Asm = "at\ts1e0w"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E0W; break;
++							case 0: Asm = "at\ts1e1r"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E1R; break;
++							case 1: Asm = "at\ts1e1w"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E1W; break;
++							case 2: Asm = "at\ts1e0r"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E0R; break;
++							case 3: Asm = "at\ts1e0w"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E0W; break;
+ 						}
+ 						break;
+ 					case 4:
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "at\ts1e2r"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E2R; break;
+-							case 1: Asm = "at\ts1e2w"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E2W; break;
+-							case 4: Asm = "at\ts12e1r"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E1R; break;
+-							case 5: Asm = "at\ts12e1w"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E1W; break;
+-							case 6: Asm = "at\ts12e0r"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E0R; break;
+-							case 7: Asm = "at\ts12e0w"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E0W; break;
++							case 0: Asm = "at\ts1e2r"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E2R; break;
++							case 1: Asm = "at\ts1e2w"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E2W; break;
++							case 4: Asm = "at\ts12e1r"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E1R; break;
++							case 5: Asm = "at\ts12e1w"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E1W; break;
++							case 6: Asm = "at\ts12e0r"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E0R; break;
++							case 7: Asm = "at\ts12e0w"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E0W; break;
+ 						}
+ 						break;
+ 					case 6:
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "at\ts1e3r"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E3R; break;
+-							case 1: Asm = "at\ts1e3w"; insn_id = ARM64_INS_AT; op_at = ARM64_AT_S1E3W; break;
++							case 0: Asm = "at\ts1e3r"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E3R; break;
++							case 1: Asm = "at\ts1e3w"; insn_id = ARM64_INS_AT; op_at = A64AT_S1E3W; break;
+ 						}
+ 						break;
+ 				}
+@@ -462,32 +462,32 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "tlbi\tvmalle1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VMALLE1IS; break;
+-							case 1: Asm = "tlbi\tvae1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAE1IS; break;
+-							case 2: Asm = "tlbi\taside1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ASIDE1IS; break;
+-							case 3: Asm = "tlbi\tvaae1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAAE1IS; break;
+-							case 5: Asm = "tlbi\tvale1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VALE1IS; break;
+-							case 7: Asm = "tlbi\tvaale1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAALE1IS; break;
++							case 0: Asm = "tlbi\tvmalle1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VMALLE1IS; break;
++							case 1: Asm = "tlbi\tvae1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAE1IS; break;
++							case 2: Asm = "tlbi\taside1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ASIDE1IS; break;
++							case 3: Asm = "tlbi\tvaae1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAAE1IS; break;
++							case 5: Asm = "tlbi\tvale1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VALE1IS; break;
++							case 7: Asm = "tlbi\tvaale1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAALE1IS; break;
+ 						}
+ 						break;
+ 					case 4:
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "tlbi\talle2is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ALLE2IS; break;
+-							case 1: Asm = "tlbi\tvae2is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAE2IS; break;
+-							case 4: Asm = "tlbi\talle1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ALLE1IS; break;
+-							case 5: Asm = "tlbi\tvale2is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VALE2IS; break;
+-							case 6: Asm = "tlbi\tvmalls12e1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VMALLS12E1IS; break;
++							case 0: Asm = "tlbi\talle2is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ALLE2IS; break;
++							case 1: Asm = "tlbi\tvae2is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAE2IS; break;
++							case 4: Asm = "tlbi\talle1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ALLE1IS; break;
++							case 5: Asm = "tlbi\tvale2is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VALE2IS; break;
++							case 6: Asm = "tlbi\tvmalls12e1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VMALLS12E1IS; break;
+ 						}
+ 						break;
+ 					case 6:
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "tlbi\talle3is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ALLE3IS; break;
+-							case 1: Asm = "tlbi\tvae3is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAE3IS; break;
+-							case 5: Asm = "tlbi\tvale3is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VALE3IS; break;
++							case 0: Asm = "tlbi\talle3is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ALLE3IS; break;
++							case 1: Asm = "tlbi\tvae3is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAE3IS; break;
++							case 5: Asm = "tlbi\tvale3is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VALE3IS; break;
+ 						}
+ 						break;
+ 				}
+@@ -500,8 +500,8 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 1: Asm = "tlbi\tipas2e1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_IPAS2E1IS; break;
+-							case 5: Asm = "tlbi\tipas2le1is"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_IPAS2LE1IS; break;
++							case 1: Asm = "tlbi\tipas2e1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_IPAS2E1IS; break;
++							case 5: Asm = "tlbi\tipas2le1is"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_IPAS2LE1IS; break;
+ 						}
+ 						break;
+ 				}
+@@ -514,8 +514,8 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 1: Asm = "tlbi\tipas2e1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_IPAS2E1; break;
+-							case 5: Asm = "tlbi\tipas2le1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_IPAS2LE1; break;
++							case 1: Asm = "tlbi\tipas2e1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_IPAS2E1; break;
++							case 5: Asm = "tlbi\tipas2le1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_IPAS2LE1; break;
+ 						}
+ 						break;
+ 				}
+@@ -528,32 +528,32 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "tlbi\tvmalle1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VMALLE1; break;
+-							case 1: Asm = "tlbi\tvae1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAE1; break;
+-							case 2: Asm = "tlbi\taside1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ASIDE1; break;
+-							case 3: Asm = "tlbi\tvaae1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAAE1; break;
+-							case 5: Asm = "tlbi\tvale1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VALE1; break;
+-							case 7: Asm = "tlbi\tvaale1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAALE1; break;
++							case 0: Asm = "tlbi\tvmalle1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VMALLE1; break;
++							case 1: Asm = "tlbi\tvae1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAE1; break;
++							case 2: Asm = "tlbi\taside1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ASIDE1; break;
++							case 3: Asm = "tlbi\tvaae1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAAE1; break;
++							case 5: Asm = "tlbi\tvale1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VALE1; break;
++							case 7: Asm = "tlbi\tvaale1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAALE1; break;
+ 						}
+ 						break;
+ 					case 4:
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "tlbi\talle2"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ALLE2; break;
+-							case 1: Asm = "tlbi\tvae2"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VAE2; break;
+-							case 4: Asm = "tlbi\talle1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ALLE1; break;
+-							case 5: Asm = "tlbi\tvale2"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VALE2; break;
+-							case 6: Asm = "tlbi\tvmalls12e1"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VMALLS12E1; break;
++							case 0: Asm = "tlbi\talle2"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ALLE2; break;
++							case 1: Asm = "tlbi\tvae2"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VAE2; break;
++							case 4: Asm = "tlbi\talle1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ALLE1; break;
++							case 5: Asm = "tlbi\tvale2"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VALE2; break;
++							case 6: Asm = "tlbi\tvmalls12e1"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VMALLS12E1; break;
+ 						}
+ 						break;
+ 					case 6:
+ 						switch (Op2Val) {
+ 							default:
+ 								break;
+-							case 0: Asm = "tlbi\talle3"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_ALLE3; break;
+-							case 1: Asm = "tlbi\tvae3"; insn_id = ARM64_INS_TLBI;  op_tlbi = ARM64_TLBI_VAE3; break;
+-							case 5: Asm = "tlbi\tvale3"; insn_id = ARM64_INS_TLBI; op_tlbi = ARM64_TLBI_VALE3; break;
++							case 0: Asm = "tlbi\talle3"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_ALLE3; break;
++							case 1: Asm = "tlbi\tvae3"; insn_id = ARM64_INS_TLBI;  op_tlbi = A64TLBI_VAE3; break;
++							case 5: Asm = "tlbi\tvale3"; insn_id = ARM64_INS_TLBI; op_tlbi = A64TLBI_VALE3; break;
+ 						}
+ 						break;
+ 				}
+diff --git a/arch/AArch64/AArch64Module.c b/arch/AArch64/AArch64Module.c
+index f7fa97f..1475e0f 100644
+--- a/arch/AArch64/AArch64Module.c
++++ b/arch/AArch64/AArch64Module.c
+@@ -8,6 +8,92 @@
+ #include "AArch64Disassembler.h"
+ #include "AArch64InstPrinter.h"
+ #include "AArch64Mapping.h"
++#include "AArch64BaseInfo.h"
++
++const char *AArch64_reg_name_ex(csh handle, unsigned int reg_info)
++{
++	bool valid;
++	static char regNameString[128] = {0};
++	char* regName = regNameString;
++
++	#define GetRegType(reg_info) ((reg_info >> 24) & 0xFF)
++	#define GetRegValue(reg_info) (reg_info & 0xFFFFF)
++	#define GetInsnType(reg_info) ((reg_info >> 20) & 0xF)
++	
++	arm64_op_type type = GetRegType(reg_info);
++	if (type == 0)
++		type = ARM64_OP_REG;
++	
++	uint32_t value = GetRegValue(reg_info);
++	
++	switch (type)
++	{
++		case ARM64_OP_REG:
++			if (value < ARM64_REG_ENDING)
++				return AArch64_reg_name(handle, value);
++		case ARM64_OP_REG_MRS:
++			A64SysRegMapper_toString(&AArch64_MRSMapper, value, &valid, regName);
++			if (valid)
++				return regName;
++		case ARM64_OP_REG_MSR:
++			A64SysRegMapper_toString(&AArch64_MSRMapper, value, &valid, regName);
++			if (valid)
++				return regName;
++		case ARM64_OP_PSTATE:
++			regName = A64NamedImmMapper_toString(&A64PState_PStateMapper, value, &valid);
++			if (valid)
++				return regName;
++		case ARM64_OP_SYS:
++			switch (GetInsnType(reg_info))
++			{
++				case 1: // ARM64_INS_AT
++					regName = A64NamedImmMapper_toString(&A64AT_ATMapper, value, &valid);
++					if (valid)
++						return regName;
++					break;
++				case 2: // ARM64_INS_DC
++					regName = A64NamedImmMapper_toString(&A64DC_DCMapper, value, &valid);
++					if (valid)
++						return regName;
++					break;
++				case 3: // ARM64_INS_IC
++					regName = A64NamedImmMapper_toString(&A64IC_ICMapper, value, &valid);
++					if (valid)
++						return regName;
++					break;
++				case 4: // ARM64_INS_TLBI
++					regName = A64NamedImmMapper_toString(&A64TLBI_TLBIMapper, value, &valid);
++					if (valid)
++						return regName;
++					break;
++				default:
++					break;
++			}
++		case ARM64_OP_BARRIER:
++			switch (GetInsnType(reg_info))
++			{
++				case 1: // ARM64_INS_ISB
++					regName = A64NamedImmMapper_toString(&A64ISB_ISBMapper, value, &valid);
++					if (valid)
++						return regName;
++					break;
++				case 2: // ARM64_INS_DMB
++				case 3: // ARM64_INS_DSB
++					regName = A64NamedImmMapper_toString(&A64DB_DBarrierMapper, value, &valid);
++					if (valid)
++						return regName;
++					break;
++
++				default:
++					break;
++			}
++			
++		default:
++			return NULL;
++	}
++	
++	return NULL;
++}
+ 
+ static cs_err init(cs_struct *ud)
+ {
+@@ -24,7 +110,7 @@ static cs_err init(cs_struct *ud)
+ 	ud->printer_info = mri;
+ 	ud->getinsn_info = mri;
+ 	ud->disasm = AArch64_getInstruction;
+-	ud->reg_name = AArch64_reg_name;
++	ud->reg_name = AArch64_reg_name_ex;
+ 	ud->insn_id = AArch64_get_insn_id;
+ 	ud->insn_name = AArch64_insn_name;
+ 	ud->group_name = AArch64_group_name;

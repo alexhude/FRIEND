@@ -1,0 +1,35 @@
+diff --git a/Sources/Element.swift b/Sources/Element.swift
+index d45f647..e1c238c 100644
+--- a/Sources/Element.swift
++++ b/Sources/Element.swift
+@@ -163,9 +163,14 @@ open class AEXMLElement {
+     
+         - returns: Child XML element with `self` as `parent`.
+     */
+-    @discardableResult open func addChild(_ child: AEXMLElement) -> AEXMLElement {
++    @discardableResult open func addChild(_ child: AEXMLElement, at index: Int? = nil) -> AEXMLElement {
+         child.parent = self
+-        children.append(child)
++        if let idx = index {
++            children.insert(child, at: idx)
++        }
++        else {
++            children.append(child)
++        }
+         return child
+     }
+     
+@@ -180,10 +185,11 @@ open class AEXMLElement {
+     */
+     @discardableResult open func addChild(name: String,
+                        value: String? = nil,
+-                       attributes: [String : String] = [String : String]()) -> AEXMLElement
++                       attributes: [String : String] = [String : String](),
++                       at index: Int? = nil) -> AEXMLElement
+     {
+         let child = AEXMLElement(name: name, value: value, attributes: attributes)
+-        return addChild(child)
++        return addChild(child, at: index)
+     }
+     
+     /// Removes `self` from `parent` XML element.
