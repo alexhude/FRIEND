@@ -356,15 +356,19 @@ private:
 //      PLUGIN DESCRIPTION BLOCK
 //
 //--------------------------------------------------------------------------
+int idaapi pluginInit(void) { return FRIEND::s_init(); }
+void idaapi pluginTerminate(void) { FRIEND::s_term(); }
+void idaapi pluginRun(int args) { FRIEND::s_run(args); }
+
 plugin_t PLUGIN =
 {
 	IDP_INTERFACE_VERSION,
-	PLUGIN_PROC|PLUGIN_DRAW,	// plugin flags
-	FRIEND::s_init,				// initialize
+	PLUGIN_PROC | PLUGIN_DRAW,	// plugin flags
+	pluginInit,					// initialize
 
-	FRIEND::s_term,				// terminate. this pointer may be NULL.
+	pluginTerminate,			// terminate. this pointer may be NULL.
 
-	FRIEND::s_run,				// invoke plugin
+	pluginRun,					// invoke plugin
 
 	gPluginComment,				// long comment about the plugin
 								// it could appear in the status line
