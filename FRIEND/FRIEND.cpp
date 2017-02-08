@@ -268,8 +268,11 @@ private:
 					return 0;
 				
 				char elem_str[16]={0};
+#if _MSC_VER
+				strncpy_s(elem_str, &tagged_line[elem_start], elem_len);
+#else
 				strncpy(elem_str, &tagged_line[elem_start], elem_len);
-				
+#endif
 				if (elem_type == COLOR_INSN)
 				{
 					std::string inst_hint = m_documentation->getElementHint(ElementType::Instruction, elem_str, important_lines);
