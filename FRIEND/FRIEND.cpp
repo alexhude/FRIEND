@@ -99,14 +99,16 @@ public:
 		auto plugin = new FRIEND();
 		plugin->init();
 		
-		gPluginNode.altset(kPluginNode_Instance, (nodeidx_t)plugin);
+		gPluginNode.supset(kPluginNode_Instance, &plugin, sizeof(decltype(plugin)));
 		
 		return PLUGIN_KEEP;
 	}
 	
 	static void s_run(int)
 	{
-		auto plugin = (FRIEND*)gPluginNode.altval(kPluginNode_Instance);
+		FRIEND* plugin = nullptr;
+
+		gPluginNode.supval(kPluginNode_Instance, &plugin, sizeof(decltype(plugin)));
 		
 		if (plugin)
 			plugin->showSettings();
@@ -114,7 +116,9 @@ public:
 	
 	static void s_term(void)
 	{
-		auto plugin = (FRIEND*)gPluginNode.altval(kPluginNode_Instance);
+		FRIEND* plugin = nullptr;
+
+		gPluginNode.supval(kPluginNode_Instance, &plugin, sizeof(decltype(plugin)));
 		
 		if (plugin)
 		{
@@ -122,7 +126,7 @@ public:
 			delete plugin;
 		}
 
-		gPluginNode.altdel(kPluginNode_Instance);
+		gPluginNode.supdel(kPluginNode_Instance);
 		
 		gPluginNode.kill();
 	}
@@ -225,7 +229,7 @@ private:
 				//static char clean_line[256] = {0};
 				const char* tagged_line = get_custom_viewer_curline(view, true);
 				
-				uint16_t length = qstrlen(tagged_line);
+				size_t length = qstrlen(tagged_line);
 				uint16_t disp_offset = 0;
 				uint16_t byte_offset = 0;
 				int16_t elem_start = -1;
