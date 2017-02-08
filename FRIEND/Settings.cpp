@@ -102,6 +102,8 @@ bool Settings::show()
 	
 	// set hint group chooser
 	chooser_info_t group_chooser;
+	memset(&group_chooser, 0, sizeof(chooser_info_t));
+	group_chooser.cb = sizeof(chooser_info_t);
 	group_chooser.flags = CH_NOIDB | CH_MULTI;
 	group_chooser.icon = -1;
 	group_chooser.columns = 1;
