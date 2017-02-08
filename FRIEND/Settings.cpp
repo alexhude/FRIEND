@@ -164,7 +164,7 @@ bool Settings::show()
 		}
 		
 		bool procEnabled = checkboxMask & 0x1;
-		bool docEnabled = checkboxMask & 0x2;
+		bool docEnabled = (checkboxMask >> 0x1) & 0x1;
 		
 		if (m_delegate)
 		{
