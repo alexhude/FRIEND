@@ -215,7 +215,7 @@ private:
 				if ( place == nullptr )
 					return 0;
 				
-				auto ea = place->toea();
+				auto ea = ((idaplace_t *)place)->ea;
 				
 				if (isCode(getFlags(ea)) == false)
 					return 0;
