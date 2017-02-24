@@ -5,8 +5,9 @@ include(ExternalProject)
 
 if(APPLE)
     if(CMAKE_GENERATOR STREQUAL Xcode)
-        # for Xcode set latest macOS SDK
+        # for Xcode set latest macOS SDK and 32bit architecture
         set(CMAKE_OSX_SYSROOT "macosx")
+        set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD_32_BIT)")
     endif()
 endif()
 
@@ -77,6 +78,8 @@ ExternalProject_Add(
                         -DCAPSTONE_SYSZ_SUPPORT=OFF
                         -DCAPSTONE_XCORE_SUPPORT=OFF
                         -DCAPSTONE_X86_SUPPORT=OFF
+                        -DCMAKE_OSX_SYSROOT:STRING=${CMAKE_OSX_SYSROOT}
+                        -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
                         -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
                         -DCMAKE_C_FLAGS_DEBUG:STRING=${CMAKE_C_FLAGS_DEBUG}
                         -DCMAKE_C_FLAGS_RELEASE:STRING=${CMAKE_C_FLAGS_RELEASE}
@@ -97,6 +100,8 @@ ExternalProject_Add(
     GIT_REPOSITORY      "${PUGIXML_GIT_URL}"
     GIT_TAG             "${PUGIXML_GIT_TAG}"
     CMAKE_ARGS          -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+                        -DCMAKE_OSX_SYSROOT:STRING=${CMAKE_OSX_SYSROOT}
+                        -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
                         -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
                         -DCMAKE_C_FLAGS_DEBUG:STRING=${CMAKE_C_FLAGS_DEBUG}
                         -DCMAKE_C_FLAGS_RELEASE:STRING=${CMAKE_C_FLAGS_RELEASE}
