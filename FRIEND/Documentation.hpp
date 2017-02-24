@@ -13,7 +13,7 @@
 #include <vector>
 #include <thread>
 
-#include "pugixml/pugixml.hpp"
+#include "pugixml.hpp"
 
 enum class ElementType
 {

@@ -193,9 +193,9 @@ class ViewController: NSViewController
 			field?.stringValue = ""
 		}
 		
-		for field in [ infoField, previewField ]
+		for field in [ infoField, previewField ] as [NSTextView]
 		{
-			field?.string = ""
+			field.string = ""
 		}
 	}
 
@@ -356,11 +356,11 @@ class ViewController: NSViewController
 		infoField.placeholderString = "info"
 		previewField.placeholderString = "preview"
 		
-		for textView in [ infoField, previewField ]
+		for textView in [ infoField, previewField ] as [NSTextView]
 		{
-			textView?.textContainer!.widthTracksTextView    =   false
-			textView?.textContainer!.heightTracksTextView	=	false
-			textView?.textContainer!.containerSize          =   CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+			textView.textContainer!.widthTracksTextView  = false
+			textView.textContainer!.heightTracksTextView = false
+			textView.textContainer!.containerSize        = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
 		}
 		
 		let attributes = [NSFontAttributeName: tokenField.font as Any]

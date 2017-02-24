@@ -102,6 +102,8 @@ bool Settings::show()
 	
 	// set hint group chooser
 	chooser_info_t group_chooser;
+	memset(&group_chooser, 0, sizeof(chooser_info_t));
+	group_chooser.cb = sizeof(chooser_info_t);
 	group_chooser.flags = CH_NOIDB | CH_MULTI;
 	group_chooser.icon = -1;
 	group_chooser.columns = 1;
@@ -164,7 +166,7 @@ bool Settings::show()
 		}
 		
 		bool procEnabled = checkboxMask & 0x1;
-		bool docEnabled = checkboxMask & 0x2;
+		bool docEnabled = (checkboxMask >> 0x1) & 0x1;
 		
 		if (m_delegate)
 		{

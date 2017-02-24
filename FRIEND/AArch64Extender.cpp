@@ -124,7 +124,11 @@ bool AArch64Extender::printCapstoneOutput(ea_t address)
 				if (tmp)
 				{
 					char regName[32];
-					strcpy(regName, tmp);
+#if _MSC_VER
+					strncpy_s(regName, tmp, sizeof(regName));
+#else
+					strncpy(regName, tmp, sizeof(regName));
+#endif
 					std::string reg(qstrupr(regName));
 					
 					operands = std::regex_replace(operands, std::regex(reg), SCOLOR_ON SCOLOR_REG + reg + SCOLOR_OFF SCOLOR_REG);
