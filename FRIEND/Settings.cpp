@@ -23,6 +23,9 @@ enum FormActions {
 	kFormAction_EnableHints	=  6,
 };
 
+const ushort kCheckBoxMask_ProcEnable	= (0b01);
+const ushort kCheckBoxMask_DocEnable	= (0b10);
+
 int idaapi Settings::s_formCallback(int fid, form_actions_t &fa)
 {
 	switch ( fid )
@@ -147,8 +150,8 @@ bool Settings::show()
 	}
 
 	ushort checkboxMask = 0;
-	checkboxMask |= (m_procEnabled)? 0x1 : 0;
-	checkboxMask |= (m_docEnabled)? 0x2 : 0;
+	checkboxMask |= (m_procEnabled)? kCheckBoxMask_ProcEnable : 0;
+	checkboxMask |= (m_docEnabled)? kCheckBoxMask_DocEnable : 0;
 	
 	if ( AskUsingForm_c(form,
 						s_formCallback, doc,
@@ -165,8 +168,8 @@ bool Settings::show()
 			}
 		}
 		
-		bool procEnabled = checkboxMask & 0x1;
-		bool docEnabled = (checkboxMask >> 0x1) & 0x1;
+		bool procEnabled = checkboxMask & kCheckBoxMask_ProcEnable;
+		bool docEnabled = checkboxMask & kCheckBoxMask_DocEnable;
 		
 		if (m_delegate)
 		{

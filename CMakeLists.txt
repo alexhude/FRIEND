@@ -3,6 +3,13 @@ cmake_minimum_required(VERSION 2.8.12)
 project(FRIEND C CXX)
 include(ExternalProject)
 
+if(APPLE)
+    if(CMAKE_GENERATOR STREQUAL Xcode)
+        # for Xcode set latest macOS SDK
+        set(CMAKE_OSX_SYSROOT "macosx")
+    endif()
+endif()
+
 # idasdk
 set(IdaSdk_DIR ${PROJECT_SOURCE_DIR}/idasdk)
 

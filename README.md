@@ -2,8 +2,6 @@
 
 **F**lexible **R**egister/**I**nstruction **E**xtender a**N**d **D**ocumentation
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=W53WK5JGSESY6)
-
 ## Features
 
 FRIEND is an IDA plugin created to improve disassembly and bring register/instruction documentation right into IDA View.
@@ -51,7 +49,7 @@ $ rm -r idasdk/idasdk69
 
 Use ``cmake`` to prepare the build environment and run ``make`` to build the plugins:
 
-````sh
+```sh
 $ mkdir _build
 $ cd _build
 $ cmake ..
@@ -60,7 +58,7 @@ $ make
 
 ### MacOS
 
-Use ```cmake to prepare the build environment and run ``make`` to build the plugins:
+Use ``cmake`` to prepare the build environment and run ``make`` to build the plugins:
 
 ```sh
 $ mkdir _build
@@ -80,7 +78,7 @@ $ open FRIEND.xcodeproj # or simply run xcodebuild
 
 ### Windows
 
-Use ```cmake to prepare the build environment and run ``make`` to build the plugins:
+Use ``cmake`` to prepare the build environment and run ``make`` to build the plugins:
 
 ```sh
 $ mkdir _build
@@ -130,12 +128,12 @@ Please note that you have to put your own \<path\> to pdf file to be able to use
 
 ## Hint Editor
 
-To make contribution to this project easier, there is a simple config editor.
-![](./Resources/screenshots/HintEditor.png). It can only be built on MacOS and
-other systems are not supported.
+To make contribution to this project easier, there is a simple config editor. 
+![](./Resources/screenshots/HintEditor.png)
 
-You can build it or generate a Xcode project with ``cmake``. Please note that Xcode 8 is
-mandatory.
+__NOTE:__ It can only be built on MacOS with Xcode 8 or higher. Other systems are not supported.
+
+Use ``cmake`` to generate Xcode project.
 
 ```sh
 $ cd HintEditor/HintEditor/
@@ -153,7 +151,7 @@ $ open Debug/HintEditor.app
 
 ## Dependencies
 
-FRIEND requires:
+FRIEND requires:  
 - [IDA SDK](https://www.hex-rays.com/products/ida/support/download.shtml)   
 - [Capstone](https://github.com/aquynh/capstone) (built with Patches/capstone.diff)  
 - [pugixml](https://github.com/zeux/pugixml)
@@ -165,3 +163,4 @@ Hint Editor requires:
 
 @ **in7egral, mbazaliy** for bug reports and all kind of support    
 @ __qwertyoruiopz, iH8sn0w, Morpheus\_\_\_\_\_\_, xerub, msolnik, marcograss, pr0x13, \_argp, oleavr, brinlyau__ and other gang for inspiration  
+@ __\_kamino\___ for porting project to Windows and Linux

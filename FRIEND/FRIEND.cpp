@@ -38,7 +38,7 @@ char gPluginWantedHotkey[] = "";
 	}							\
 	while (0)
 
-class FRIEND : public PluginDelegate
+class FRIEND final : public PluginDelegate
 {
 public:
 	FRIEND() {}
@@ -214,8 +214,11 @@ private:
 				
 				if ( place == nullptr )
 					return 0;
-				
+			#if IDA_SDK_VERSION < 690
 				auto ea = ((idaplace_t *)place)->ea;
+			#else
+				auto ea = place->toea();
+			#endif
 				
 				if (isCode(getFlags(ea)) == false)
 					return 0;

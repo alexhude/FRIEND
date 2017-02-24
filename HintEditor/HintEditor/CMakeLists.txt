@@ -5,6 +5,12 @@ include(BundleUtilities)
 
 set(CMAKE_Swift_LANGUAGE_VERSION 3.0.1)
 
+# use latest macOS SDK
+set(CMAKE_OSX_SYSROOT "macosx")
+
+# set minimum deployment target
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
+
 set(
     HEADERS
     HintEditor-Bridging-Header.h

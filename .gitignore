@@ -6,3 +6,6 @@
 # Prevent to accidentally add IDA SDK
 idasdk/*
 idasdk*.zip
+
+# Cmake build directory
+_build/
