@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<documentation>
+	<document id="mips32" name="MIPS Architecture Reference Manual" version="A.k">
+		<path>/path/to/mips.pdf</path>
+	</document>
+	<elements>
+		<group type="ins" name="MIPS instructions">
+<hint page="436" header="Add (with overflow)" doc_id="mips32" token="add">Adds two registers and stores the result in a
+register
+
+Syntax: add $d, $s, $t </hint>
+<hint page="437" header="Add immediate (with overflow)" doc_id="mips32" token="addi">Adds a register and a sign-extended immediate
+value and  stores the result in a register
+
+Syntax: addi $t, $s, imm </hint>
+<hint page="438" header="Add immediate unsigned (no overflow)" doc_id="mips32" token="addiu">Adds a register and a sign-extended immediate
+value  and stores the result in a register
+
+Syntax: addiu $t, $s, imm </hint>
+<hint page="439" header="Add unsigned (no overflow)" doc_id="mips32" token="addu">Adds two registers and stores the result in a
+register
+
+Syntax: addu $d, $s, $t </hint>
+<hint page="440" header="Bitwise and" doc_id="mips32" token="and">Bitwise ands two registers and stores the result
+in  a register
+
+Syntax: and $d, $s, $t </hint>
+<hint page="441" header="Bitwise and immediate" doc_id="mips32" token="andi">Bitwise ands a register and an immediate value and
+stores the result in a register
+
+Syntax: andi $t, $s, imm </hint>
+<hint page="442" header="Branch on equal" doc_id="mips32" token="beq">Branches if the two registers are equal
+
+Syntax: beq $s, $t, offset </hint>
+<hint page="443" header="Branch on greater than or equal to zero" doc_id="mips32" token="bgez">Branches if the register is greater than or equal
+to  zero
+
+Syntax: bgez $s, offset </hint>
+<hint page="444" header="Branch on greater than or equal to zero and link" doc_id="mips32" token="bgezal">Branches if the register is greater than or equal
+to  zero and saves the return address in $31
+
+Syntax: bgezal $s, offset </hint>
+<hint page="445" header="Branch on greater than zero" doc_id="mips32" token="bgtz">Branches if the register is greater than zero
+
+Syntax: bgtz $s, offset </hint>
+<hint page="446" header="Branch on less than or equal to zero" doc_id="mips32" token="blez">Branches if the register is less than or equal to
+zero
+
+Syntax: blez $s, offset </hint>
+<hint page="447" header="Branch on less than zero" doc_id="mips32" token="bltz">Branches if the register is less than zero
+
+Syntax: bltz $s, offset </hint>
+<hint page="448" header="Branch on less than zero and link" doc_id="mips32" token="bltzal">Branches if the register is less than zero and
+saves  the return address in $31
+
+Syntax: bltzal $s, offset </hint>
+<hint page="449" header="Branch on not equal" doc_id="mips32" token="bne">Branches if the two registers are not equal
+
+Syntax: bne $s, $t, offset </hint>
+<hint page="450" header="Divide" doc_id="mips32" token="div">Divides $s by $t and stores the quotient in $LO
+and  the remainder in $HI
+
+Syntax: div $s, $t </hint>
+<hint page="451" header="Divide unsigned" doc_id="mips32" token="divu">Divides $s by $t and stores the quotient in $LO
+and  the remainder in $HI
+
+Syntax: divu $s, $t </hint>
+<hint page="452" header="Jump" doc_id="mips32" token="j">Jumps to the calculated address
+
+Syntax: j target </hint>
+<hint page="453" header="Jump and link" doc_id="mips32" token="jal">Jumps to the calculated address and stores the
+return address in $31
+
+Syntax: jal target </hint>
+<hint page="454" header="Jump register" doc_id="mips32" token="jr">Jump to the address contained in register $s
+
+Syntax: jr $s </hint>
+<hint page="455" header="Load byte" doc_id="mips32" token="lb">A byte is loaded into a register from the
+specified  address.
+
+Syntax: lb $t, offset($s) </hint>
+<hint page="456" header="Load upper immediate" doc_id="mips32" token="lui">The immediate value is shifted left 16 bits and
+stored in the register. The lower 16 bits are
+zeroes.
+
+Syntax: lui $t, imm</hint>
+<hint page="457" header="Load word" doc_id="mips32" token="lw">A word is loaded into a register from the
+specified  address.
+
+Syntax: lw $t, offset($s) </hint>
+<hint page="458" header="Move from HI" doc_id="mips32" token="mfhi">The contents of register HI are moved to the
+specified register.
+
+Syntax: mfhi $d </hint>
+<hint page="459" header="Move from LO" doc_id="mips32" token="mflo">The contents of register LO are moved to the
+specified register.
+
+Syntax: mflo $d </hint>
+<hint page="460" header="Multiply" doc_id="mips32" token="mult">Multiplies $s by $t and stores the result in $LO.
+
+Syntax: mult $s, $t </hint>
+<hint page="461" header="Multiply unsigned" doc_id="mips32" token="multu">Multiplies $s by $t and stores the result in $LO.
+
+Syntax: multu $s, $t </hint>
+<hint page="462" header="no operation" doc_id="mips32" token="noop">Performs no operation.
+
+Syntax: noop </hint>
+<hint page="463" header="Bitwise or" doc_id="mips32" token="or">Bitwise logical ors two registers and stores the
+result in a register
+
+Syntax: or $d, $s, $t </hint>
+<hint page="464" header="Bitwise or immediate" doc_id="mips32" token="ori">Bitwise ors a register and an immediate value and
+stores  the result in a register
+
+Syntax: ori $t, $s, imm</hint>
+<hint page="465" header="Store byte" doc_id="mips32" token="sb">The least significant byte of $t is stored at the
+specified address.
+
+Syntax: sb $t, offset($s) </hint>
+<hint page="466" header="Shift left logical" doc_id="mips32" token="sll">Shifts a register value left by the shift amount
+listed in the instruction and places the result in
+a third register. Zeroes  are shifted in.
+
+Syntax: sll $d, $t, h </hint>
+<hint page="467" header="Shift left logical variable" doc_id="mips32" token="sllv">Shifts a register value left by the value in a
+second register and places the result in a third
+register. Zeroes are shifted  in.
+
+Syntax: sllv $d, $t, $s </hint>
+<hint page="468" header="Set on less than (signed)" doc_id="mips32" token="slt">If $s is less than $t, $d is set to one. It gets
+zero otherwise.
+
+Syntax: slt $d, $s, $t </hint>
+<hint page="469" header="Set on less than immediate (signed)" doc_id="mips32" token="slti">If $s is less than immediate, $t is set to one. It
+gets zero otherwise.
+
+Syntax: slti $t, $s, imm </hint>
+<hint page="470" header="Set on less than immediate unsigned" doc_id="mips32" token="sltiu">If $s is less than the unsigned immediate, $t is
+set  to one. It gets zero otherwise.
+
+Syntax: sltiu $t, $s, imm </hint>
+<hint page="471" header="Set on less than unsigned" doc_id="mips32" token="sltu">If $s is less than $t, $d is set to one. It gets
+zero otherwise.
+
+Syntax: sltu $d, $s, $t </hint>
+<hint page="472" header="Shift right arithmetic" doc_id="mips32" token="sra">Shifts a register value right by the shift amount
+(shamt) and places the value in the destination
+register.  The sign bit is shifted in.
+
+Syntax: sra $d, $t, h </hint>
+<hint page="473" header="Shift right logical" doc_id="mips32" token="srl">Shifts a register value right by the shift amount
+(shamt) and places the value in the destination
+register.  Zeroes are shifted in.
+
+Syntax: srl $d, $t, h </hint>
+<hint page="474" header="Shift right logical variable" doc_id="mips32" token="srlv">Shifts a register value right by the amount
+specified in $s and places the value in the
+destination register. Zeroes are  shifted in.
+
+Syntax: srlv $d, $t, $s </hint>
+<hint page="475" header="Subtract" doc_id="mips32" token="sub">Subtracts two registers and stores the result in a
+register
+
+Syntax: sub $d, $s, $t </hint>
+<hint page="476" header="Subtract unsigned" doc_id="mips32" token="subu">Subtracts two registers and stores the result in a
+register
+
+Syntax: subu $d, $s, $t </hint>
+<hint page="477" header="Store word" doc_id="mips32" token="sw">The contents of $t is stored at the specified
+address.
+
+Syntax: sw $t, offset($s) </hint>
+<hint page="478" header="System call" doc_id="mips32" token="syscall">Generates a software interrupt.
+
+Syntax: syscall </hint>
+<hint page="479" header="Bitwise exclusive or" doc_id="mips32" token="xor">Exclusive ors two registers and stores the result
+in  a register
+
+Syntax: xor $d, $s, $t </hint>
+<hint page="480" header="Bitwise exclusive or immediate" doc_id="mips32" token="xori">Bitwise exclusive ors a register and an immediate
+value and stores the result in a register
+
+Syntax: xori $t, $s, imm </hint>
+
+
+		</group>
+	</elements>
+</documentation>
