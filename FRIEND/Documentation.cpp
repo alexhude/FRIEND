@@ -6,11 +6,13 @@
 //  Copyright © 2016 Fried Apple. All rights reserved.
 //
 
-#include "loader.hpp"
-#include "Documentation.hpp"
 #include <string>
 #include <sstream>
 #include <regex>
+
+#include <loader.hpp>
+
+#include "Documentation.hpp"
 
 #define COL_STDSTR(str, tag) SCOLOR_ON tag << str << SCOLOR_OFF tag
 
@@ -28,10 +30,6 @@ bool Documentation::loadConfigFile(std::string filePath)
 	m_queryVars.add("token_id", pugi::xpath_type_string);
 	m_getDocQuery = pugi::xpath_query("/documentation/document[@id = string($doc_id)]/path", &m_queryVars);
 	m_getTokenQuery = pugi::xpath_query("/documentation/elements/group[$group_idx]/hint[@token = string($token_id)]", &m_queryVars);
-
-	//	auto node = m_xmlDoc.child("references");
-	//	size_t n = std::distance(node.children("token").begin(), node.children("token").end());
-	//	size_t n = node.select_nodes( "token" ).size();
 	
 	try
 	{
@@ -189,7 +187,7 @@ void Documentation::disableAllGroups()
 	}
 }
 
-std::string	Documentation::getElementHint(ElementType type, char* element, int* lines)
+int	Documentation::getElementHint(ElementType type, char* element, qstring &hint)
 {
 	auto unescapeString = [] (std::string input) -> std::string {
 		std::string output;
@@ -203,7 +201,7 @@ std::string	Documentation::getElementHint(ElementType type, char* element, int* 
 		return output;
 	};
 	
-	*lines = 0;
+	int out_lines = 0;
 	pugi::xml_node elementNode;
 
 	bool found = false;
@@ -238,7 +236,7 @@ std::string	Documentation::getElementHint(ElementType type, char* element, int* 
 	}
 	
 	if (found == false)
-		return "";
+		return 0;
 
 	std::ostringstream hint_text;
 
@@ -248,25 +246,18 @@ std::string	Documentation::getElementHint(ElementType type, char* element, int* 
 	{
 		// add header line to hint
 		hint_text << " " << COL_STDSTR(unescapeString(header), SCOLOR_LOCNAME) << " ";
-		(*lines)++;
+		out_lines++;
 	}
-//	else
-//	{
-//		msg("[FRIEND]: unable to find attribute 'header' for \"%s\"\n", element);
-//	}
-
+	
 	// get info attribute
 	std::string info = unescapeString(elementNode.child_value());
 	if (info[0] != '\0')
 	{
-		if (*lines != 0)
+		if (out_lines != 0)
 		{
 			hint_text << "\n ";
-			(*lines)++;
+			out_lines++;
 		}
-		
-		// replace line breaks
-		//info = std::regex_replace(info, std::regex("\\\\n"), "\n");
 		
 		std::stringstream desc(info);
 		std::string token;
@@ -274,21 +265,16 @@ std::string	Documentation::getElementHint(ElementType type, char* element, int* 
 		// add info lines to hint
 		while (std::getline(desc, token))
 		{
-			if (*lines != 0)
+			if (out_lines != 0)
 				hint_text << "\n ";
 			hint_text << COL_STDSTR(token, SCOLOR_AUTOCMT) << " ";
-			(*lines)++;
+			out_lines++;
 		}
 	}
-//	else
-//	{
-//		msg("[FRIEND]: unable to find attribute 'info' for \"%s\"\n", element);
-//	}
 	
-	return hint_text.str();
+	hint = hint_text.str().c_str();
+	return out_lines;
 }
-
-//
 
 bool Documentation::getReferenceDetails(ReferenceDetails& details)
 {
@@ -324,16 +310,30 @@ bool Documentation::openInBrowser(ReferenceDetails& details)
 	}
 
 	std::string docpath = node.child_value();
+	std::string linkToken = "http";
 	
 	std::stringstream sstream;
 	
-	sstream << "osascript -e '" <<
-	"tell application \"Google Chrome\"\n" <<
-	"	set URL of active tab of window 1 to \"file://" << docpath << "?#page=" << details.page << "\"\n" <<
-	"	delay 1\n" <<
-	"	reload active tab of window 1\n" <<
-	"end tell\n" <<
-	"'";
+	if(docpath.length() > linkToken.length() && docpath.compare(0, linkToken.length(), linkToken) == 0)
+	{
+		sstream << "osascript -e '" <<
+		"tell application \"Google Chrome\"\n" <<
+		"	set URL of active tab of window 1 to \"" << docpath << "\"\n" <<
+		"	delay 1\n" <<
+		"	reload active tab of window 1\n" <<
+		"end tell\n" <<
+		"'";
+	}
+	else
+	{
+		sstream << "osascript -e '" <<
+		"tell application \"Google Chrome\"\n" <<
+		"	set URL of active tab of window 1 to \"file://" << docpath << "?#page=" << details.page << "\"\n" <<
+		"	delay 1\n" <<
+		"	reload active tab of window 1\n" <<
+		"end tell\n" <<
+		"'";
+	}
 	
 	// open pdf page in separate thread
 	auto ascript = sstream.str();

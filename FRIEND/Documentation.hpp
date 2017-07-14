@@ -46,7 +46,7 @@ public:
 	bool			setGroupEnabled(uint32_t index);
 	void			disableAllGroups();
 	
-	std::string		getElementHint(ElementType type, char* element, int* lines);
+	int				getElementHint(ElementType type, char* element, qstring &hint);
 	
 private:
 	

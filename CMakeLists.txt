@@ -13,6 +13,8 @@ endif()
 
 # idasdk
 set(IdaSdk_DIR ${PROJECT_SOURCE_DIR}/idasdk)
+# hexrays sdk
+set(HexraysSdk_DIR ${PROJECT_SOURCE_DIR}/hexrays_sdk)
 
 # capstone
 set(CAPSTONE_ROOT    "${CMAKE_BINARY_DIR}/third_party/capstone")
@@ -131,6 +133,7 @@ add_dependencies(pugixml_static pugixml)
 include_directories(
     ${PROJECT_SOURCE_DIR}
     ${IdaSdk_INCLUDE_DIRS}
+    ${HexraysSdk_DIR}/include/
     ${CAPSTONE_ROOT}/include/capstone/
     ${PUGIXML_ROOT}/include/
 )
@@ -140,9 +143,16 @@ include_directories(
 if(NOT COMPILE_64BIT)
     add_ida_plugin(FRIEND EA64
                    FRIEND/AArch64Extender.cpp
+                   FRIEND/AArch64Extender.hpp
                    FRIEND/Documentation.cpp
+                   FRIEND/Documentation.hpp
                    FRIEND/FRIEND.cpp
-                   FRIEND/Settings.cpp)
+                   FRIEND/FunctionSummary.cpp
+                   FRIEND/FunctionSummary.hpp
+                   FRIEND/PluginDelegate.hpp
+                   FRIEND/ProcExtender.hpp
+                   FRIEND/Settings.cpp
+                   FRIEND/Settings.hpp)
 
     target_link_libraries(FRIEND${_plx} pugixml_static capstone_static)
     target_link_libraries(FRIEND${_plx64} pugixml_static capstone_static)

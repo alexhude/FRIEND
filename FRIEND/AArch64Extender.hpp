@@ -24,6 +24,8 @@ public:
 	
 	bool	output(ea_t address, uint32_t size) override;
 	
+	bool	getSystemRegisterName(ea_t address, char* nameBuffer, uint32_t nameLength) override;
+	
 private:
 	
 	bool isEnabled() override;

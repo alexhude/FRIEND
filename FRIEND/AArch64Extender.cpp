@@ -6,9 +6,10 @@
 //  Copyright © 2016 Fried Apple. All rights reserved.
 //
 
+#include <regex>
+
 #include <idp.hpp>
 #include <allins.hpp>
-#include <regex>
 
 #include "AArch64Extender.hpp"
 
@@ -22,6 +23,8 @@
 		}						\
 	}							\
 	while (0)
+
+#define RegisterInfo(optype, itype, reg) ((optype << 24) | (itype << 20) | reg)
 
 bool AArch64Extender::init()
 {
@@ -67,6 +70,54 @@ bool AArch64Extender::output(ea_t address, uint32_t size)
 	return false;
 }
 
+bool AArch64Extender::getSystemRegisterName(ea_t address, char* nameBuffer, uint32_t nameLength)
+{
+	cs_insn *capstoneDisasm;
+	cs_insn ci;
+	uint32_t rawInstruction = 0;
+	size_t count = 0;
+	
+	cs_arm64_op* ops = nullptr;
+	uint32_t sysRegIdx = -1;
+	arm64_op_type type = ARM64_OP_INVALID;
+	uint8_t insn_type = 0;
+	
+	const char* tmp = nullptr;
+	
+	BAIL_IF(get_many_bytes(address, &rawInstruction, sizeof(rawInstruction)) == 0, "[FRIEND]: unable to read instruction at %llX\n", address);
+	
+	count = cs_disasm(m_capstoneHandle, (const uint8_t*)&rawInstruction, sizeof(rawInstruction), address, 1, &capstoneDisasm);
+	BAIL_IF(count <= 0, "[FRIEND]: unable to decode instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	
+	ci = capstoneDisasm[0];
+	
+	BAIL_IF(ci.id != ARM64_INS_MRS && ci.id != ARM64_INS_MSR, "[FRIEND]: unsupported instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	BAIL_IF(ci.detail == nullptr, "[FRIEND]: unable to get details for instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	
+	ops = ci.detail->arm64.operands;
+	
+	sysRegIdx = (ci.id == ARM64_INS_MSR)? 0 : 1;
+	type = ops[sysRegIdx].type;
+	insn_type = 0;
+	
+	tmp = cs_reg_name(m_capstoneHandle, RegisterInfo(type, insn_type, ops[sysRegIdx].reg));
+	BAIL_IF(tmp == nullptr, "[FRIEND]: unable to get register name for instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	
+	qstrncat(nameBuffer, SCOLOR_ON, nameLength);
+	qstrncat(nameBuffer, SCOLOR_REG, nameLength);
+	qstrncat(nameBuffer, tmp, nameLength);
+	qstrncat(nameBuffer, SCOLOR_OFF, nameLength);
+	qstrncat(nameBuffer, SCOLOR_REG, nameLength);
+	
+	qstrupr(nameBuffer);
+	
+	return true;
+	
+bail:
+	
+	return false;
+}
+
 bool AArch64Extender::isEnabled()
 {
 	return m_enabled;
@@ -82,71 +133,69 @@ bool AArch64Extender::setEnabled(bool enabled)
 
 bool AArch64Extender::printCapstoneOutput(ea_t address)
 {
-	cs_insn *capstoneInstruction;
-	uint32_t rawInstruction;
+	cs_insn *capstoneDisasm;
+	cs_insn ci;
+	uint32_t rawInstruction = 0;
+	std::string mnemonic;
+	size_t count = 0;
 	
-	BAIL_IF(get_many_bytes(address, &rawInstruction, sizeof(rawInstruction)) == 0, "[FRIEND]: Unable to read instruction\n");
+	BAIL_IF(get_many_bytes(address, &rawInstruction, sizeof(rawInstruction)) == 0, "[FRIEND]: unable to read instruction at %llX\n", address);
 
+	count = cs_disasm(m_capstoneHandle, (const uint8_t*)&rawInstruction, sizeof(rawInstruction), address, 1, &capstoneDisasm);
+	BAIL_IF(count <= 0, "[FRIEND]: unable to decode instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	
+	ci = capstoneDisasm[0];
+	
 	init_output_buffer(m_idaOutputBuffer, sizeof(m_idaOutputBuffer));
 
-	if (cs_disasm(m_capstoneHandle, (const uint8_t*)&rawInstruction, sizeof(rawInstruction), address, 1, &capstoneInstruction) > 0)
+	mnemonic = (SCOLOR_ON SCOLOR_INSN + std::string(qstrupr(ci.mnemonic)) + SCOLOR_OFF SCOLOR_INSN);
+	
+	out_snprintf("%-20s", mnemonic.c_str());
+	
+	if (ci.detail)
 	{
-		std::string mnemonic(SCOLOR_ON SCOLOR_INSN + std::string(qstrupr(capstoneInstruction[0].mnemonic)) + SCOLOR_OFF SCOLOR_INSN);
+		std::string operands(qstrupr(ci.op_str));
 		
-		out_snprintf("%-20s", mnemonic.c_str());
-		
-		if (capstoneInstruction[0].detail)
+		uint8_t op_count = ci.detail->arm64.op_count;
+		cs_arm64_op* ops = ci.detail->arm64.operands;
+		for (int i=0; i < op_count; i++)
 		{
-			std::string operands(qstrupr(capstoneInstruction[0].op_str));
+			arm64_op_type type = ops[i].type;
+			uint8_t insn_type = 0;
 			
-			uint8_t op_count = capstoneInstruction[0].detail->arm64.op_count;
-			cs_arm64_op* ops = capstoneInstruction[0].detail->arm64.operands;
-			for (int i=0; i < op_count; i++)
+			switch (ci.id)
 			{
-				arm64_op_type type = ops[i].type;
-				uint8_t insn_type = 0;
-				#define RegisterInfo(optype, itype, reg) ((optype << 24) | (itype << 20) | reg)
-				
-				switch (capstoneInstruction->id)
-				{
-					case ARM64_INS_AT:		insn_type = 1; break;
-					case ARM64_INS_DC:		insn_type = 2; break;
-					case ARM64_INS_IC:		insn_type = 3; break;
-					case ARM64_INS_TLBI:	insn_type = 4; break;
-					case ARM64_INS_ISB:		insn_type = 1; break;
-					case ARM64_INS_DMB:		insn_type = 2; break;
-					case ARM64_INS_DSB:		insn_type = 3; break;
-					default:
-						break;
-				}
-				
-				const char* tmp = cs_reg_name(m_capstoneHandle, RegisterInfo(type, insn_type, ops[i].reg));
-				if (tmp)
-				{
-					char regName[32];
-#if _MSC_VER
-					strncpy_s(regName, tmp, sizeof(regName));
-#else
-					strncpy(regName, tmp, sizeof(regName));
-#endif
-					std::string reg(qstrupr(regName));
-					
-					operands = std::regex_replace(operands, std::regex(reg), SCOLOR_ON SCOLOR_REG + reg + SCOLOR_OFF SCOLOR_REG);
-				}
+				case ARM64_INS_AT:		insn_type = 1; break;
+				case ARM64_INS_DC:		insn_type = 2; break;
+				case ARM64_INS_IC:		insn_type = 3; break;
+				case ARM64_INS_TLBI:	insn_type = 4; break;
+				case ARM64_INS_ISB:		insn_type = 1; break;
+				case ARM64_INS_DMB:		insn_type = 2; break;
+				case ARM64_INS_DSB:		insn_type = 3; break;
+				default:
+					break;
 			}
 			
-			out_line(operands.c_str(), COLOR_UNAME);
+			const char* tmp = cs_reg_name(m_capstoneHandle, RegisterInfo(type, insn_type, ops[i].reg));
+			if (tmp)
+			{
+				char regName[kMaxElementNameLength];
+				
+				qstrncpy(regName, tmp, sizeof(regName));
+				std::string reg(qstrupr(regName));
+				
+				operands = std::regex_replace(operands, std::regex(reg), SCOLOR_ON SCOLOR_REG + reg + SCOLOR_OFF SCOLOR_REG);
+			}
 		}
-		else
-		{
-			out_line(qstrupr(capstoneInstruction[0].op_str), COLOR_REG);
-		}
+		
+		out_line(operands.c_str(), COLOR_UNAME);
 	}
 	else
 	{
-		OutBadInstruction();
+		out_line(qstrupr(ci.op_str), COLOR_REG);
 	}
-	cs_free(capstoneInstruction, 1);
+
+	cs_free(capstoneDisasm, 1);
 	
 	term_output_buffer();
 	

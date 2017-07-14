@@ -1380,7 +1380,7 @@ TFP, bit [10]   - Traps Non-secure accesses to SIMD and floating-point
                       floating-point and Advanced SIMD execution is trapped to 
                       EL2, subject to the exception prioritization rules.
 Bits [9:0]      - Reserved, RES1.</hint>
-			<hint page="1920" header="Architectural Feature Trap Register (EL3)" doc_id="armv8arm" token="CPTR_EL3">Controls trapping to EL3 of access to CPACR, CPACR_EL2, trace functionality 
+			<hint page="1920" header="Architectural Feature Trap Register (EL3)" doc_id="armv8arm" token="CPTR_EL3">Controls trapping to EL3 of access to CPACR_EL1, CPACR_EL2, trace functionality 
 and registers associated with Advanced SIMD and floating-point execution. 
 Also controls EL3 access to this functionality.
 
@@ -2665,103 +2665,103 @@ with a hint that this is not a subroutine call or return.
 EQ - Equal (Z==1)
 
 B.EQ &lt;label&gt;</hint>
-			<hint page="462" token="B.NE" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.NE">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 NE - Not equal (Z==0)
 
 B.NE &lt;label&gt;</hint>
-			<hint page="462" token="B.CS" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.CS">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 CS - Carry set (C==1)
 
 B.CS &lt;label&gt;</hint>
-			<hint page="462" token="B.HS" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.HS">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 HS - Carry set (C==1)
 
 B.HS &lt;label&gt;</hint>
-			<hint page="462" token="B.CC" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.CC">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 CC - Carry clear (C==0)
 
 B.CC &lt;label&gt;</hint>
-			<hint page="462" token="B.LO" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.LO">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 LO - Carry clear (C==0)
 
 B.LO &lt;label&gt;</hint>
-			<hint page="462" token="B.MI" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.MI">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 MI - Minus, negative (N==1)
 
 B.MI &lt;label&gt;</hint>
-			<hint page="462" token="B.PL" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.PL">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 PL - Plus, positive or zero (N==0)
 
 B.PL &lt;label&gt;</hint>
-			<hint page="462" token="B.VS" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.VS">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 VS - Overflow (V==1)
 
 B.VS &lt;label&gt;</hint>
-			<hint page="462" token="B.VC" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.VC">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 VC - No overflow (V==0)
 
 B.VC &lt;label&gt;</hint>
-			<hint page="462" token="B.HI" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.HI">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 HI - Unsigned higher (C ==1 &amp;&amp; Z == 0)
 
 B.HI &lt;label&gt;</hint>
-			<hint page="462" token="B.LS" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.LS">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 LS - Unsigned lower or same (!(C ==1 &amp;&amp; Z ==0))
 
 B.LS &lt;label&gt;</hint>
-			<hint page="462" token="B.GE" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.GE">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 GE - Signed greater than or equal (N == V)
 
 B.GE &lt;label&gt;</hint>
-			<hint page="462" token="B.LT" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.LT">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 LT - Signed less than (N! = V)
 
 B.LT &lt;label&gt;</hint>
-			<hint page="462" token="B.GT" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.GT">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 GT - Signed greater than (Z == 0 &amp;&amp; N == V)
 
 B.GT &lt;label&gt;</hint>
-			<hint page="462" token="B.LE" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.LE">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 LE - Signed less than or equal (!(Z == 0 &amp;&amp; N == V))
 
 B.LE &lt;label&gt;</hint>
-			<hint page="462" token="B.AL" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.AL">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 AL - Always (Any)
 
 B.AL &lt;label&gt;</hint>
-			<hint page="462" token="B.NV" doc_id="armv8arm" header="Branch conditionally">Branch conditionally to a label at a PC-relative offset, 
+			<hint page="462" header="Branch conditionally" doc_id="armv8arm" token="B.NV">Branch conditionally to a label at a PC-relative offset, 
 with a hint that this is not a subroutine call or return.
 
 NV - Always (Any)

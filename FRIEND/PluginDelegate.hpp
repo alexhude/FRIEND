@@ -19,4 +19,5 @@ public:
 	
 	virtual bool			setHintsEnabled(bool enabled) = 0;
 	virtual bool			setProcExtenderEnabled(bool enabled) = 0;
+	virtual bool			setFuncSummaryEnabled(bool enabled) = 0;
 };

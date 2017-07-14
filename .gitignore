@@ -6,6 +6,7 @@
 # Prevent to accidentally add IDA SDK
 idasdk/*
 idasdk*.zip
+hexrays_sdk/*
 
 # Cmake build directory
 _build/

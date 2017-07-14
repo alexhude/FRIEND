@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <documentation>
-	<document id="mips32" name="MIPS Architecture Reference Manual" version="A.k">
-		<path>/path/to/mips.pdf</path>
+	<document id="mips32" name="MIPS Architecture Reference Manual" version="1.0">
+		<path>http://www.mrc.uidaho.edu/mrc/people/jff/digital/MIPSir.html</path>
 	</document>
 	<elements>
 		<group type="ins" name="MIPS instructions">

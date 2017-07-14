@@ -15,16 +15,18 @@
 #include "PluginDelegate.hpp"
 
 enum FormActions {
-	kFormAction_Init		= -1,
-	kFormAction_Term		= -2,
-	kFormAction_ConfigFile	=  3,
-	kFormAction_HintGroups	=  4,
-	kFormAction_EnableProc	=  5,
-	kFormAction_EnableHints	=  6,
+	kFormAction_Init			= -1,
+	kFormAction_Term			= -2,
+	kFormAction_ConfigFile		=  3,
+	kFormAction_HintGroups		=  4,
+	kFormAction_EnableProc		=  5,
+	kFormAction_EnableHints		=  6,
+	kFormAction_EnableSummary	=  7,
 };
 
-const ushort kCheckBoxMask_ProcEnable	= (0b01);
-const ushort kCheckBoxMask_DocEnable	= (0b10);
+const ushort kCheckBoxMask_ProcEnable		= (0b001);
+const ushort kCheckBoxMask_DocEnable		= (0b010);
+const ushort kCheckBoxMask_SummaryEnable	= (0b100);
 
 int idaapi Settings::s_formCallback(int fid, form_actions_t &fa)
 {
@@ -66,6 +68,10 @@ int idaapi Settings::s_formCallback(int fid, form_actions_t &fa)
 		{
 			break;
 		}
+		case kFormAction_EnableSummary:
+		{
+			break;
+		}
 		default:
 			break;
 	}
@@ -95,7 +101,8 @@ bool Settings::show()
 	"\n"
 	"<:E4::55::>\n\n"
 	"<Enable Processor Extender:C5>\n"
-	"<Enable Hints:C6>>\n"
+	"<Enable Hints:C6>\n"
+	"<Enable Function Summary:C7>>\n"
 	"\n";
 	
 	static const int widths[] = { 55 };
@@ -152,6 +159,7 @@ bool Settings::show()
 	ushort checkboxMask = 0;
 	checkboxMask |= (m_procEnabled)? kCheckBoxMask_ProcEnable : 0;
 	checkboxMask |= (m_docEnabled)? kCheckBoxMask_DocEnable : 0;
+	checkboxMask |= (m_summaryEnabled)? kCheckBoxMask_SummaryEnable : 0;
 	
 	if ( AskUsingForm_c(form,
 						s_formCallback, doc,
@@ -170,6 +178,7 @@ bool Settings::show()
 		
 		bool procEnabled = checkboxMask & kCheckBoxMask_ProcEnable;
 		bool docEnabled = checkboxMask & kCheckBoxMask_DocEnable;
+		bool summaryEnabled = checkboxMask & kCheckBoxMask_SummaryEnable;
 		
 		if (m_delegate)
 		{
@@ -178,9 +187,13 @@ bool Settings::show()
 			
 			if (procEnabled != m_procEnabled)
 				m_delegate->setProcExtenderEnabled(procEnabled);
+			
+			if (summaryEnabled != m_summaryEnabled)
+				m_delegate->setFuncSummaryEnabled(summaryEnabled);
 		}
 		m_docEnabled = docEnabled;
 		m_procEnabled = procEnabled;
+		m_summaryEnabled = summaryEnabled;
 		
 		m_configPath = std::string(configPath);
 		

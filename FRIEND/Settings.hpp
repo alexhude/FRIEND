@@ -33,5 +33,6 @@ private:
 	
 	bool		m_procEnabled = false;
 	bool		m_docEnabled = false;
+	bool		m_summaryEnabled = false;
 	
 };

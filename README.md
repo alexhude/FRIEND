@@ -8,22 +8,23 @@ FRIEND is an IDA plugin created to improve disassembly and bring register/instru
 
 ### 1. Improved processor modules using third party libraries (like Capstone)   
 
-![](./Resources/screenshots/Capstone.png)
+![](./Resources/screenshots/proc_ext.png)
 
-### 2. Hints for instructions and registers in IDA View   
+### 2. Hints for instructions and registers in IDA View and Decompiler View   
 
-![](./Resources/screenshots/BCC.png)
-![](./Resources/screenshots/DSB_inst.png)
-![](./Resources/screenshots/DSB_reg.png)
-![](./Resources/screenshots/UMADDL.png)
+![](./Resources/screenshots/reg_ins_hints.png)
 
 ### 3. Ability to show external reference for highlighted item in a browser    
 
-![](./Resources/screenshots/ShowDoc.png)
+![](./Resources/screenshots/external_doc.png)
 
-### 4. Ability to pick only elements you are interested in
+### 4. Function Summary in IDA View and Decompiler View   
 
-![](./Resources/screenshots/Settings.png)
+![](./Resources/screenshots/summary.png)
+
+### 5. Ability to pick only elements you are interested in
+
+![](./Resources/screenshots/settings.png)
 
 ## How to build
 
@@ -94,9 +95,9 @@ Copy the built binaries into the IDA Pro plugins directory. These are the defaul
 
 OS      | Plugin path
 --------|-------------------------------------------
-Linux   | `/opt/ida-6.9/plugins`
-macOS   | `/Applications/IDA Pro 6.9/idabin/plugins`
-Windows | `%ProgramFiles(x86)%\IDA 6.9\plugins`
+Linux   | `/opt/ida-6.95/plugins`
+macOS   | `/Applications/IDA Pro 6.95/idabin/plugins`
+Windows | `%ProgramFiles(x86)%\IDA 6.95\plugins`
 
 ## Configuration files
 
@@ -108,7 +109,7 @@ FRIEND configuration file has following structure:
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <documentation>
 	<document id="pdf_id" name="ARM Architecture Reference Manual" version="A.k">
-		<path>/path/to/your/pdf</path>
+		<path>/path/to/your/pdf/or/link</path>
 	</document>
 	<elements>
 		<group type="reg" name="Group Name">
@@ -128,8 +129,8 @@ Please note that you have to put your own \<path\> to pdf file to be able to use
 
 ## Hint Editor
 
-To make contribution to this project easier, there is a simple config editor. 
-![](./Resources/screenshots/HintEditor.png)
+To make contribution to this project easier, there is a simple config editor.  
+![](./Resources/screenshots/hint_editor.png)
 
 __NOTE:__ It can only be built on MacOS with Xcode 8 or higher. Other systems are not supported.
 
@@ -163,4 +164,5 @@ Hint Editor requires:
 
 @ **in7egral, mbazaliy** for bug reports and all kind of support    
 @ __qwertyoruiopz, iH8sn0w, Morpheus\_\_\_\_\_\_, xerub, msolnik, marcograss, pr0x13, \_argp, oleavr, brinlyau__ and other gang for inspiration  
-@ __\_kamino\___ for porting project to Windows and Linux
+@ __\_kamino\___ for porting project to Windows and Linux  
+@ __williballenthin__ for the idea of function summary
