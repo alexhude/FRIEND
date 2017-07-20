@@ -17,6 +17,12 @@
 #include "FunctionSummary.hpp"
 #include "Settings.hpp"
 
+#if defined(COMPILER_GCC) || defined(__clang__)
+    #define ATTR_UNUSED __attribute__((unused))
+#else
+    #define ATTR_UNUSED
+#endif
+
 // The netnode helper.
 // Using this node we will save current configuration information in the
 // IDA database.
@@ -399,8 +405,8 @@ private:
 					struct ida_local sysreg_calls : public ctree_parentee_t
 					{
 					private:
-						__attribute__((unused))	cfunc_t*		cfunc;
-												ProcExtender*	procExtender = nullptr;
+						ATTR_UNUSED cfunc_t*		cfunc;
+									ProcExtender*	procExtender = nullptr;
 						
 					public:
 						sysreg_calls(cfunc_t *cf, ProcExtender* proc)
