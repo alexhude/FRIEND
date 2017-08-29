@@ -37,13 +37,15 @@ To build the IDA plugin, there are few dependencies to satisfy:
   Visual Studio 2015.
 * Git
 * IDA SDK (unpack into ``idasdk``)
+* Hex-Rays SDK (copy to ``hexrays_sdk``)
 
-Unzip the contents of the IDA SDK into `idasdk`. On Linux or MacOS, one can use the following commands:
+Unzip the contents of the IDA SDK into `idasdk`, and copy the Hex-Rays SDK to hexrays_sdk. On Linux or MacOS, one can use the following commands:
 
 ```sh
 $ unzip /path/to/idasdk69.zip -d idasdk
 $ mv idasdk/idasdk69/* idasdk
 $ rm -r idasdk/idasdk69
+$ cp -r /path/to/ida/plugins/hexrays_sdk hexrays_sdk
 ```
 
 ### Linux
