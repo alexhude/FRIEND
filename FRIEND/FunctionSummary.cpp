@@ -76,6 +76,12 @@ int	FunctionSummary::getSummaryHint(ea_t address, qstring &hint)
 			auto ref = get_first_dref_from(fea);
 			if (ref != BADADDR)
 			{
+				// some strings are nested two levels; they point to an offset just outside the function
+				// and then this offset points to the real string
+				auto ref2 = get_first_dref_from(ref);
+				if (!isASCII(getFlags(ref)) && ref2 != BADADDR)
+					ref = ref2;
+
 				if (isASCII(getFlags(ref)))
 				{
 					RefInfo item;
