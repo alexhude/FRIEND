@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 
+option(USE_HEXRAYS "Build with Hexrays" ON)
+
 project(FRIEND C CXX)
 include(ExternalProject)
 
@@ -14,7 +16,10 @@ endif()
 # idasdk
 set(IdaSdk_DIR ${PROJECT_SOURCE_DIR}/idasdk)
 # hexrays sdk
-set(HexraysSdk_DIR ${PROJECT_SOURCE_DIR}/hexrays_sdk)
+if(USE_HEXRAYS)
+    set(HexraysSdk_DIR ${PROJECT_SOURCE_DIR}/hexrays_sdk)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_HEXRAYS")
+endif()
 
 # capstone
 set(CAPSTONE_ROOT    "${CMAKE_BINARY_DIR}/third_party/capstone")
@@ -133,10 +138,16 @@ add_dependencies(pugixml_static pugixml)
 include_directories(
     ${PROJECT_SOURCE_DIR}
     ${IdaSdk_INCLUDE_DIRS}
-    ${HexraysSdk_DIR}/include/
     ${CAPSTONE_ROOT}/include/capstone/
     ${PUGIXML_ROOT}/include/
 )
+
+if(USE_HEXRAYS)
+    include_directories(
+        ${HexraysSdk_DIR}/include/
+    )
+endif()
+
 
 # add_subdirectory(tools)
 

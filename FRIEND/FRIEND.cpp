@@ -9,7 +9,10 @@
 #include <ida.hpp>
 #include <idp.hpp>
 #include <loader.hpp>
-#include <hexrays.hpp>
+
+#if defined(USE_HEXRAYS)
+	#include <hexrays.hpp>
+#endif
 
 #include "PluginDelegate.hpp"
 #include "AArch64Extender.hpp"
@@ -30,8 +33,10 @@ static netnode gPluginNode;
 static const char gNodeName[] = "$ FRIEND instance";
 static const uint32_t kPluginNode_Instance = 0;
 
-// Hex-Rays API pointer
-hexdsp_t *hexdsp = nullptr;
+#if defined(USE_HEXRAYS)
+	// Hex-Rays API pointer
+	hexdsp_t *hexdsp = nullptr;
+#endif
 
 char gPluginHelp[] = "FRIEND";
 char gPluginComment[] = "This module improves disassembly and embeds register/instruction documentation to IDA.";
@@ -121,11 +126,13 @@ public:
 			m_documentation = nullptr;
 		}
 		
+	#if defined(USE_HEXRAYS)
 		if (m_supportsHexRays)
 		{
 			term_hexrays_plugin();
 			m_supportsHexRays = false;
 		}
+	#endif
 	}
 	
 	// MARK: Static functions
@@ -183,11 +190,13 @@ private:
 	{
 		return ((FRIEND*)user_data)->uiHook(notification_code, va);
 	}
-	
+
+#if defined(USE_HEXRAYS)
 	static int idaapi s_hexrays_hook(void* user_data, hexrays_event_t event, va_list va)
 	{
 		return ((FRIEND*)user_data)->hexRaysHook(event, va);
 	}
+#endif
 	
 	// MARK: IDA Hooks
 	
@@ -218,6 +227,7 @@ private:
 	
 	int uiHook(int notification_code, va_list va)
 	{
+	#if defined(USE_HEXRAYS)
 		auto is_hexrays_plugin = [] (const plugin_info_t *pinfo) -> bool {
 			bool is_hexrays = false;
 			if ( pinfo != nullptr && pinfo->entry != nullptr )
@@ -228,8 +238,10 @@ private:
 			}
 			return is_hexrays;
 		};
+	#endif
 		
 		switch (notification_code) {
+		#if defined(USE_HEXRAYS)
 			case ui_plugin_loaded:
 			{
 				if (hexdsp == nullptr)
@@ -254,6 +266,7 @@ private:
 				}
 				break;
 			}
+		#endif
 			case ui_ready_to_run:
 			{
 				// IDA is fully loaded, check for HexRays support
@@ -391,7 +404,8 @@ private:
 		
 		return 0;
 	}
-	
+
+#if defined(USE_HEXRAYS)
 	int hexRaysHook(hexrays_event_t event, va_list va)
 	{
 		switch ( event )
@@ -526,6 +540,7 @@ private:
 		}
 		return 0;
 	}
+#endif
 	
 	template<typename F>
 	int createHintFromDoc(const char* tagged_line, qstring &hint, F extractElement)
@@ -604,13 +619,17 @@ private:
 		{
 			hook_to_notification_point(HT_IDP, FRIEND::s_idp_hook, this);
 			
+		#if defined(USE_HEXRAYS)
 			if (m_supportsHexRays)
 				install_hexrays_callback(FRIEND::s_hexrays_hook, this);
+		#endif
 		}
 		else
 		{
+		#if defined(USE_HEXRAYS)
 			if (m_supportsHexRays)
 				remove_hexrays_callback(FRIEND::s_hexrays_hook, this);
+		#endif
 
 			unhook_from_notification_point(HT_IDP, FRIEND::s_idp_hook, this);
 		}

@@ -37,9 +37,9 @@ To build the IDA plugin, there are few dependencies to satisfy:
   Visual Studio 2015.
 * Git
 * IDA SDK (unpack into ``idasdk``)
-* Hex-Rays SDK (copy to ``hexrays_sdk``)
+* Hex-Rays SDK (optional, copy to ``hexrays_sdk``)
 
-Unzip the contents of the IDA SDK into `idasdk`, and copy the Hex-Rays SDK to hexrays_sdk. On Linux or MacOS, one can use the following commands:
+Unzip the contents of the IDA SDK into `idasdk`, and copy the Hex-Rays SDK to hexrays_sdk (use `-DUSE_HEXRAYS=OFF` with cmake to build without HexRays support). On Linux or MacOS, one can use the following commands:
 
 ```sh
 $ unzip /path/to/idasdk69.zip -d idasdk
@@ -55,7 +55,7 @@ Use ``cmake`` to prepare the build environment and run ``make`` to build the plu
 ```sh
 $ mkdir _build
 $ cd _build
-$ cmake ..
+$ cmake [-DUSE_HEXRAYS=OFF] ..
 $ make
 ```
 
@@ -66,7 +66,7 @@ Use ``cmake`` to prepare the build environment and run ``make`` to build the plu
 ```sh
 $ mkdir _build
 $ cd _build
-$ cmake ..
+$ cmake [-DUSE_HEXRAYS=OFF] ..
 $ make
 ```
 
@@ -75,7 +75,7 @@ If you prefer to have an Xcode project and build everything from there, run the 
 ```sh
 $ mkdir _build
 $ cd _build
-$ cmake -G Xcode ..
+$ cmake -G Xcode [-DUSE_HEXRAYS=OFF] ..
 $ open FRIEND.xcodeproj # or simply run xcodebuild
 ```
 
@@ -87,7 +87,7 @@ Use ``cmake`` to prepare the build environment and run ``make`` to build the plu
 $ mkdir _build
 $ cd _build
 $ "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
-$ cmake -G "Visual Studio 14 2015" ..
+$ cmake -G "Visual Studio 14 2015" [-DUSE_HEXRAYS=OFF] ..
 $ msbuild FRIEND.sln /p:Configuration=Release
 ```
 
