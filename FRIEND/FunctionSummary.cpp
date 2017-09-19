@@ -6,13 +6,13 @@
 //  Copyright © 2017 Alexander Hude. All rights reserved.
 //
 
-
 #include <sstream>
 
 #include <idp.hpp>
 #include <funcs.hpp>
 
 #include "FunctionSummary.hpp"
+#include "IDAAPI.hpp"
 
 #define COL_STDSTR(str, tag) SCOLOR_ON tag << str << SCOLOR_OFF tag
 
@@ -53,7 +53,13 @@ int	FunctionSummary::getSummaryHint(ea_t address, qstring &hint)
 	for (bool ok = fii.set(pfn, address); ok; ok = fii.next_addr() )
 	{
 		fea = fii.current();
+	
+	#if IDA_SDK_VERSION >= 700
+		insn_t insn;
+		if ( decode_insn(&insn, fea) > 0 && is_call_insn(insn) )
+	#else
 		if(is_call_insn(fea))
+	#endif
 		{
 			auto ref = get_first_fcref_from(fea);
 			if (ref != BADADDR)
@@ -61,7 +67,7 @@ int	FunctionSummary::getSummaryHint(ea_t address, qstring &hint)
 				RefInfo item;
 				item.count = 1;
 				item.address = ref;
-				get_func_name2(&item.string, item.address);
+				IDAAPI_GetFuncName(&item.string, item.address);
 				
 				if (callCnt != 0 && flist.back().address == item.address)
 					flist.back().count++;
@@ -79,18 +85,23 @@ int	FunctionSummary::getSummaryHint(ea_t address, qstring &hint)
 				// some strings are nested two levels; they point to an offset just outside the function
 				// and then this offset points to the real string
 				auto ref2 = get_first_dref_from(ref);
-				if (!isASCII(getFlags(ref)) && ref2 != BADADDR)
+				if (!IDAAPI_IsString(IDAAPI_GetFlags(ref)) && ref2 != BADADDR)
 					ref = ref2;
 
-				if (isASCII(getFlags(ref)))
+				if (IDAAPI_IsString(IDAAPI_GetFlags(ref)))
 				{
 					RefInfo item;
 					item.count = 1;
 					item.address = ref;
 					
+					size_t refLen = IDAAPI_GetMaxStringLength(ref, IDAAPI_STRTYPE_C, ALOPT_IGNHEADS);
+				#if IDA_SDK_VERSION >= 700
+					IDAAPI_GetStringContent(&item.string, ref, refLen, STRTYPE_C);
+				#else
 					char ctmp[256];
-					get_ascii_contents2(ref, get_max_ascii_length(ref, ASCSTR_C), ASCSTR_C, ctmp, 256);
+					IDAAPI_GetStringContent(ref, refLen, IDAAPI_STRTYPE_C, ctmp, 256);
 					item.string = ctmp;
+				#endif
 					
 					item.string.replace("\n", "\\n");
 					
@@ -106,7 +117,7 @@ int	FunctionSummary::getSummaryHint(ea_t address, qstring &hint)
 		
 	}
 	
-	get_func_name2(&tmp, address);
+	IDAAPI_GetFuncName(&tmp, address);
 	
 	std::ostringstream sum_hint;
 	sum_hint << " " << tmp.c_str() << COL_STDSTR(": ", SCOLOR_AUTOCMT) <<

@@ -3,7 +3,7 @@
 //  Flexible Register/Instruction Extender aNd Documentation
 //
 //  Created by Alexander Hude on 11/11/2016.
-//  Copyright © 2016 Fried Apple. All rights reserved.
+//  Copyright © 2017 Alexander Hude. All rights reserved.
 //
 
 #include <regex>
@@ -12,6 +12,13 @@
 #include <allins.hpp>
 
 #include "AArch64Extender.hpp"
+#include "IDAAPI.hpp"
+
+#ifdef __EA64__
+	#define PRINTF_ADDR	"%llX"
+#else
+	#define PRINTF_ADDR	"%X"
+#endif
 
 #define BAIL_IF(cond, ...)		\
 	do							\
@@ -50,28 +57,24 @@ bool AArch64Extender::close()
 	return true;
 }
 
-bool AArch64Extender::output(ea_t address, uint32_t size)
+bool AArch64Extender::output(uint16_t itype, ea_t address, uint32_t size, ProcOutput& procOutput)
 {
-	switch (cmd.itype)
+	switch (itype)
 	{
 		case ARM_msr:
-			return printCapstoneOutput(address);
-
 		case ARM_mrs:
-			return printCapstoneOutput(address);
-			
 		case ARM_sys:
-			return printCapstoneOutput(address);
-			
+			return printCapstoneOutput(address, size, procOutput);
 		default:
 			break;
 	}
-	
 	return false;
 }
 
 bool AArch64Extender::getSystemRegisterName(ea_t address, char* nameBuffer, uint32_t nameLength)
 {
+	bool ret = false;
+	
 	cs_insn *capstoneDisasm;
 	cs_insn ci;
 	uint32_t rawInstruction = 0;
@@ -84,15 +87,15 @@ bool AArch64Extender::getSystemRegisterName(ea_t address, char* nameBuffer, uint
 	
 	const char* tmp = nullptr;
 	
-	BAIL_IF(get_many_bytes(address, &rawInstruction, sizeof(rawInstruction)) == 0, "[FRIEND]: unable to read instruction at %llX\n", address);
+	BAIL_IF(IDAAPI_GetBytes(&rawInstruction, sizeof(rawInstruction), address) == 0, "[FRIEND]: unable to read instruction at " PRINTF_ADDR "\n", address);
 	
 	count = cs_disasm(m_capstoneHandle, (const uint8_t*)&rawInstruction, sizeof(rawInstruction), address, 1, &capstoneDisasm);
-	BAIL_IF(count <= 0, "[FRIEND]: unable to decode instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	BAIL_IF(count <= 0, "[FRIEND]: unable to decode instruction at " PRINTF_ADDR " [ %.4X ]\n", address, rawInstruction);
 	
 	ci = capstoneDisasm[0];
 	
-	BAIL_IF(ci.id != ARM64_INS_MRS && ci.id != ARM64_INS_MSR, "[FRIEND]: unsupported instruction at %llX [ %.4X ]\n", address, rawInstruction);
-	BAIL_IF(ci.detail == nullptr, "[FRIEND]: unable to get details for instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	BAIL_IF(ci.id != ARM64_INS_MRS && ci.id != ARM64_INS_MSR, "[FRIEND]: unsupported instruction at " PRINTF_ADDR " [ %.4X ]\n", address, rawInstruction);
+	BAIL_IF(ci.detail == nullptr, "[FRIEND]: unable to get details for instruction at " PRINTF_ADDR " [ %.4X ]\n", address, rawInstruction);
 	
 	ops = ci.detail->arm64.operands;
 	
@@ -101,7 +104,7 @@ bool AArch64Extender::getSystemRegisterName(ea_t address, char* nameBuffer, uint
 	insn_type = 0;
 	
 	tmp = cs_reg_name(m_capstoneHandle, RegisterInfo(type, insn_type, ops[sysRegIdx].reg));
-	BAIL_IF(tmp == nullptr, "[FRIEND]: unable to get register name for instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	BAIL_IF(tmp == nullptr, "[FRIEND]: unable to get register name for instruction at " PRINTF_ADDR " [ %.4X ]\n", address, rawInstruction);
 	
 	qstrncat(nameBuffer, SCOLOR_ON, nameLength);
 	qstrncat(nameBuffer, SCOLOR_REG, nameLength);
@@ -111,11 +114,14 @@ bool AArch64Extender::getSystemRegisterName(ea_t address, char* nameBuffer, uint
 	
 	qstrupr(nameBuffer);
 	
-	return true;
+	ret = true;
 	
 bail:
+
+	if (count > 0)
+		cs_free(capstoneDisasm, 1);
 	
-	return false;
+	return ret;
 }
 
 bool AArch64Extender::isEnabled()
@@ -129,28 +135,29 @@ bool AArch64Extender::setEnabled(bool enabled)
 	return true;
 }
 
-// MARK: update instructions
-
-bool AArch64Extender::printCapstoneOutput(ea_t address)
+bool AArch64Extender::printCapstoneOutput(ea_t address, uint32_t size, ProcOutput& procOutput)
 {
+	bool ret = false;
+	
 	cs_insn *capstoneDisasm;
 	cs_insn ci;
-	uint32_t rawInstruction = 0;
+	uint8_t rawInstruction[4] = {0};
 	std::string mnemonic;
 	size_t count = 0;
 	
-	BAIL_IF(get_many_bytes(address, &rawInstruction, sizeof(rawInstruction)) == 0, "[FRIEND]: unable to read instruction at %llX\n", address);
+	BAIL_IF(IDAAPI_GetBytes(rawInstruction, size, address) == 0, "[FRIEND]: unable to read instruction at " PRINTF_ADDR "\n", address);
 
-	count = cs_disasm(m_capstoneHandle, (const uint8_t*)&rawInstruction, sizeof(rawInstruction), address, 1, &capstoneDisasm);
-	BAIL_IF(count <= 0, "[FRIEND]: unable to decode instruction at %llX [ %.4X ]\n", address, rawInstruction);
+	count = cs_disasm(m_capstoneHandle, rawInstruction, size, address, 1, &capstoneDisasm);
+	BAIL_IF(count <= 0, "[FRIEND]: unable to decode instruction at " PRINTF_ADDR " [ %.2X%.2X%.2X%.2X ]\n", address,
+			rawInstruction[0], rawInstruction[1], rawInstruction[2], rawInstruction[3]);
 	
 	ci = capstoneDisasm[0];
 	
-	init_output_buffer(m_idaOutputBuffer, sizeof(m_idaOutputBuffer));
-
+	procOutput.init();
+	
 	mnemonic = (SCOLOR_ON SCOLOR_INSN + std::string(qstrupr(ci.mnemonic)) + SCOLOR_OFF SCOLOR_INSN);
 	
-	out_snprintf("%-20s", mnemonic.c_str());
+	procOutput.printf("%-20s", mnemonic.c_str());
 	
 	if (ci.detail)
 	{
@@ -179,7 +186,7 @@ bool AArch64Extender::printCapstoneOutput(ea_t address)
 			const char* tmp = cs_reg_name(m_capstoneHandle, RegisterInfo(type, insn_type, ops[i].reg));
 			if (tmp)
 			{
-				char regName[kMaxElementNameLength];
+				char regName[kMaxElementNameLength] = {0};
 				
 				qstrncpy(regName, tmp, sizeof(regName));
 				std::string reg(qstrupr(regName));
@@ -188,23 +195,24 @@ bool AArch64Extender::printCapstoneOutput(ea_t address)
 			}
 		}
 		
-		out_line(operands.c_str(), COLOR_UNAME);
+		procOutput.line(operands.c_str(), COLOR_UNAME);
 	}
 	else
 	{
-		out_line(qstrupr(ci.op_str), COLOR_REG);
+		if(qstrstr(ci.op_str, "0x") != nullptr)
+			procOutput.line(ci.op_str, COLOR_REG);
+		else
+			procOutput.line(qstrupr(ci.op_str), COLOR_REG);
 	}
 
-	cs_free(capstoneDisasm, 1);
+	procOutput.flush();
 	
-	term_output_buffer();
-	
-	gl_comm = 1;
-	MakeLine(m_idaOutputBuffer);
-	
-	return true;
+	ret = true;
 	
 bail:
 	
-	return false;
+	if (count > 0)
+		cs_free(capstoneDisasm, 1);
+	
+	return ret;
 }

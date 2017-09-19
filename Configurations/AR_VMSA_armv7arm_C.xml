@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<documentation>
+	<document id="armv7arm" name="ARM Architecture Reference Manual" version="C.c">
+		<path>/path/to/DDI0406C_C_armv7ar_arm.pdf</path>
+	</document>
+	<elements>
+		<group type="reg" name="System Control Identification Registers">
+			<hint page="1649" header="Main ID Register" doc_id="armv7arm" token="MIDR">The MIDR provides identification information for the processor, 
+including an implementer code for the device and a device ID number.</hint>
+			<hint page="1556" header="Cache Type Register" doc_id="armv7arm" token="CTR">The CTR provides information about the architecture of the caches.</hint>
+			<hint page="1716" header="TCM Type Register" doc_id="armv7arm" token="TCMTR">The TCMTR provides information about the implementation of the TCM.</hint>
+			<hint page="1721" header="TLB Type Register" doc_id="armv7arm" token="TLBTR">The TLBTR provides information about the TLB implementation. 
+The register must define whether the implementation provides 
+separate instruction and data TLBs, or a unified TLB.</hint>
+			<hint page="1651" header="Multiprocessor Affinity Register" doc_id="armv7arm" token="MPIDR">In a multiprocessor system, the MPIDR provides an additional processor 
+identification mechanism for scheduling purposes, and indicates whether 
+the implementation includes the Multiprocessing Extensions.</hint>
+			<hint page="1703" header="Revision ID Register" doc_id="armv7arm" token="REVIDR">The REVIDR provides implementation-specific minor revision information 
+that can only be interpreted in conjunction with the MIDR.</hint>
+			<hint page="1633" header="Processor Feature Register 0" doc_id="armv7arm" token="ID_PFR0">ID_PFR0 gives information about the programmers’ model and top-level 
+information about the instruction sets supported by the processor.</hint>
+			<hint page="1635" header="Processor Feature Register 1" doc_id="armv7arm" token="ID_PFR1">ID_PFR1 gives information about the programmers’ model 
+and Security Extensions support.</hint>
+			<hint page="1605" header="Debug Feature Register 0" doc_id="armv7arm" token="ID_DFR0">ID_DFR0 provides top level information about the debug system.</hint>
+			<hint page="1604" header="Auxiliary Feature Register 0" doc_id="armv7arm" token="ID_AFR0">ID_AFR0 provides information about the IMPLEMENTATION DEFINED 
+features of the processor.</hint>
+			<hint page="1621" header="Memory Model Feature Register 0" doc_id="armv7arm" token="ID_MMFR0">ID_MMFR0 provides information about the implemented memory 
+model and memory management support.</hint>
+			<hint page="1623" header="Memory Model Feature Register 1" doc_id="armv7arm" token="ID_MMFR1">ID_MMFR1 provides information about the implemented memory 
+model and memory management support.</hint>
+			<hint page="1627" header="Memory Model Feature Register 2" doc_id="armv7arm" token="ID_MMFR2">ID_MMFR2 provides information about the implemented memory 
+model and memory management support.</hint>
+			<hint page="1630" header="Memory Model Feature Register 3" doc_id="armv7arm" token="ID_MMFR3">ID_MMFR3 provides information about the implemented memory 
+model and memory management support.</hint>
+			<hint page="1608" header="Instruction Set Attribute Register 0" doc_id="armv7arm" token="ID_ISAR0">ID_ISAR0 provides information about the instruction sets 
+implemented by the processor.</hint>
+			<hint page="1610" header="Instruction Set Attribute Register 1" doc_id="armv7arm" token="ID_ISAR1">ID_ISAR1 provides information about the instruction sets 
+implemented by the processor.</hint>
+			<hint page="1613" header="Instruction Set Attribute Register 2" doc_id="armv7arm" token="ID_ISAR2">ID_ISAR2 provides information about the instruction sets 
+implemented by the processor.</hint>
+			<hint page="1615" header="Instruction Set Attribute Register 3" doc_id="armv7arm" token="ID_ISAR3">ID_ISAR3 provides information about the instruction sets 
+implemented by the processor.</hint>
+			<hint page="1618" header="Instruction Set Attribute Register 4" doc_id="armv7arm" token="ID_ISAR4">ID_ISAR4 provides information about the instruction sets 
+implemented by the processor.</hint>
+			<hint page="1620" header="Instruction Set Attribute Register 5" doc_id="armv7arm" token="ID_ISAR5">ID_ISAR5 is reserved for future expansion of the information 
+about the instruction sets implemented by the processor.</hint>
+			<hint page="1528" header="Cache Size ID Registers" doc_id="armv7arm" token="CCSIDR">The CCSIDR provides information about the architecture of the caches.</hint>
+			<hint page="1530" header="Cache Level ID Register" doc_id="armv7arm" token="CLIDR">The CLIDR identifies:
+- the type of cache, or caches, implemented at each level, 
+  up to a maximum of seven levels
+- the Level of Coherence (LoC) and Level of Unification (LoU) 
+  for the cache hierarchy.</hint>
+			<hint page="1811" header=" Auxiliary ID Register" doc_id="armv7arm" token="AIDR">Provides IMPLEMENTATION DEFINED ID information.</hint>
+			<hint page="1834" header="Cache Size Selection Register" doc_id="armv7arm" token="CSSELR">The CSSELR selects the current CCSIDR, by specifying:
+- The required cache level.
+- The cache type, either:
+  — Instruction cache, if the memory system implements 
+    separate instruction and data caches.
+  — Data cache. The data cache argument must be used for 
+    a unified cache.</hint>
+		</group>
+		<group type="reg" name="System Control Virtualization Extensions Registers">
+			<hint page="1737" header="Virtualization Processor ID Register" doc_id="armv7arm" token="VPIDR">The VPIDR holds the value of the Virtualization Processor ID. 
+A Non-secure read of the MIDR from PL1 returns the value of this register.</hint>
+			<hint page="1736" header="Virtualization Multiprocessor ID Register" doc_id="armv7arm" token="VMPIDR">The VMPIDR holds the value of the Virtualization Multiprocessor ID. 
+A Non-secure read of the MPIDR from PL1 returns the value of this register.</hint>
+			<hint page="1591" header="Hyp System Control Register" doc_id="armv7arm" token="HSCTLR">The HSCTLR provides top level control of the system operation in Hyp mode. 
+This register provides Hyp mode control of features controlled by the 
+Banked SCTLR bits, and shows the values of the non-Banked SCTLR bits.</hint>
+			<hint page="1575" header="Hyp Auxiliary Control Register" doc_id="armv7arm" token="HACTLR">The HACTLR controls IMPLEMENTATION DEFINED features of Hyp mode operation.</hint>
+			<hint page="1581" header="Hyp Configuration Register" doc_id="armv7arm" token="HCR">The HCR provides configuration controls for virtualization, 
+including defining whether various Non-secure operations are 
+trapped to Hyp mode.</hint>
+			<hint page="1584" header="Hyp Debug Configuration Register" doc_id="armv7arm" token="HDCR">The HDCR controls the trapping to Hyp mode of Non-secure accesses, 
+at PL1 or lower, to functions provided by the debug and trace 
+architectures.</hint>
+			<hint page="1578" header="Hyp Coprocessor Trap Register" doc_id="armv7arm" token="HCPTR">The HCPTR controls the trapping to Hyp mode of Non-secure accesses, 
+at PL1 or lower, to coprocessors other than CP14 and CP15, and to 
+floating-point and Advanced SIMD functionality. It also controls 
+the access to coprocessors other than CP14 and CP15, and to 
+floating-point and Advanced SIMD functionality, from Hyp mode.</hint>
+			<hint page="1595" header="Hyp System Trap Register" doc_id="armv7arm" token="HSTR">The HSTR controls the trapping to Hyp mode of Non-secure accesses, 
+at PL1 or lower, of:
+- use of Jazelle or ThumbEE
+- access to each of the CP15 primary coprocessor registers, 
+  {c0-c3, c5-c13, c15}.</hint>
+			<hint page="1575" header="Hyp Auxiliary Configuration Register" doc_id="armv7arm" token="HACR">The HACR controls the trapping to Hyp mode of IMPLEMENTATION DEFINED 
+aspects of Non-secure PL1 or PL0 operation.</hint>
+			<hint page="1597" header="Hyp Translation Control Register" doc_id="armv7arm" token="HTCR">The HTCR controls the translation table walks required for the 
+stage 1 translation of memory accesses from Hyp mode, and holds 
+cacheability and shareability information for the accesses.</hint>
+			<hint page="1738" header="Virtualization Translation Control Register" doc_id="armv7arm" token="VTCR">The VTCR controls the translation table walks required for the 
+stage 2 translation of memory accesses from Non-secure modes 
+other than Hyp mode, and holds cacheability and shareability 
+information for the accesses.</hint>
+			<hint page="1576" header="Hyp Auxiliary Fault Syndrome Register" doc_id="armv7arm" token="HADFSR">The HAxFSR contain additional IMPLEMENTATION DEFINED 
+syndrome information ford ata Abort exceptions taken 
+to Hyp mode, for the HADFSR</hint>
+			<hint page="1576" header="Hyp Auxiliary Fault Syndrome Register" doc_id="armv7arm" token="HAIFSR">The HAxFSR contain additional IMPLEMENTATION DEFINED 
+syndrome information ford prefetch Abort exceptions 
+taken to Hyp mode, for the HAIFSR</hint>
+			<hint page="1594" header="Hyp Syndrome Register" doc_id="armv7arm" token="HSR">The HSR holds syndrome information for an exception taken to Hyp mode.</hint>
+			<hint page="1587" header="Hyp Data Fault Address Register" doc_id="armv7arm" token="HDFAR">The HDFAR holds the VA of the faulting address that caused a 
+synchronous Data Abort exception that is taken to Hyp mode.</hint>
+			<hint page="1588" header="Hyp Instruction Fault Address Register" doc_id="armv7arm" token="HIFAR">The HIFAR holds the VA of the faulting address that 
+caused a synchronous Prefetch Abort exception that 
+is taken to Hyp mode.</hint>
+			<hint page="1590" header="Hyp IPA Fault Address Registe" doc_id="armv7arm" token="HPFAR">For some aborts on a stage 2 translation, taken to Hyp mode, 
+HPFAR holds the faulting IPA.</hint>
+			<hint page="1589" header="Hyp Memory Attribute Indirection Registers 0" doc_id="armv7arm" token="HMAIR0">The HMAIR0 register provide the memory attribute encodings 
+corresponding to the possible AttrIndx values in a translation 
+table entry for stage 1 translations for memory accesses 
+from Hyp mode. For more information about the AttrIndx field.</hint>
+			<hint page="1589" header="Hyp Memory Attribute Indirection Registers 1" doc_id="armv7arm" token="HMAIR1">The HMAIR1 register provide the memory attribute encodings 
+corresponding to the possible AttrIndx values in a translation 
+table entry for stage 1 translations for memory accesses 
+from Hyp mode. For more information about the AttrIndx field.</hint>
+			<hint page="1577" header="Hyp Auxiliary Memory Attribute Indirection Registers 0" doc_id="armv7arm" token="HAMAIR0">The HAMAIR0 register provide IMPLEMENTATION DEFINED memory 
+attributes for the memory attribute encodings defined by 
+the HMAIR0 register.
+
+These IMPLEMENTATION DEFINED attributes can only provide 
+additional qualifiers for the memory attribute encodings, 
+and cannot change the memory attributes defined in the 
+HMAIR0 registers.</hint>
+			<hint page="1577" header="Hyp Auxiliary Memory Attribute Indirection Registers 1" doc_id="armv7arm" token="HAMAIR1">The HAMAIR1 register provide IMPLEMENTATION DEFINED memory 
+attributes for the memory attribute encodings defined by 
+the HMAIR1 register.
+
+These IMPLEMENTATION DEFINED attributes can only provide 
+additional qualifiers for the memory attribute encodings, 
+and cannot change the memory attributes defined in the 
+HMAIR0 registers.</hint>
+		</group>
+		<group type="reg" name="System Control Virtual Memory Registers">
+			<hint page="1707" header="System Control Register" doc_id="armv7arm" token="SCTLR">The SCTLR provides the top level control of the system, 
+including its memory system.</hint>
+			<hint page="1729" header="Translation Table Base Register 0" doc_id="armv7arm" token="TTBR0">TTBR0 holds the base address of translation table 0, and 
+information about the memory it occupies. This is one of 
+the translation tables for the stage 1 translation of 
+memory accesses from modes other than Hyp mode.</hint>
+			<hint page="1733" header="Translation Table Base Register 1" doc_id="armv7arm" token="TTBR1">TTBR1 holds the base address of translation table 1, and 
+information about the memory it occupies. This is one of 
+the translation tables for the stage 1 translation of 
+memory accesses from modes other than Hyp mode.</hint>
+			<hint page="1724" header="Translation Table Base Control Register" doc_id="armv7arm" token="TTBCR">TTBCR determines which of the Translation Table Base Registers, 
+TTBR0 or TTBR1, defines the base address for a translation table 
+walk required for the stage 1 translation of a memory access 
+from any mode other than Hyp mode.
+
+If the implementation includes the Large Physical Address Extension, 
+the TTBCR also:
+- Controls the translation table format.
+- When using the Long-descriptor translation table format, holds 
+  cacheability and shareability information for the accesses.</hint>
+			<hint page="1646" header="Memory Attribute Indirection Registers 0" doc_id="armv7arm" token="MAIR0">MAIR0 provides the memory attribute encodings corresponding to 
+the possible AttrIndx values in a Long-descriptor format 
+translation table entry for stage 1 translations.</hint>
+			<hint page="1646" header="Memory Attribute Indirection Registers 1" doc_id="armv7arm" token="MAIR1">MAIR1 provides the memory attribute encodings corresponding to 
+the possible AttrIndx values in a Long-descriptor format 
+translation table entry for stage 1 translations.</hint>
+			<hint page="1525" header="Auxiliary Memory Attribute Indirection Registers 0" doc_id="armv7arm" token="AMAIR0">When using the Long-descriptor format translation tables 
+for stage 1 translations, AMAIR0 provides IMPLEMENTATION 
+DEFINED memory attributes for the memory regions specified 
+by the MAIRn registers.</hint>
+			<hint page="1525" header="Auxiliary Memory Attribute Indirection Registers 1" doc_id="armv7arm" token="AMAIR1">When using the Long-descriptor format translation tables 
+for stage 1 translations, AMAIR1 provides IMPLEMENTATION 
+DEFINED memory attributes for the memory regions specified 
+by the MAIRn registers.</hint>
+			<hint page="1548" header="Context ID Register" doc_id="armv7arm" token="CONTEXTIDR">CONTEXTIDR identifies the current Process Identifier (PROCID) 
+and, when using the Short-descriptor translation table format, 
+the Address Space Identifier (ASID).</hint>
+		</group>
+		<group type="reg" name="System Control Security Extensions Registers">
+			<hint page="1704" header="Secure Configuration Register" doc_id="armv7arm" token="SCR">The SCR defines the configuration of the current security state. 
+It specifies:
+- the security state of the processor, Secure or Non-secure
+- what mode the processor branches to if an IRQ, FIQ or 
+  external abort occurs
+- whether the CPSR.{F, A} bits can be modified when SCR.NS == 1.</hint>
+			<hint page="1715" header="Secure Debug Enable Register" doc_id="armv7arm" token="SDER">The SDER controls invasive and non-invasive debug in the Secure PL0 mode.</hint>
+			<hint page="1662" header="Non-Secure Access Control Register" doc_id="armv7arm" token="NSACR">The NSACR:
+- Defines the Non-secure access permissions to coprocessors CP0 to CP13.
+- Can include additional IMPLEMENTATION DEFINED bits that define Non-secure 
+  access permissions for IMPLEMENTATION DEFINED functionality.
+- In an implementation that includes the Virtualization Extensions, controls
+  Hyp mode access to:
+  — coprocessors CP0 to CP13
+  — floating-point and Advanced SIMD functionality.</hint>
+			<hint page="1558" header="Domain Access Control Register" doc_id="armv7arm" token="DACR">DACR defines the access permission for each of the sixteen memory domains.</hint>
+			<hint page="1735" header="Vector Base Address Register" doc_id="armv7arm" token="VBAR">When high exception vectors are not selected, the VBAR 
+holds the exception base address for exceptions that 
+are not taken to Monitor mode or to Hyp mode.</hint>
+			<hint page="1654" header="Monitor Vector Base Address Register" doc_id="armv7arm" token="MVBAR">The MVBAR holds the exception base address for all exceptions 
+that are taken to Monitor mode.</hint>
+			<hint page="1640" header="Interrupt Status Register" doc_id="armv7arm" token="ISR">The ISR shows whether an IRQ, FIQ, or external abort is pending. 
+In an implementation that includes the Virtualization Extensions,
+an indicated pending abort might be a physical abort or a virtual
+abort.</hint>
+			<hint page="1602" header="Hyp Vector Base Address Register" doc_id="armv7arm" token="HVBAR">The HVBAR holds the exception base address for any exception 
+that is taken to Hyp mode</hint>
+		</group>
+		<group type="reg" name="System Control Other Registers">
+			<hint page="1522" header="Auxiliary Control Register" doc_id="armv7arm" token="ACTLR">The ACTLR provides IMPLEMENTATION DEFINED configuration and control options.</hint>
+			<hint page="1551" header="Auxiliary Control Register" doc_id="armv7arm" token="CPACR">The CPACR:
+- Controls access to coprocessors CP0 to CP13 from PL0 and PL1.
+- Is used to determine which, if any, of coprocessors CP0 to 
+  CP13 are implemented.</hint>
+			<hint page="1561" header="Data Fault Status Register" doc_id="armv7arm" token="DFSR">The DFSR holds status information about the last data fault.</hint>
+			<hint page="1566" header="FCSE Process ID Register" doc_id="armv7arm" token="FCSEIDR">The FCSEIDR identifies the current Process ID (PID) for 
+the Fast Context Switch Extension (FCSE).</hint>
+		</group>
+		<group type="reg" name="System Control Fault Handling Registers">
+			<hint page="1561" header="Data Fault Status Register" doc_id="armv7arm" token="DFSR">The DFSR holds status information about the last data fault.</hint>
+			<hint page="1638" header="Instruction Fault Status Register" doc_id="armv7arm" token="IFSR">The IFSR holds status information about the last instruction fault.</hint>
+			<hint page="1523" header="Auxiliary Data Fault Status Register" doc_id="armv7arm" token="ADFSR">The ADFSRs can provide additional IMPLEMENTATION DEFINED 
+fault status information.</hint>
+			<hint page="1523" header="Auxiliary Instruction Fault Status Register" doc_id="armv7arm" token="AIFSR">The AIFSRs can provide additional IMPLEMENTATION DEFINED 
+fault status information.</hint>
+			<hint page="1560" header="Data Fault Address Register" doc_id="armv7arm" token="DFAR">The DFAR holds the VA of the faulting address that 
+caused a synchronous Data Abort exception.</hint>
+			<hint page="1637" header="Instruction Fault Address Register" doc_id="armv7arm" token="IFAR">The IFAR holds the VA of the faulting access that 
+caused a synchronous Prefetch Abort exception.</hint>
+		</group>
+		<group type="reg" name="System Control Cache Maintenance Registers">
+			<hint page="1744" header="Instruction Cache Invalidate All to PoU, Inner Shareable" doc_id="armv7arm" token="ICIALLUIS">Invalidate all instruction caches Inner Shareable to PoU. 
+If branch predictors are architecturally-visible, also 
+flushes branch predictors.</hint>
+			<hint page="1744" header="Branch Predictor Invalidate All, Inner Shareable" doc_id="armv7arm" token="BPIALLIS">Invalidate all entries from branch predictors Inner Shareable.</hint>
+			<hint page="1665" header="Instruction Cache Invalidate All to PoU" doc_id="armv7arm" token="ICIALLU">Invalidate all instruction caches to PoU. If branch 
+predictors are architecturally-visible, also flushes 
+branch predictors.</hint>
+			<hint page="1665" header="Instruction Cache Invalidate by MVA to PoU" doc_id="armv7arm" token="ICIMVAU">Invalidate instruction cache line by MVA to PoU.</hint>
+			<hint page="1752" header="CP15 Instruction Synchronization Barrier" doc_id="armv7arm" token="CP15ISB">In ARMv7, the ISB instruction performs an Instruction 
+Synchronization Barrier operation</hint>
+			<hint page="1744" header="Branch Predictor Invalidate All" doc_id="armv7arm" token="BPIALL">Invalidate all entries from branch predictors.</hint>
+			<hint page="1744" header="Branch Predictor Invalidate by MVA" doc_id="armv7arm" token="BPIMVA">Invalidate MVA from branch predictors.</hint>
+			<hint page="1944" header="Data Cache Invalidate by MVA to PoC" doc_id="armv7arm" token="DCIMVAC">Invalidate data or unified cache line by address to PoC.</hint>
+			<hint page="1944" header="Data Cache Invalidate by Set/Way" doc_id="armv7arm" token="DCISW">Invalidate data or unified cache line by set/way.</hint>
+			<hint page="1944" header="Data Cache Clean by MVA to PoC" doc_id="armv7arm" token="DCCMVAC">Clean data or unified cache line by address to PoC.</hint>
+			<hint page="1944" header="Data Cache Clean by Set/Way" doc_id="armv7arm" token="DCCSW">Clean data or unified cache line by set/way.</hint>
+			<hint page="1752" header="CP15 Instruction Synchronization Barrier" doc_id="armv7arm" token="CP15DSB">In ARMv7, the ISB instruction performs an Instruction 
+Synchronization Barrier operation</hint>
+			<hint page="1752" header="CP15 Instruction Synchronization Barrier" doc_id="armv7arm" token="CP15DMB">In ARMv7, the ISB instruction performs an Instruction 
+Synchronization Barrier operation</hint>
+			<hint page="1944" header="Data Cache Clean by MVA to PoU" doc_id="armv7arm" token="DCCMVAU">Clean data or unified cache line by address to PoU.</hint>
+			<hint page="1944" header="Data Cache Invalidate by MVA to PoC" doc_id="armv7arm" token="DCCIMVAC">Clean and invalidate data or unified cache line by address to PoC.</hint>
+			<hint page="1944" header="Data Cache Invalidate by Set/Way" doc_id="armv7arm" token="DCCISW">Clean and invalidate data or unified cache line by set/way.</hint>
+		</group>
+		<group type="reg" name="System Control Address Translation Registers">
+			<hint page="1665" header="Physical Address Register" doc_id="armv7arm" token="PAR">Receives the PA from any address translation operation.</hint>
+			<hint page="1750" header="Address Translate Stage 1 Current state PL1 Read" doc_id="armv7arm" token="ATS1CPR">Stage 1 current state PL1 read.
+
+In an implementation that includes the Virtualization Extensions, 
+in Non-secure state, this operation returns the result of a VA 
+to IPA translation. Otherwise, they return the result of a VA to 
+PA translation.</hint>
+			<hint page="1750" header="Address Translate Stage 1 Current state PL1 Write" doc_id="armv7arm" token="ATS1CPW">Stage 1 current state PL1 write.
+
+In an implementation that includes the Virtualization Extensions, 
+in Non-secure state, this operation returns the result of a VA 
+to IPA translation. Otherwise, they return the result of a VA to 
+PA translation.</hint>
+			<hint page="1750" header="Address Translate Stage 1 Current state Unprivileged Read" doc_id="armv7arm" token="ATS1CUR">Stage 1 current state unprivileged (PL0) read.
+
+In an implementation that includes the Virtualization Extensions, 
+in Non-secure state, this operation returns the result of a VA 
+to IPA translation. Otherwise, they return the result of a VA to 
+PA translation.</hint>
+			<hint page="1750" header="Address Translate Stage 1 Current state Unprivileged Write" doc_id="armv7arm" token="ATS1CUW">Stage 1 current state unprivileged (PL0) write.
+
+In an implementation that includes the Virtualization Extensions, 
+in Non-secure state, this operation returns the result of a VA 
+to IPA translation. Otherwise, they return the result of a VA to 
+PA translation.</hint>
+			<hint page="1750" header="Address Translate Stages 1 and 2 Non-secure PL1 Read" doc_id="armv7arm" token="ATS12NSOPR">Stages 1 and 2 Non-secure PL1 read.
+
+This operation always returns the result of a VA to PA translation.</hint>
+			<hint page="1750" header="Address Translate Stages 1 and 2 Non-secure PL1 Write" doc_id="armv7arm" token="ATS12NSOPW">Stages 1 and 2 Non-secure PL1 write.
+
+This operation always returns the result of a VA to PA translation.</hint>
+			<hint page="1750" header="Address Translate Stages 1 and 2 Non-secure Unprivileged Read" doc_id="armv7arm" token="ATS12NSOUR">Stages 1 and 2 Non-secure unprivileged (PL0) read.
+
+This operation always returns the result of a VA to PA translation.</hint>
+			<hint page="1750" header="Address Translate Stages 1 and 2 Non-secure Unprivileged Write" doc_id="armv7arm" token="ATS12NSOUW">Stages 1 and 2 Non-secure unprivileged (PL0) write.
+
+This operation always returns the result of a VA to PA translation.</hint>
+			<hint page="1750" header="Address Translate Stage 1 Hyp mode Read" doc_id="armv7arm" token="ATS1HR">Stage 1 Hyp mode read.
+
+This operation always returns the result of a VA to PA translation.</hint>
+			<hint page="1750" header="Address Translate Stage 1 Hyp mode Write" doc_id="armv7arm" token="ATS1HW">Stage 1 Hyp mode write.
+
+This operation always returns the result of a VA to PA translation.</hint>
+			<hint page="1750" header="TLB Invalidate All, Inner Shareable" doc_id="armv7arm" token="TLBIALLIS">Stage 1 Hyp mode write.
+
+This operation always returns the result of a VA to PA translation.</hint>
+		</group>
+		<group type="reg" name="System Control TLB Maintenance Registers">
+			<hint page="1746" header="TLB Invalidate All, Inner Shareable" doc_id="armv7arm" token="TLBIALLIS">Invalidate entire unified TLB Inner Shareable.</hint>
+			<hint page="1746" header="TLB Invalidate by MVA, Inner Shareable" doc_id="armv7arm" token="TLBIMVAIS">Invalidate unified TLB entry by MVA and ASID, Inner Shareable.</hint>
+			<hint page="1746" header="TLB Invalidate by ASID, Inner Shareable" doc_id="armv7arm" token="TLBIASIDIS">Invalidate unified TLB by ASID match Inner Shareable.</hint>
+			<hint page="1746" header="TLB Invalidate by MVA, all ASIDs, Inner Shareable" doc_id="armv7arm" token="TLBIMVAAIS">Invalidate unified TLB entry by MVA all ASID Inner Shareable.</hint>
+			<hint page="1746" header="Instruction TLB Invalidate All" doc_id="armv7arm" token="ITLBIALL">Invalidate entire instruction TLB.</hint>
+			<hint page="1746" header="Instruction TLB Invalidate by MVA" doc_id="armv7arm" token="ITLBIMVA">Invalidate instruction TLB entry by MVA and ASID.</hint>
+			<hint page="1746" header="Instruction TLB Invalidate by ASID" doc_id="armv7arm" token="ITLBIASID">Invalidate instruction TLB by ASID match.</hint>
+			<hint page="1746" header="Data TLB Invalidate All" doc_id="armv7arm" token="DTLBIALL">Invalidate entire data TLB.</hint>
+			<hint page="1746" header="Data TLB Invalidate by MVA" doc_id="armv7arm" token="DTLBIMVA">Invalidate data TLB entry by MVA and ASID.</hint>
+			<hint page="1746" header="Data TLB Invalidate by ASID" doc_id="armv7arm" token="DTLBIASID">Invalidate data TLB by ASID match.</hint>
+			<hint page="1746" header="TLB Invalidate All" doc_id="armv7arm" token="TLBIALL">Invalidate entire unified TLB.</hint>
+			<hint page="1746" header="TLB Invalidate by MVA" doc_id="armv7arm" token="TLBIMVA">Invalidate unified TLB entry by MVA and ASID.</hint>
+			<hint page="1747" header="TLB Invalidate by ASID" doc_id="armv7arm" token="TLBIASID">Invalidate unified TLB by ASID match.</hint>
+			<hint page="1747" header="TLB Invalidate by MVA, all ASIDs" doc_id="armv7arm" token="TLBIMVAA">Invalidate unified TLB entries by MVA all ASID.</hint>
+			<hint page="1749" header="TLB Invalidate All, Hyp mode, Inner Shareable" doc_id="armv7arm" token="TLBIALLHIS">Invalidate entire Hyp unified TLB Inner Shareable.</hint>
+			<hint page="1749" header="TLB Invalidate by MVA, Hyp mode, Inner Shareable" doc_id="armv7arm" token="TLBIMVAHIS">Invalidate Hyp unified TLB entry by MVA Inner Shareable.</hint>
+			<hint page="1749" header="TLB Invalidate all Non-secure Non-Hyp IS" doc_id="armv7arm" token="TLBIALLNSNHIS">Invalidate entire Non-secure Non-Hyp unified TLB Inner Shareable.</hint>
+			<hint page="1749" header="TLB Invalidate All, Hyp mode" doc_id="armv7arm" token="TLBIALLH">Invalidate entire Hyp unified TLB.</hint>
+			<hint page="1749" header="TLB Invalidate by MVA, Hyp mode" doc_id="armv7arm" token="TLBIMVAH">Invalidate Hyp unified TLB entry by MVA.</hint>
+			<hint page="1749" header="TLB Invalidate all Non-secure Non-Hyp" doc_id="armv7arm" token="TLBIALLNSNH">Invalidate entire Non-secure Non-Hyp unified TLB.</hint>
+		</group>
+		<group type="reg" name="System Control Performance Monitors Registers">
+			<hint page="1678" header="Performance Monitors Control Register" doc_id="armv7arm" token="PMCR">The PMCR provides details of the Performance Monitors implementation, 
+including the number of counters implemented, and configures and 
+controls the counters.</hint>
+			<hint page="1676" header="Performance Monitors Count Enable Set Register" doc_id="armv7arm" token="PMCNTENSET">The PMCNTENSET register enables the Cycle Count Register, 
+PMCCNTR, and any implemented event counters, PMNx. Reading 
+this register shows which counters are enabled.</hint>
+			<hint page="1674" header="Performance Monitors Count Enable Clear Register" doc_id="armv7arm" token="PMCNTENCLR">The PMCNTENCLR register disables the Cycle Count Register, 
+PMCCNTR, and any implemented event counters, PMNx. Reading 
+this register shows which counters are enabled.</hint>
+			<hint page="1685" header="Performance Monitors Overflow Flag Status Register" doc_id="armv7arm" token="PMOVSR">The PMOVSR holds the state of the overflow bit for:
+- the Cycle Count Register, PMCCNTR
+- each of the implemented event counters, PMNx.
+
+Software must write to this register to clear these bits.</hint>
+			<hint page="1691" header="Performance Monitors Software Increment" doc_id="armv7arm" token="PMSWINC">The PMSWINC register increments a counter that is configured
+to count the Software increment event, event 0x00.</hint>
+			<hint page="1689" header="Performance Monitors Event Counter Selection Register" doc_id="armv7arm" token="PMSELR">- In PMUv1, PMSELR selects an event counter, PMNx.
+- In PMUv2, PMSELR selects an event counter, PMNx, 
+  or the cycle counter, CCNT.
+
+The PMSELR.SEL value of 31 selects the cycle counter.</hint>
+			<hint page="1672" header="Performance Monitors Common Event ID Register" doc_id="armv7arm" token="PMCEID0">The PMCEID0 registers define which common architectural and 
+common microarchitectural feature events are implemented.</hint>
+			<hint page="1672" header="Performance Monitors Common Event ID Register" doc_id="armv7arm" token="PMCEID1">The PMCEID1 registers define which common architectural and 
+common microarchitectural feature events are implemented.</hint>
+			<hint page="1671" header="Performance Monitors Cycle Count Register" doc_id="armv7arm" token="PMCCNTR">The PMCCNTR holds the value of the processor Cycle Counter, 
+CCNT, that counts processor clock cycles.</hint>
+			<hint page="1696" header="Performance Monitors Event Type Select Register" doc_id="armv7arm" token="PMXEVTYPER">When PMSELR.SEL selects an event counter, PMNx, PMXEVTYPER 
+configures which event increments that event counter.
+In PMUv2 PMXEVTYPER also determines the modes in which PMNx 
+or PMCCNTR increments.
+
+PMSELR.SEL determines which event counter is selected, or 
+if PMCCNTR is selected.</hint>
+			<hint page="1694" header="Performance Monitors Event Count Register" doc_id="armv7arm" token="PMXEVCNTR">The PMXEVCNTR reads or writes the value of the selected 
+event counter, PMNx. PMSELR.SEL determines which event 
+counter is selected.</hint>
+			<hint page="1693" header="Performance Monitors User Enable Register" doc_id="armv7arm" token="PMUSERENR">The PMUSERENR enables or disables User mode access 
+to the Performance Monitors.</hint>
+			<hint page="1683" header="Performance Monitors Interrupt Enable Set Register" doc_id="armv7arm" token="PMINTENSET">The PMINTENSET register enables the generation of interrupt 
+requests on overflows from:
+- the Cycle Count Register, PMCCNTR
+- each implemented event counter, PMNx.
+
+Reading the register shows which overflow interrupt requests 
+are enabled.</hint>
+			<hint page="1681" header="Performance Monitors Interrupt Enable Clear Register" doc_id="armv7arm" token="PMINTENCLR">The PMINTENCLR register disables the generation of interrupt 
+requests on overflows from:
+- the Cycle Count Register, PMCCNTR
+- each implemented event counter, PMNx.
+
+Reading the register shows which overflow interrupt requests 
+are enabled.</hint>
+			<hint page="1687" header="Performance Monitors Overflow Flag Status Set Register" doc_id="armv7arm" token="PMOVSSET">The PMOVSSET register sets the state of the overflow bit for:
+- the Cycle Count Register, PMCCNTR
+- each of the implemented event counters, PMNx.</hint>
+		</group>
+		<group type="reg" name="System Control Miscellaneous Operation Registers">
+			<hint page="1723" header="User Read/Write Thread ID Register" doc_id="armv7arm" token="TPIDRURW">The TPIDRURW provides a location where software executing 
+at PL0 can store thread identifying information, for OS 
+management purposes.</hint>
+			<hint page="1722" header="User Read-Only Thread ID Register" doc_id="armv7arm" token="TPIDRURO">The TPIDRURO provides a location where software executing at PL1 
+or higher can store thread identifying information that is visible 
+to software executing at PL0, for OS management purposes.</hint>
+			<hint page="1722" header="PL1 only Thread ID Register" doc_id="armv7arm" token="TPIDRPRW">The TPIDRPRW provides a location where software executing at PL1 
+or higher can store thread identifying information that is not 
+visible to software executing at PL0, for OS management purposes.</hint>
+			<hint page="1599" header="Hyp Software Thread ID Register" doc_id="armv7arm" token="HTPIDR">The HTPIDR provides a location where software running in Hyp 
+mode can store thread identifying information that is not 
+visible to Non-secure software executing at PL0 or PL1, for 
+hypervisor management purposes.</hint>
+			<hint page="1818" header="Counter Frequency Register" doc_id="armv7arm" token="CNTFRQ">The CNTFRQ register indicates the clock frequency of the system counter.</hint>
+		</group>
+		<group type="reg" name="System Control Generic Timer Registers">
+			<hint page="1818" header="Counter Frequency Register" doc_id="armv7arm" token="CNTFRQ">The CNTFRQ register indicates the clock frequency of the system counter.</hint>
+			<hint page="1537" header="Timer PL1 Control Register" doc_id="armv7arm" token="CNTKCTL">Controls:
+- access to the following from PL0 modes:
+  — the physical counter
+  — the virtual counter
+  — the PL1 physical timers
+  — the virtual timer.
+- the generation of an event stream from the virtual counter.</hint>
+			<hint page="1542" header="PL1 Physical TimerValue Register" doc_id="armv7arm" token="CNTP_TVAL">Holds the timer value for the PL1 physical timer. 
+This provides a 32-bit downcounter.</hint>
+			<hint page="1539" header="PL1 Physical Timer Control Register" doc_id="armv7arm" token="CNTP_CTL">The control register for the physical timer.</hint>
+			<hint page="1545" header="Virtual TimerValue Register" doc_id="armv7arm" token="CNTV_TVAL">Holds the timer value for the virtual timer. 
+This provides a 32-bit downcounter.</hint>
+			<hint page="1544" header="Virtual Timer Control Register" doc_id="armv7arm" token="CNTV_CTL">The control register for the virtual timer.</hint>
+			<hint page="1533" header="Timer PL2 Control Register" doc_id="armv7arm" token="CNTHCTL">Controls:
+- access to the following from Non-secure PL1 modes:
+  — the physical counter
+  — the Non-secure PL1 physical timer.
+- the generation of an event stream from the physical counter.</hint>
+			<hint page="1536" header="PL2 Physical TimerValue Register" doc_id="armv7arm" token="CNTHP_TVAL">Holds the timer value for the Hyp mode physical timer. 
+This provides a 32-bit downcounter.</hint>
+		</group>
+		<group type="reg" name="System Control Jazelle Registers">
+			<hint page="1642" header="Jazelle ID Register" doc_id="armv7arm" token="JIDR">Identifies the Jazelle architecture and subarchitecture versions.</hint>
+			<hint page="1644" header="Jazelle OS Control Register" doc_id="armv7arm" token="JOSCR">Provides operating system control of the use of the Jazelle 
+extension by processes and threads.</hint>
+			<hint page="1643" header="Jazelle OS Control Register" doc_id="armv7arm" token="JMCR">Provides control of the Jazelle extension.</hint>
+			<hint page="2231" header="Debug ID Register" doc_id="armv7arm" token="DBGDIDR">Specifies:
+- which version of the Debug architecture is implemented
+- some features of the debug implementation.</hint>
+		</group>
+		<group type="reg" name="Debug Registers">
+			<hint page="2231" header="Debug ID Register" doc_id="armv7arm" token="DBGDIDR">Specifies:
+- which version of the Debug architecture is implemented
+- some features of the debug implementation.</hint>
+			<hint page="2298" header="Watchpoint Fault Address Register" doc_id="armv7arm" token="DBGWFAR">Returns information about the address of the instruction 
+that accessed a watchpointed address.</hint>
+			<hint page="2288" header="Vector Catch Register" doc_id="armv7arm" token="DBGVCR">Controls Vector catch debug events.</hint>
+			<hint page="2263" header="Event Catch Register" doc_id="armv7arm" token="DBGECR">Configures the debug logic to generate the OS Unlock catch 
+debug event when the OS Lock is cleared.</hint>
+			<hint page="2241" header="Debug State Cache Control Register" doc_id="armv7arm" token="DBGDSCCR">Controls cache behavior when the processor is in Debug state.</hint>
+			<hint page="2259" header="Debug State MMU Control Register" doc_id="armv7arm" token="DBGDSMCR">Controls TLB behavior when the processor is in Debug state.</hint>
+			<hint page="2261" header="Host to Target Data Transfer Register" doc_id="armv7arm" token="DBGDTRRXext">Transfers data from an external host to the ARM processor. 
+For example it is used by a debugger transferring commands 
+and data to a debug target. It is a component of the Debug 
+Communication Channel (DCC).</hint>
+			<hint page="2243" header="Debug Status and Control Register" doc_id="armv7arm" token="DBGDSCRext">The main control register for the debug implementation.</hint>
+			<hint page="2262" header="Target to Host Data Transfer register" doc_id="armv7arm" token="DBGDTRTXext">Transfers data from the ARM processor to an external host. 
+For example it is used by a debug target to transfer data 
+to the debugger. It is a component of the Debug Communication 
+Channel (DCC).</hint>
+			<hint page="2236" header="Debug Run Control Register" doc_id="armv7arm" token="DBGDRCR">Software uses this register to:
+- request the processor to enter or exit Debug state
+- clear to 0 the sticky exception bits in the DBGDSCR
+- cancel bus requests
+- clear to 0 DBGDSCR.PipeAdv, the Sticky Pipeline Advance bit.</hint>
+			<hint page="2218" header="Breakpoint Value Register 0" doc_id="armv7arm" token="DBGBVR0">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR0 is associated with DBGBCR0 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR1" doc_id="armv7arm" header="Breakpoint Value Register 1">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR1 is associated with DBGBCR1 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR2" doc_id="armv7arm" header="Breakpoint Value Register 2">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR2 is associated with DBGBCR2 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR3" doc_id="armv7arm" header="Breakpoint Value Register 3">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR3 is associated with DBGBCR3 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR4" doc_id="armv7arm" header="Breakpoint Value Register 4">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR4 is associated with DBGBCR4 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR5" doc_id="armv7arm" header="Breakpoint Value Register 5">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR5 is associated with DBGBCR5 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR6" doc_id="armv7arm" header="Breakpoint Value Register 6">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR6 is associated with DBGBCR6 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR7" doc_id="armv7arm" header="Breakpoint Value Register 7">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR7 is associated with DBGBCR7 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR8" doc_id="armv7arm" header="Breakpoint Value Register 8">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR8 is associated with DBGBCR8 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR9" doc_id="armv7arm" header="Breakpoint Value Register 9">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR9 is associated with DBGBCR9 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR10" doc_id="armv7arm" header="Breakpoint Value Register 10">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR10 is associated with DBGBCR10 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR11" doc_id="armv7arm" header="Breakpoint Value Register 11">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR11 is associated with DBGBCR11 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR12" doc_id="armv7arm" header="Breakpoint Value Register 12">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR12 is associated with DBGBCR12 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR13" doc_id="armv7arm" header="Breakpoint Value Register 13">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR13 is associated with DBGBCR13 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR14" doc_id="armv7arm" header="Breakpoint Value Register 14">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR14 is associated with DBGBCR14 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2218" token="DBGBVR15" doc_id="armv7arm" header="Breakpoint Value Register 15">Holds a value for use in breakpoint matching, either the 
+virtual address of an instruction, or a Context ID.
+
+Used in conjunction with a Breakpoint Control Register, 
+DBGBCR. DBGBVR15 is associated with DBGBCR15 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for Context matching.</hint>
+			<hint page="2213" token="DBGBCR0" doc_id="armv7arm" header="Breakpoint Control Register 0">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR0 is associated with DBGBCR0 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR1" doc_id="armv7arm" header="Breakpoint Control Register 1">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR1 is associated with DBGBCR1 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR2" doc_id="armv7arm" header="Breakpoint Control Register 2">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR2 is associated with DBGBCR2 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR3" doc_id="armv7arm" header="Breakpoint Control Register 3">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR3 is associated with DBGBCR3 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR4" doc_id="armv7arm" header="Breakpoint Control Register 4">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR4 is associated with DBGBCR4 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR5" doc_id="armv7arm" header="Breakpoint Control Register 5">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR5 is associated with DBGBCR5 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR6" doc_id="armv7arm" header="Breakpoint Control Register 6">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR6 is associated with DBGBCR6 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR7" doc_id="armv7arm" header="Breakpoint Control Register 7">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR7 is associated with DBGBCR7 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR8" doc_id="armv7arm" header="Breakpoint Control Register 8">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR8 is associated with DBGBCR8 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR9" doc_id="armv7arm" header="Breakpoint Control Register 9">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR9 is associated with DBGBCR9 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR10" doc_id="armv7arm" header="Breakpoint Control Register 10">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR10 is associated with DBGBCR10 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR11" doc_id="armv7arm" header="Breakpoint Control Register 11">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR11 is associated with DBGBCR11 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR12" doc_id="armv7arm" header="Breakpoint Control Register 12">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR12 is associated with DBGBCR12 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR13" doc_id="armv7arm" header="Breakpoint Control Register 13">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR13 is associated with DBGBCR13 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR14" doc_id="armv7arm" header="Breakpoint Control Register 14">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR14 is associated with DBGBCR14 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2213" token="DBGBCR15" doc_id="armv7arm" header="Breakpoint Control Register 15">Holds control information for a breakpoint.
+
+Used in conjunction with a Breakpoint Value Register, DBGBVR. 
+DBGBVR15 is associated with DBGBCR15 to form this breakpoint.
+
+If the implementation includes the Virtualization Extensions, 
+and this breakpoint supports Context matching, DBGBVR can be 
+associated with a Breakpoint Extended Value Register, DBGBXVR, 
+for VMID matching.</hint>
+			<hint page="2299" token="DBGWVR0" doc_id="armv7arm" header="Watchpoint Value Register 0">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR0 is associated with DBGWCR0 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR1" doc_id="armv7arm" header="Watchpoint Value Register 1">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR1 is associated with DBGWCR1 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR2" doc_id="armv7arm" header="Watchpoint Value Register 2">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR2 is associated with DBGWCR2 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR3" doc_id="armv7arm" header="Watchpoint Value Register 3">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR3 is associated with DBGWCR3 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR4" doc_id="armv7arm" header="Watchpoint Value Register 4">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR4 is associated with DBGWCR4 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR5" doc_id="armv7arm" header="Watchpoint Value Register 5">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR5 is associated with DBGWCR5 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR6" doc_id="armv7arm" header="Watchpoint Value Register 6">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR6 is associated with DBGWCR6 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR7" doc_id="armv7arm" header="Watchpoint Value Register 7">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR7 is associated with DBGWCR7 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR8" doc_id="armv7arm" header="Watchpoint Value Register 8">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR8 is associated with DBGWCR8 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR9" doc_id="armv7arm" header="Watchpoint Value Register 9">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR9 is associated with DBGWCR9 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR10" doc_id="armv7arm" header="Watchpoint Value Register 10">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR10 is associated with DBGWCR10 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR11" doc_id="armv7arm" header="Watchpoint Value Register 11">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR11 is associated with DBGWCR11 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR12" doc_id="armv7arm" header="Watchpoint Value Register 12">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR12 is associated with DBGWCR12 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR13" doc_id="armv7arm" header="Watchpoint Value Register 13">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR13 is associated with DBGWCR13 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR14" doc_id="armv7arm" header="Watchpoint Value Register 14">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR14 is associated with DBGWCR14 to form this watchpoint.</hint>
+			<hint page="2299" token="DBGWVR15" doc_id="armv7arm" header="Watchpoint Value Register 15">Holds a data address value for use in watchpoint matching. 
+The address used must be the virtual address of the data.
+
+Used with a Watchpoint Control Register, DBGWCR. 
+DBGWVR15 is associated with DBGWCR15 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR0" doc_id="armv7arm" header="Watchpoint Control Register 0">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR0 is associated with DBGWCR0 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR1" doc_id="armv7arm" header="Watchpoint Control Register 1">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR1 is associated with DBGWCR1 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR2" doc_id="armv7arm" header="Watchpoint Control Register 2">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR2 is associated with DBGWCR2 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR3" doc_id="armv7arm" header="Watchpoint Control Register 3">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR3 is associated with DBGWCR3 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR4" doc_id="armv7arm" header="Watchpoint Control Register 4">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR4 is associated with DBGWCR4 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR5" doc_id="armv7arm" header="Watchpoint Control Register 5">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR5 is associated with DBGWCR5 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR6" doc_id="armv7arm" header="Watchpoint Control Register 6">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR6 is associated with DBGWCR6 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR7" doc_id="armv7arm" header="Watchpoint Control Register 7">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR7 is associated with DBGWCR7 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR8" doc_id="armv7arm" header="Watchpoint Control Register 8">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR8 is associated with DBGWCR8 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR9" doc_id="armv7arm" header="Watchpoint Control Register 9">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR9 is associated with DBGWCR9 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR10" doc_id="armv7arm" header="Watchpoint Control Register 10">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR10 is associated with DBGWCR10 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR11" doc_id="armv7arm" header="Watchpoint Control Register 11">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR11 is associated with DBGWCR11 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR12" doc_id="armv7arm" header="Watchpoint Control Register 12">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR12 is associated with DBGWCR12 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR13" doc_id="armv7arm" header="Watchpoint Control Register 13">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR13 is associated with DBGWCR13 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR14" doc_id="armv7arm" header="Watchpoint Control Register 14">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR14 is associated with DBGWCR14 to form this watchpoint.</hint>
+			<hint page="2293" token="DBGWCR15" doc_id="armv7arm" header="Watchpoint Control Register 15">Holds control information for a watchpoint.
+
+Used in conjunction with a Watchpoint Value Register, DBGWVR. 
+DBGWVR15 is associated with DBGWCR15 to form this watchpoint.</hint>
+			<hint page="2219" token="DBGBXVR0" doc_id="armv7arm" header="Breakpoint Extended Value Register 0">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR1" doc_id="armv7arm" header="Breakpoint Extended Value Register 1">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR2" doc_id="armv7arm" header="Breakpoint Extended Value Register 2">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR3" doc_id="armv7arm" header="Breakpoint Extended Value Register 3">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR4" doc_id="armv7arm" header="Breakpoint Extended Value Register 4">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR5" doc_id="armv7arm" header="Breakpoint Extended Value Register 5">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR6" doc_id="armv7arm" header="Breakpoint Extended Value Register 6">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR7" doc_id="armv7arm" header="Breakpoint Extended Value Register 7">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR8" doc_id="armv7arm" header="Breakpoint Extended Value Register 8">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR9" doc_id="armv7arm" header="Breakpoint Extended Value Register 9">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR10" doc_id="armv7arm" header="Breakpoint Extended Value Register 10">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR11" doc_id="armv7arm" header="Breakpoint Extended Value Register 11">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR12" doc_id="armv7arm" header="Breakpoint Extended Value Register 12">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR13" doc_id="armv7arm" header="Breakpoint Extended Value Register 13">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR14" doc_id="armv7arm" header="Breakpoint Extended Value Register 14">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2219" token="DBGBXVR15" doc_id="armv7arm" header="Breakpoint Extended Value Register 15">Holds a value for use in breakpoint matching, to support VMID matching.
+
+Used in conjunction with a Breakpoint Control Register DBGBCR, and a 
+Breakpoint Value Register DBGBVR.</hint>
+			<hint page="2269" token="DBGOSLAR" doc_id="armv7arm" header="OS Lock Access Register">Provides a lock for the debug registers.
+
+Writing the key value to the DBGOSLAR also resets the 
+internal counter for the OS Save or OS Restore operation.
+
+The OS Lock may also disable Software debug events. Use 
+DBGOSLSR to check the current status of the lock.</hint>
+			<hint page="2270" token="DBGOSLSR" doc_id="armv7arm" header="OS Lock Status Register">Provides status information for the OS Lock.
+
+In any implementation, software can read this register to detect 
+whether the OS Save and Restore mechanism is implemented. If it 
+is not implemented the read of DBGOSLSR.OSLM returns zero.</hint>
+			<hint page="2272" token="DBGOSSRR" doc_id="armv7arm" header="OS Save and Restore Register">Software can save or restore the debug logic state of the 
+processor by performing a series of reads or writes of the 
+DBGOSSRR.
+
+This register works in conjunction with an internal sequence 
+counter to perform the OS Save or OS Restore operation. Writing 
+the lock value to the DBGOSLAR resets this counter.
+</hint>
+			<hint page="2280" token="DBGPRCR" doc_id="armv7arm" header="Device Powerdown and Reset Control Register">Controls processor functionality related to reset and powerdown.
+</hint>
+			<hint page="2284" token="DBGPRSR" doc_id="armv7arm" header="Device Powerdown and Reset Status Register">Holds information about the reset and powerdown state of the processor.</hint>
+			<hint page="2264" token="DBGITCTRL" doc_id="armv7arm" header="Integration Mode Control register">Switches the processor from its default functional mode into 
+integration mode, where test software can control directly the 
+inputs and outputs of the processor, for integration testing 
+or topology detection. When the processor is in integration mode, 
+the test software uses the IMPLEMENTATION DEFINED integration 
+registers to drive output values and to read inputs.
+</hint>
+			<hint page="2211" token="DBGAUTHSTATUS" doc_id="armv7arm" header="Authentication Status register">Indicates the implemented debug authentication features and 
+provides the current values of the configuration inputs that 
+determine the debug permissions.</hint>
+			<hint page="2226" token="DBGDEVID" doc_id="armv7arm" header="Debug Device ID register ">Adds to the information given by the DBGDIDR by describing 
+other features of the debug implementation.</hint>
+			<hint page="2229" token="DBGDEVID1" doc_id="armv7arm" header="Debug Device ID register 1">Adds to the information given by the DBGDIDR by describing 
+other features of the debug implementation.
+</hint>
+			<hint page="2229" token="DBGDEVID2" doc_id="armv7arm" header="Debug Device ID register 2">Adds to the information given by the DBGDIDR by describing 
+other features of the debug implementation.
+</hint>
+			<hint page="2225" token="DBGCLAIMSET" doc_id="armv7arm" header="Claim Tag Set Register">Used by software to set CLAIM bits to 1.
+Used in conjunction with the DBGCLAIMCLR Register.</hint>
+			<hint page="2224" token="DBGCLAIMCLR" doc_id="armv7arm" header="Claim Tag Clear Register">Used by software to read the values of the CLAIM bits, 
+and to clear these bits to zero. Used in conjunction 
+with the DBGCLAIMSET register.
+</hint>
+			<hint page="2243" token="DBGDSCRint" doc_id="armv7arm" header="Debug Status and Control Register">The main control register for the debug implementation.</hint>
+			<hint page="2261" token="DBGDTRRXint" doc_id="armv7arm" header="Host to Target Data Transfer register">Transfers data from an external host to the ARM processor. 
+For example it is used by a debugger transferring commands 
+and data to a debug target. It is a component of the Debug 
+Communication Channel (DCC).</hint>
+			<hint page="2234" token="DBGDRAR" doc_id="armv7arm" header="Debug ROM Address Register">Defines the base physical address of a memory-mapped debug component, 
+usually a ROM Table that locates and describes the memory-mapped 
+debug components in the system. However, if this processor is the 
+only memory-mapped debug component in the system, or the only 
+memory-mapped debug component visible to this processor, then DBGDRAR 
+defines the base physical address of this processor&apos;s debug registers.</hint>
+			<hint page="2268" token="DBGOSDLR" doc_id="armv7arm" header="OS Double Lock Register ">Locks out an external debugger entirely.</hint>
+			<hint page="2239" token="DBGDSAR" doc_id="armv7arm" header="Debug Self Address Offset Register">Defines the offset from the base address defined by DBGDRAR 
+of the physical base address of the debug registers for the 
+processor.
+</hint>
+		</group>
+	</elements>
+</documentation>

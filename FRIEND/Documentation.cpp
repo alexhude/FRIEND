@@ -3,7 +3,7 @@
 //  Flexible Register/Instruction Extender aNd Documentation
 //
 //  Created by Alexander Hude on 11/11/2016.
-//  Copyright © 2016 Fried Apple. All rights reserved.
+//  Copyright © 2017 Alexander Hude. All rights reserved.
 //
 
 #include <string>
@@ -18,8 +18,7 @@
 
 bool Documentation::loadConfigFile(std::string filePath)
 {
-	m_xmlDoc.reset();
-	m_groups.clear();
+	resetConfigFile();
 	
 	auto result = m_xmlDoc.load_file(filePath.c_str());
 	if (! result)
@@ -60,11 +59,21 @@ bool Documentation::loadConfigFile(std::string filePath)
 	}
 	catch (const pugi::xpath_exception& e)
 	{
+		resetConfigFile();
+		
 		msg("[FRIEND]: unable to load configuration (%s)\n", e.what());
 		return false;
 	}
 
 	msg("[FRIEND]: configuration xml loaded from %s\n", filePath.c_str());
+	
+	return true;
+}
+
+bool Documentation::resetConfigFile()
+{
+	m_xmlDoc.reset();
+	m_groups.clear();
 	
 	return true;
 }
@@ -102,12 +111,18 @@ bool Documentation::availableForIdentifier()
 	if (m_xmlDoc.empty())
 		return false;
 	
+#if IDA_SDK_VERSION < 700
 	char identifier[128] = {0};
 	
 	bool res = get_highlighted_identifier(identifier, sizeof(identifier), 0);
-
 	if (!res)
 		return res;
+#else
+	qstring tmp;
+	uint32_t flags;
+	get_highlight(&tmp, get_current_viewer(), &flags);
+	const char* identifier = tmp.c_str();
+#endif
 	
 	bool found = false;
 	for (Group& group : m_groups)

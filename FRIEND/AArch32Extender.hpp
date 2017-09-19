@@ -1,23 +1,24 @@
 //
-//  AArch64Extender.hpp
+//  AArch32Extender.hpp
 //  Flexible Register/Instruction Extender aNd Documentation
 //
-//  Created by Alexander Hude on 11/11/2016.
+//  Created by Alexander Hude on 12/09/2017.
 //  Copyright © 2017 Alexander Hude. All rights reserved.
 //
 
 #pragma once
 
+#include <map>
 #include "capstone.h"
 
 #include "ProcExtender.hpp"
 
-class AArch64Extender : public ProcExtender
+class AArch32Extender : public ProcExtender
 {
 public:
 	
-	AArch64Extender() {};
-	~AArch64Extender() {};
+	AArch32Extender() {};
+	~AArch32Extender() {};
 	
 	bool	init() override;
 	bool	close() override;
@@ -30,10 +31,15 @@ private:
 	
 	bool	isEnabled() override;
 	bool	setEnabled(bool enabled) override;
-	
-	bool	printCapstoneOutput(ea_t address, uint32_t size, ProcOutput& procOutput);
+
+	bool	isThumbArea(ea_t address);
+	bool	printMoveOutput(ea_t address, uint32_t size, ProcOutput& procOutput);
 	
 private:
 	
+	static 	std::map<uint32_t, const char*> s_operandMap;
+	
 	csh		m_capstoneHandle = 0;
+	cs_mode m_modeARM = cs_mode(0);
+	cs_mode m_modeThumb = cs_mode(0);
 };

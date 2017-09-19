@@ -3,12 +3,18 @@
 //  Flexible Register/Instruction Extender aNd Documentation
 //
 //  Created by Alexander Hude on 11/11/2016.
-//  Copyright © 2016 Fried Apple. All rights reserved.
+//  Copyright © 2017 Alexander Hude. All rights reserved.
 //
 
 #include <ida.hpp>
 #include <idp.hpp>
 #include <loader.hpp>
+
+#if (IDA_SDK_VERSION < 700) && defined(__X64__)
+	#error Incompatible SDK version. Please use SDK 7.0 or higher
+#elif (IDA_SDK_VERSION >= 700) && !defined(__X64__)
+	#error Incompatible SDK version. Please use SDK 6.95 or lower
+#endif
 
 #if defined(USE_HEXRAYS)
 	#include <hexrays.hpp>
@@ -16,9 +22,11 @@
 
 #include "PluginDelegate.hpp"
 #include "AArch64Extender.hpp"
+#include "AArch32Extender.hpp"
 #include "Documentation.hpp"
 #include "FunctionSummary.hpp"
 #include "Settings.hpp"
+#include "IDAAPI.hpp"
 
 #if defined(COMPILER_GCC) || defined(__clang__)
     #define ATTR_UNUSED __attribute__((unused))
@@ -29,9 +37,10 @@
 // The netnode helper.
 // Using this node we will save current configuration information in the
 // IDA database.
-static netnode gPluginNode;
 static const char gNodeName[] = "$ FRIEND instance";
-static const uint32_t kPluginNode_Instance = 0;
+static const uint32_t kPluginNode_Instance = 'objn';
+static const uint32_t kPluginNode_Settings = 'setn';
+static netnode gPluginNode(gNodeName);
 
 #if defined(USE_HEXRAYS)
 	// Hex-Rays API pointer
@@ -71,12 +80,20 @@ public:
 
 		m_documentation->registerAction();
 
-		// AArch64 processor module extender
-		if (ph.id == PLFM_ARM && ph.use64())
+		if (ph.id == PLFM_ARM)
 		{
-			m_procExtender = new AArch64Extender();
-			BAIL_IF(m_procExtender == nullptr, "[FRIEND]: unable to init plugin (no memory)");
-
+			if (ph.use64())
+			{
+				// AArch64 processor module extender
+				m_procExtender = new AArch64Extender();
+				BAIL_IF(m_procExtender == nullptr, "[FRIEND]: unable to init plugin (no memory)");
+			}
+			else
+			{
+				// ARMv7 processor module extender
+				m_procExtender = new AArch32Extender();
+				BAIL_IF(m_procExtender == nullptr, "[FRIEND]: unable to init plugin (no memory)");
+			}
 			m_procExtender->init();
 		}
 		
@@ -139,7 +156,8 @@ public:
 	
 	static int s_init(void)
 	{
-		gPluginNode.create(gNodeName);
+		if (exist(gPluginNode) == false)
+			gPluginNode.create(gNodeName);
 		
 		auto plugin = new FRIEND();
 		if (plugin->init() == false)
@@ -151,7 +169,7 @@ public:
 		return PLUGIN_KEEP;
 	}
 	
-	static void s_run(int)
+	static idaapi_run_ret_t s_run(idaapi_run_args_t)
 	{
 		FRIEND* plugin = nullptr;
 
@@ -159,6 +177,8 @@ public:
 		
 		if (plugin)
 			plugin->showSettings();
+
+		idaapi_run_return(true);
 	}
 	
 	static void s_term(void)
@@ -175,18 +195,16 @@ public:
 
 		gPluginNode.supdel(kPluginNode_Instance);
 		
-		gPluginNode.kill();
-		
 		msg("[FRIEND]: plugin terminated\n");
 	}
 	
 private:
-	static int idaapi s_idp_hook(void* user_data, int notification_code, va_list va)
+	static idaapi_hook_cb_ret_t idaapi s_idp_hook(void* user_data, int notification_code, va_list va)
 	{
 		return ((FRIEND*)user_data)->idpHook(notification_code, va);
 	}
 
-	static int idaapi s_ui_hook(void* user_data, int notification_code, va_list va)
+	static idaapi_hook_cb_ret_t idaapi s_ui_hook(void* user_data, int notification_code, va_list va)
 	{
 		return ((FRIEND*)user_data)->uiHook(notification_code, va);
 	}
@@ -200,7 +218,7 @@ private:
 	
 	// MARK: IDA Hooks
 	
-	int idpHook(int notification_code, va_list va)
+	idaapi_hook_cb_ret_t idpHook(int notification_code, va_list va)
 	{
 		if (m_procExtender == nullptr)
 			return 0;
@@ -209,11 +227,79 @@ private:
 			return 0;
 		
 		switch (notification_code) {
-			case processor_t::custom_out:
+			case processor_t::idaapi_out_instruction:
 			{
-				if (m_procExtender->output(cmd.ea, cmd.size))
+				idaapi_hook_cb_ret_t ret;
+			#if IDA_SDK_VERSION >= 700
+				outctx_t* ctx = va_arg(va, outctx_t *);
+				auto& insn = ctx->insn;
+				
+				class Output : public ProcOutput
 				{
-					return 2;
+				public:
+					Output(outctx_t* ctx) : m_ctx(ctx) {}
+					
+					AS_PRINTF(2, 0) void printf(const char* format, ...) override
+					{
+						va_list va;
+						va_start(va, format);
+						m_ctx->out_vprintf(format, va);
+						va_end(va);
+					}
+					void	line(const char* line, color_t color=0) override
+					{
+						m_ctx->out_line(line, color);
+					}
+					void	flush() override
+					{
+						m_ctx->flush_outbuf();
+					}
+				private:
+					outctx_t* m_ctx = nullptr;
+				} procOutput(ctx);
+				
+				ret = 1;
+			#else
+				auto& insn = cmd;
+				
+				class Output : public ProcOutput
+				{
+				public:
+					void	init() override
+					{
+						init_output_buffer(m_idaOutputBuffer, sizeof(m_idaOutputBuffer));
+					}
+					AS_PRINTF(2, 0) void printf(const char* format, ...) override
+					{
+						char tmp[kMaxElementNameLength * 2];
+						va_list va;
+						va_start(va, format);
+						vsprintf(tmp, format, va);
+						va_end(va);
+						
+						out_line(tmp, COLOR_DEFAULT);
+					}
+					void	line(const char* line, color_t color) override
+					{
+						out_line(line, color);
+					}
+					void	flush() override
+					{
+						term_output_buffer();
+						
+						gl_comm = 1;
+						MakeLine(m_idaOutputBuffer);
+					}
+				private:
+					char m_idaOutputBuffer[MAXSTR];
+				} procOutput;
+				
+				ret = 2;
+			#endif
+
+				if (m_procExtender->output(insn.itype, insn.ea, insn.size, procOutput))
+				{
+					return ret;
 				}
 				
 				break;
@@ -225,7 +311,7 @@ private:
 		return 0;
 	}
 	
-	int uiHook(int notification_code, va_list va)
+	idaapi_hook_cb_ret_t uiHook(int notification_code, va_list va)
 	{
 	#if defined(USE_HEXRAYS)
 		auto is_hexrays_plugin = [] (const plugin_info_t *pinfo) -> bool {
@@ -271,16 +357,21 @@ private:
 			{
 				// IDA is fully loaded, check for HexRays support
 				msg("[FRIEND]: HexRays Decompiler is %s\n", (m_supportsHexRays)? "supported" : "not supported");
+				
+				m_settings.load();
+				
 				break;
 			}
-			case ui_finish_populating_tform_popup:
+			case idaapi_ui_finish_populating_form_popup:
 			{
-				auto form = va_arg(va, TForm *);
-				if ( get_tform_type(form) == BWN_DISASM )
+				auto form = va_arg(va, idaapi_form_t *);
+				if ( IDAAPI_GetFormType(form) == BWN_DISASM )
 				{
 					auto popup = va_arg(va, TPopupMenu *);
+				#if IDA_SDK_VERSION < 700
 					auto view = get_tform_idaview(form);
 					if ( view != nullptr )
+				#endif
 					{
 						bool addSeparator = false;
 						
@@ -301,12 +392,18 @@ private:
 			}
 			case ui_get_custom_viewer_hint:
 			{
-				auto form				= va_arg(va, TForm *);
+			#if IDA_SDK_VERSION >= 700
+				qstring &hint			= *va_arg(va, qstring *);
+				auto form				= va_arg(va, idaapi_form_t *);
+				auto place				= va_arg(va, place_t *);
+				auto important_lines	= va_arg(va, int *);
+			#else
+				auto form				= va_arg(va, idaapi_form_t *);
 				auto place				= va_arg(va, place_t *);
 				auto important_lines	= va_arg(va, int *);
 				qstring &hint			= *va_arg(va, qstring *);
-				
-				tform_type_t formType = get_tform_type(form);
+			#endif
+				idaapi_form_type_t formType = IDAAPI_GetFormType(form);
 				if (formType != BWN_DISASM)
 					return 0;
 				
@@ -318,18 +415,22 @@ private:
 				auto ea = place->toea();
 			#endif
 				
-				if (isCode(getFlags(ea)) == false)
+				if (IDAAPI_IsCode(IDAAPI_GetFlags(ea)) == false)
 					return 0;
 				
 				// try to generate register/instruction hint otherwise
 				int x, y;
+			#if IDA_SDK_VERSION >= 700
+				auto view = form;
+			#else
 				auto view = get_tform_idaview(form);
+			#endif
 				
 				if (get_custom_viewer_place(view, true, &x, &y) == nullptr )
 					return 0;
 				
 				const char* tagged_line = get_custom_viewer_curline(view, true);
-				if (tagged_line == nullptr)
+				if (tagged_line == nullptr || uintptr_t(tagged_line) == -1)
 					return 0;
 				
 				auto extractElement = [x] (const char* tagged_line, int16_t& start) -> bool {
@@ -366,7 +467,7 @@ private:
 				if (m_funcSummary->isEnabled() && xb.first_from(ea, XREF_FAR))
 				{
 					// check if it is code reference
-					if (isCode(getFlags(xb.to)))
+					if (IDAAPI_IsCode(IDAAPI_GetFlags(xb.to)))
 					{
 						// check element under cursor
 						int16_t elem_start = -1;
@@ -431,21 +532,92 @@ private:
 						{
 							if ( e->op != cot_call )
 								return 0;
-							
-							if (streq(e->x->string, "ARM64_SYSREG") == false)
+
+							if ( e->x->op != cot_helper )
 								return 0;
-							
-							// release cot_call expression
-							e->cleanup();
-							
-							// create cot_helper expression
-							e->replace_by(new cexpr_t(cot_helper, nullptr));
-							e->helper = new char[kMaxElementNameLength];
-							e->exflags = EXFL_ALONE; // standalone helper
-							
-							// fill helper string with system register name
-							procExtender->getSystemRegisterName(e->ea, e->helper, kMaxElementNameLength);
-							
+
+							if (streq(e->x->helper, "ARM64_SYSREG"))
+							{
+								// fill helper string with system register name
+								auto helper = new char[kMaxElementNameLength];
+								if (procExtender->getSystemRegisterName(e->ea, helper, kMaxElementNameLength) == false)
+								{
+									delete[] helper;
+									return 0;
+								}
+								
+								// release cot_call expression
+								e->cleanup();
+								
+								// create cot_helper expression
+								e->replace_by(new cexpr_t(cot_helper, nullptr));
+								e->helper = helper;
+								e->exflags = EXFL_ALONE; // standalone helper
+							}
+							else if (streq(e->x->helper, "__mcr"))
+							{
+								// fill helper string with system register name
+								auto helper = new char[kMaxElementNameLength];
+								if (procExtender->getSystemRegisterName(e->ea, helper, kMaxElementNameLength) == false)
+								{
+									delete[] helper;
+									return 0;
+								}
+								
+								// rename '__mcr' to '_WriteSystemReg'
+								delete[] e->x->helper;
+								e->x->helper = new char[kMaxElementNameLength];
+							#if _MSC_VER
+								strncpy_s(e->x->helper, "_WriteSystemReg", kMaxElementNameLength);
+							#else
+								strncpy(e->x->helper, "_WriteSystemReg", kMaxElementNameLength);
+							#endif
+								
+								// fix args
+								auto& args = *(e->a);
+								auto src = new cexpr_t();
+								args[2].swap(*src); // save rvalue
+								
+								args.clear();
+								args.push_back();
+								args[0].cleanup();
+								args[0].replace_by(new cexpr_t(cot_helper, nullptr));
+								args[0].helper = helper;
+								args[0].exflags = EXFL_ALONE; // standalone helper
+								
+								args.push_back();
+								args[1].replace_by(src); // restore rvalue
+							}
+							else if (streq(e->x->helper, "__mrc"))
+							{
+								// fill helper string with system register name
+								auto helper = new char[kMaxElementNameLength];
+								if (procExtender->getSystemRegisterName(e->ea, helper, kMaxElementNameLength) == false)
+								{
+									delete[] helper;
+									return 0;
+								}
+								
+								// rename '__mrc' to '_ReadSystemReg'
+								delete[] e->x->helper;
+								e->x->helper = new char[kMaxElementNameLength];
+							#if _MSC_VER
+								strncpy_s(e->x->helper, "_ReadSystemReg", kMaxElementNameLength);
+							#else
+								strncpy(e->x->helper, "_ReadSystemReg", kMaxElementNameLength);
+							#endif
+
+								// fix args
+								auto& args = *(e->a);
+
+								args.clear();
+								args.push_back();
+								args[0].cleanup();
+								args[0].replace_by(new cexpr_t(cot_helper, nullptr));
+								args[0].helper = helper;
+								args[0].exflags = EXFL_ALONE; // standalone helper
+							}
+
 							return 0;
 						}
 					};
@@ -481,7 +653,7 @@ private:
 					else
 						fea = el->obj_ea; // if cursor is on function name
 					
-					if (m_funcSummary->isEnabled() && isCode(getFlags(fea)))
+					if (m_funcSummary->isEnabled() && IDAAPI_IsCode(IDAAPI_GetFlags(fea)))
 					{
 						*important_lines = m_funcSummary->getSummaryHint(fea, hint);
 						
@@ -492,7 +664,7 @@ private:
 				
 				// try to generate register/instruction hint otherwise
 				const char* tagged_line = el->string;
-				if (tagged_line == nullptr)
+				if (tagged_line == nullptr || uintptr_t(tagged_line) == -1)
 					return 0;
 				
 				*important_lines = createHintFromDoc(tagged_line, hint, [] (const char* tagged_line, int16_t& start) -> bool {
@@ -513,11 +685,13 @@ private:
 			break;
 			case hxe_populating_popup:
 			{
-				auto form = va_arg(va, TForm *);
+				auto form = va_arg(va, idaapi_form_t *);
 				auto popup = va_arg(va, TPopupMenu *);
 				
+			#if IDA_SDK_VERSION < 700
 				auto view = get_tform_vdui(form);
 				if ( view != nullptr )
+			#endif
 				{
 					bool addSeparator = false;
 					
@@ -623,6 +797,8 @@ private:
 			if (m_supportsHexRays)
 				install_hexrays_callback(FRIEND::s_hexrays_hook, this);
 		#endif
+			
+			request_refresh(IWID_DISASMS);
 		}
 		else
 		{
@@ -648,6 +824,44 @@ private:
 		return true;
 	}
 	
+	bool getSettingsBlobSize(int32_t& size) override
+	{
+		size = gPluginNode.supval(kPluginNode_Settings, nullptr, 0);
+		if (size > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	bool loadSettingsBlob(uint8*& data, int32_t size) override
+	{
+		if (gPluginNode.supval(kPluginNode_Settings, data, size) > 0)
+		{
+			msg("[FRIEND]: Settings loaded from IDB\n");
+			return true;
+		}
+		
+		return false;
+	}
+	
+	bool saveSettingsBlob(uint8*& data, int32_t size) override
+	{
+		gPluginNode.supdel(kPluginNode_Settings);
+		if (gPluginNode.supset(kPluginNode_Settings, data, size) != 0)
+		{
+			msg("[FRIEND]: Settings saved to IDB\n");
+			return true;
+		}
+		
+		return false;
+	}
+	
+	bool deleteSettingsBlob() override
+	{
+		gPluginNode.supdel(kPluginNode_Settings);
+		return true;
+	}
+	
 private:
 	
 	Settings			m_settings;
@@ -664,9 +878,13 @@ private:
 //      PLUGIN DESCRIPTION BLOCK
 //
 //--------------------------------------------------------------------------
-int idaapi pluginInit(void) 		{ return FRIEND::s_init(); 	}
-void idaapi pluginTerminate(void) 	{ FRIEND::s_term(); 		}
-void idaapi pluginRun(int args) 	{ FRIEND::s_run(args); 		}
+	int idaapi pluginInit(void)			{ return FRIEND::s_init();		}
+	void idaapi pluginTerminate(void)	{ FRIEND::s_term();				}
+#if IDA_SDK_VERSION >= 700
+	bool idaapi pluginRun(size_t args) 	{ return FRIEND::s_run(args);	}
+#else
+	void idaapi pluginRun(int args) 	{ FRIEND::s_run(args);			}
+#endif
 
 plugin_t PLUGIN =
 {

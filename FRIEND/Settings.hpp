@@ -3,7 +3,7 @@
 //  Flexible Register/Instruction Extender aNd Documentation
 //
 //  Created by Alexander Hude on 11/11/2016.
-//  Copyright © 2016 Fried Apple. All rights reserved.
+//  Copyright © 2017 Alexander Hude. All rights reserved.
 //
 
 #pragma once
@@ -19,6 +19,7 @@ public:
 	Settings() {}
 	
 	void		setDelegate(PluginDelegate* delegate) {m_delegate = delegate;}
+	void		load();
 	bool		show();
 	
 private:
@@ -34,5 +35,5 @@ private:
 	bool		m_procEnabled = false;
 	bool		m_docEnabled = false;
 	bool		m_summaryEnabled = false;
-	
+	bool		m_saveSettings = false;
 };

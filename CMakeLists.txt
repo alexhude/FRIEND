@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 
 option(USE_HEXRAYS "Build with Hexrays" ON)
+option(USE_IDA6_SDK "Build for IDA 6.x" OFF)
 
 project(FRIEND C CXX)
 include(ExternalProject)
@@ -9,7 +10,11 @@ if(APPLE)
     if(CMAKE_GENERATOR STREQUAL Xcode)
         # for Xcode set latest macOS SDK and 32bit architecture
         set(CMAKE_OSX_SYSROOT "macosx")
-        set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD_32_BIT)")
+        if(USE_IDA6_SDK)
+            set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD_32_BIT)")
+        else()
+            set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD)")
+        endif()
     endif()
 endif()
 
@@ -40,7 +45,7 @@ find_package(IdaSdk REQUIRED)
 if(UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
     set(CMAKE_SKIP_BUILD_RPATH TRUE)
-    if(NOT COMPILE_64BIT)
+    if(USE_IDA6_SDK)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
@@ -151,20 +156,21 @@ endif()
 
 # add_subdirectory(tools)
 
-if(NOT COMPILE_64BIT)
-    add_ida_plugin(FRIEND EA64
-                   FRIEND/AArch64Extender.cpp
-                   FRIEND/AArch64Extender.hpp
-                   FRIEND/Documentation.cpp
-                   FRIEND/Documentation.hpp
-                   FRIEND/FRIEND.cpp
-                   FRIEND/FunctionSummary.cpp
-                   FRIEND/FunctionSummary.hpp
-                   FRIEND/PluginDelegate.hpp
-                   FRIEND/ProcExtender.hpp
-                   FRIEND/Settings.cpp
-                   FRIEND/Settings.hpp)
+add_ida_plugin(FRIEND EA64
+               FRIEND/AArch64Extender.cpp
+               FRIEND/AArch64Extender.hpp
+               FRIEND/AArch32Extender.cpp
+               FRIEND/AArch32Extender.hpp
+               FRIEND/Documentation.cpp
+               FRIEND/Documentation.hpp
+               FRIEND/FRIEND.cpp
+               FRIEND/FunctionSummary.cpp
+               FRIEND/FunctionSummary.hpp
+               FRIEND/IDAAPI.hpp
+               FRIEND/PluginDelegate.hpp
+               FRIEND/ProcExtender.hpp
+               FRIEND/Settings.cpp
+               FRIEND/Settings.hpp)
 
-    target_link_libraries(FRIEND${_plx} pugixml_static capstone_static)
-    target_link_libraries(FRIEND${_plx64} pugixml_static capstone_static)
-endif()
+target_link_libraries(FRIEND${_plx} pugixml_static capstone_static)
+target_link_libraries(FRIEND${_plx64} pugixml_static capstone_static)

@@ -3,7 +3,7 @@
 //  Flexible Register/Instruction Extender aNd Documentation
 //
 //  Created by Alexander Hude on 11/11/2016.
-//  Copyright © 2016 Fried Apple. All rights reserved.
+//  Copyright © 2017 Alexander Hude. All rights reserved.
 //
 
 #pragma once
@@ -29,6 +29,7 @@ public:
 	Documentation() {}
 	
 	bool			loadConfigFile(std::string filePath);
+	bool			resetConfigFile();
 	
 	bool			registerAction();
 	bool			unregisterAction();

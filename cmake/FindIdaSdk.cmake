@@ -42,31 +42,65 @@ set(IdaSdk_INCLUDE_DIRS ${IdaSdk_DIR}/include)
 # Define some platform specific variables for later use.
 if(APPLE)
   set(IdaSdk_PLATFORM __MAC__)
-  set(_plx .pmc)
-  set(_plx64 .pmc64)
-  set(_llx .lmc)
-  set(_llx64 64.lmc64)   # An additional "64"
+  if(USE_IDA6_SDK)
+    set(_plx .pmc)
+    set(_plx64 .pmc64)
+    set(_llx .lmc)
+    set(_llx64 64.lmc64)  # An additional "64"
+  else()
+    set(_plx .dylib)
+    set(_llx .dylib)
+    set(_plx64 64.dylib)  # An additional "64"
+    set(_llx64 64.dylib)  # An additional "64"
+  endif()
 elseif(UNIX)
   set(IdaSdk_PLATFORM __LINUX__)
-  set(_plx .plx)
-  set(_plx64 .plx64)
-  set(_llx .llx)
-  set(_llx64 64.llx64)   # An additional "64"
+  if(USE_IDA6_SDK)
+    set(_plx .plx)
+    set(_plx64 .plx64)
+    set(_llx .llx)
+    set(_llx64 64.llx64)  # An additional "64"
+  else()
+    set(_plx .so)
+    set(_llx .so)
+    set(_plx64 64.so)     # An additional "64"
+    set(_llx64 64.so)     # An additional "64"
+  endif()
 elseif(WIN32)
   set(IdaSdk_PLATFORM __NT__)
-  set(_plx .plw)
-  set(_plx64 .p64)
-  set(_llx .ldw)
-  set(_llx64 64.l64)  # An additional "64"
+  if(USE_IDA6_SDK)
+    set(_plx .plw)
+    set(_plx64 .p64)
+    set(_llx .ldw)
+    set(_llx64 64.l64)    # An additional "64"
+  else()
+    set(_plx .dll)
+    set(_llx .dll)
+    set(_plx64 64.dll)    # An additional "64"
+    set(_llx64 64.dll)    # An additional "64"
+  endif()
 else()
   message(FATAL_ERROR "Unsupported system type: ${CMAKE_SYSTEM_NAME}")
+endif()
+
+if(USE_IDA6_SDK)
+  set(_osx_arch "$(ARCHS_STANDARD_32_BIT)")
+  set(_lib_path "x86")
+else()
+  set(_osx_arch "$(ARCHS_STANDARD)")
+  set(_lib_path "x64")
 endif()
 
 function(_ida_plugin name ea64 link_script)  # ARGN contains sources
   # Define a module with the specified sources.
   add_library(${name} MODULE ${ARGN})
 
-  # Support for 64-bit addresses. The build is still 32-bit.
+  # Build for 64bit
+  if(NOT USE_IDA6_SDK)
+    target_compile_definitions(${name} PUBLIC __X64__)
+  endif()
+
+  # Support for 64-bit addresses.
   if(ea64)
     target_compile_definitions(${name} PUBLIC __EA64__)
   endif()
@@ -81,25 +115,33 @@ function(_ida_plugin name ea64 link_script)  # ARGN contains sources
 
   set_target_properties(${name} PROPERTIES PREFIX "" SUFFIX "")
   if(UNIX)
-    # Always build a 32-bit executable and use the linker script needed for IDA.
-    target_compile_options(${name} PUBLIC -m32)
+    if(USE_IDA6_SDK)
+      # Always build a 32-bit executable and use the linker script needed for IDA.
+      target_compile_options(${name} PUBLIC -m32)
+    endif()
+
     if(APPLE)
-      set(CMAKE_OSX_ARCHITECTURES "i386")
+      set(CMAKE_OSX_ARCHITECTURES ${_osx_arch})
       set(dynamic_lookup -Wl,-flat_namespace
                          -Wl,-undefined,warning
                          -Wl,-exported_symbol,_PLUGIN)
     else()
       set(script_flag -Wl,--version-script ${IdaSdk_DIR}/${link_script})
     endif()
-    target_link_libraries(${name} -m32 ${script_flag} ${dynamic_lookup})
+
+    if(USE_IDA6_SDK)
+      target_link_libraries(${name} -m32 ${script_flag} ${dynamic_lookup})
+    else()
+      target_link_libraries(${name} ${script_flag} ${dynamic_lookup})
+    endif()
 
     # For qrefcnt_obj_t in ida.hpp
     target_compile_options(${name} PUBLIC -Wno-non-virtual-dtor)
   elseif(WIN32)
     if(ea64)
-      set(IdaSdk_LIBRARY ${IdaSdk_DIR}/lib/x86_win_vc_64/ida.lib)
+      set(IdaSdk_LIBRARY ${IdaSdk_DIR}/lib/${_lib_path}_win_vc_64/ida.lib)
     else()
-      set(IdaSdk_LIBRARY ${IdaSdk_DIR}/lib/x86_win_vc_32/ida.lib)
+      set(IdaSdk_LIBRARY ${IdaSdk_DIR}/lib/${_lib_path}_win_vc_32/ida.lib)
     endif()
     target_link_libraries(${name} ${IdaSdk_LIBRARY})
   endif()

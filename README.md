@@ -22,7 +22,7 @@ FRIEND is an IDA plugin created to improve disassembly and bring register/instru
 
 ![](./Resources/screenshots/summary.png)
 
-### 5. Ability to pick only elements you are interested in
+### 5. Ability to pick only features you are interested in and save setting in IDB
 
 ![](./Resources/screenshots/settings.png)
 
@@ -42,11 +42,16 @@ To build the IDA plugin, there are few dependencies to satisfy:
 Unzip the contents of the IDA SDK into `idasdk`, and copy the Hex-Rays SDK to hexrays_sdk (use `-DUSE_HEXRAYS=OFF` with cmake to build without HexRays support). On Linux or MacOS, one can use the following commands:
 
 ```sh
-$ unzip /path/to/idasdk69.zip -d idasdk
-$ mv idasdk/idasdk69/* idasdk
-$ rm -r idasdk/idasdk69
+$ unzip /path/to/idasdkXX.zip -d idasdk
+$ mv idasdk/idasdkXX/* idasdk
+$ rm -r idasdk/idasdkXX
 $ cp -r /path/to/ida/plugins/hexrays_sdk hexrays_sdk
 ```
+
+### CMake options
+
+`USE_HEXRAYS=OFF` - to build without HexRays decompiler SDK (`ON` by default)  
+`USE_IDA6_SDK=ON` - to build against IDA 6.x SDK (`OFF` by default)
 
 ### Linux
 
@@ -55,7 +60,7 @@ Use ``cmake`` to prepare the build environment and run ``make`` to build the plu
 ```sh
 $ mkdir _build
 $ cd _build
-$ cmake [-DUSE_HEXRAYS=OFF] ..
+$ cmake [-DUSE_HEXRAYS=OFF] [-DUSE_IDA6_SDK=ON] ..
 $ make
 ```
 
@@ -66,7 +71,7 @@ Use ``cmake`` to prepare the build environment and run ``make`` to build the plu
 ```sh
 $ mkdir _build
 $ cd _build
-$ cmake [-DUSE_HEXRAYS=OFF] ..
+$ cmake [-DUSE_HEXRAYS=OFF] [-DUSE_IDA6_SDK=ON] ..
 $ make
 ```
 
@@ -75,7 +80,7 @@ If you prefer to have an Xcode project and build everything from there, run the 
 ```sh
 $ mkdir _build
 $ cd _build
-$ cmake -G Xcode [-DUSE_HEXRAYS=OFF] ..
+$ cmake -G Xcode [-DUSE_HEXRAYS=OFF] [-DUSE_IDA6_SDK=ON] ..
 $ open FRIEND.xcodeproj # or simply run xcodebuild
 ```
 
@@ -87,7 +92,7 @@ Use ``cmake`` to prepare the build environment and run ``make`` to build the plu
 $ mkdir _build
 $ cd _build
 $ "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
-$ cmake -G "Visual Studio 14 2015" [-DUSE_HEXRAYS=OFF] ..
+$ cmake -G "Visual Studio 14 2015" [-DUSE_HEXRAYS=OFF] [-DUSE_IDA6_SDK=ON] ..
 $ msbuild FRIEND.sln /p:Configuration=Release
 ```
 
@@ -97,9 +102,9 @@ Copy the built binaries into the IDA Pro plugins directory. These are the defaul
 
 OS      | Plugin path
 --------|-------------------------------------------
-Linux   | `/opt/ida-6.95/plugins`
-macOS   | `/Applications/IDA Pro 6.95/idabin/plugins`
-Windows | `%ProgramFiles(x86)%\IDA 6.95\plugins`
+Linux   | `/opt/ida-X.X/plugins`
+macOS   | `/Applications/IDA Pro X.X/idabin/plugins`
+Windows | `%ProgramFiles(x86)%\IDA X.X\plugins`
 
 ## Configuration files
 
