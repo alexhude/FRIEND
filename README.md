@@ -96,6 +96,15 @@ $ cmake -G "Visual Studio 14 2015" [-DUSE_HEXRAYS=OFF] [-DUSE_IDA6_SDK=ON] ..
 $ msbuild FRIEND.sln /p:Configuration=Release
 ```
 
+x64 build instructions (tested for IDA Pro 7.0 on Windows 10 x64):
+```sh
+mkdir _build64
+cd _build64
+"%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x64
+cmake -G "Visual Studio 14 2015 Win64" [-DUSE_HEXRAYS=OFF] [-DUSE_IDA6_SDK=ON] ..
+msbuild FRIEND.sln /p:Configuration=Release /p:Platform=X64 /m
+```
+
 ## Installation
 
 Copy the built binaries into the IDA Pro plugins directory. These are the default paths:
@@ -104,7 +113,7 @@ OS      | Plugin path
 --------|-------------------------------------------
 Linux   | `/opt/ida-X.X/plugins`
 macOS   | `/Applications/IDA Pro X.X/idabin/plugins`
-Windows | `%ProgramFiles(x86)%\IDA X.X\plugins`
+Windows | `%ProgramFiles(x86)%\IDA 6.X\plugins` or `%ProgramFiles%\IDA 7.X\plugins`
 
 ## Configuration files
 
