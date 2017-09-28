@@ -732,7 +732,7 @@ bool AArch32Extender::getSystemRegisterName(ea_t address, char* nameBuffer, uint
 		
 		auto cpRegName = s_operandMap[opHash];
 		
-		qstrncat(nameBuffer, SCOLOR_ON, nameLength);
+		qstrncpy(nameBuffer, SCOLOR_ON, nameLength);
 		qstrncat(nameBuffer, SCOLOR_REG, nameLength);
 		qstrncat(nameBuffer, cpRegName, nameLength);
 		qstrncat(nameBuffer, SCOLOR_OFF, nameLength);
