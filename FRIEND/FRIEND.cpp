@@ -568,7 +568,8 @@ private:
 								delete[] e->x->helper;
 								e->x->helper = new char[kMaxElementNameLength];
 							#if _MSC_VER
-								strncpy_s(e->x->helper, "_WriteSystemReg", kMaxElementNameLength);
+								const char* func_name = "_WriteSystemReg";
+								strncpy_s(e->x->helper, kMaxElementNameLength, func_name, strlen(func_name));
 							#else
 								strncpy(e->x->helper, "_WriteSystemReg", kMaxElementNameLength);
 							#endif
@@ -602,7 +603,8 @@ private:
 								delete[] e->x->helper;
 								e->x->helper = new char[kMaxElementNameLength];
 							#if _MSC_VER
-								strncpy_s(e->x->helper, "_ReadSystemReg", kMaxElementNameLength);
+								const char* func_name = "_ReadSystemReg";
+								strncpy_s(e->x->helper, kMaxElementNameLength, func_name, strlen(func_name));
 							#else
 								strncpy(e->x->helper, "_ReadSystemReg", kMaxElementNameLength);
 							#endif

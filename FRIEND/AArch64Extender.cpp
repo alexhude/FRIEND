@@ -106,7 +106,7 @@ bool AArch64Extender::getSystemRegisterName(ea_t address, char* nameBuffer, uint
 	tmp = cs_reg_name(m_capstoneHandle, RegisterInfo(type, insn_type, ops[sysRegIdx].reg));
 	BAIL_IF(tmp == nullptr, "[FRIEND]: unable to get register name for instruction at " PRINTF_ADDR " [ %.4X ]\n", address, rawInstruction);
 	
-	qstrncat(nameBuffer, SCOLOR_ON, nameLength);
+	qstrncpy(nameBuffer, SCOLOR_ON, nameLength);
 	qstrncat(nameBuffer, SCOLOR_REG, nameLength);
 	qstrncat(nameBuffer, tmp, nameLength);
 	qstrncat(nameBuffer, SCOLOR_OFF, nameLength);
