@@ -664,8 +664,17 @@ private:
 					}
 				}
 				
+				// registers can only be certain element types
+				if (el->op != cot_helper && el->op != cit_asm)
+					return 0;
+				
+				// TODO: for cit_asm elements get text in __asm { ... } and implement
+				//       extractElement lambda code for register under cursor
+				if (el->op == cit_asm)
+					return 0;
+				
 				// try to generate register/instruction hint otherwise
-				const char* tagged_line = el->string;
+				const char* tagged_line = el->helper;
 				if (tagged_line == nullptr || uintptr_t(tagged_line) == -1)
 					return 0;
 				
