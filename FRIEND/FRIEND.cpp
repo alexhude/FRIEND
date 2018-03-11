@@ -210,7 +210,11 @@ private:
 	}
 
 #if defined(USE_HEXRAYS)
+	#if (IDA_SDK_VERSION < 710)
+	static int idaapi s_hexrays_hook(void* user_data, hexrays_event_t event, va_list va)
+	#else
 	static ssize_t idaapi s_hexrays_hook(void* user_data, hexrays_event_t event, va_list va)
+	#endif
 	{
 		return ((FRIEND*)user_data)->hexRaysHook(event, va);
 	}
