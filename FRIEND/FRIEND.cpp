@@ -210,7 +210,7 @@ private:
 	}
 
 #if defined(USE_HEXRAYS)
-	static int idaapi s_hexrays_hook(void* user_data, hexrays_event_t event, va_list va)
+	static ssize_t idaapi s_hexrays_hook(void* user_data, hexrays_event_t event, va_list va)
 	{
 		return ((FRIEND*)user_data)->hexRaysHook(event, va);
 	}
