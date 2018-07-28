@@ -80,6 +80,7 @@ ExternalProject_Add(
     INSTALL_DIR         "${CAPSTONE_ROOT}"
     GIT_REPOSITORY      "${CAPSTONE_GIT_URL}"
     GIT_TAG             "${CAPSTONE_GIT_TAG}"
+    GIT_SHALLOW         ON
     PATCH_COMMAND       ${GIT_EXECUTABLE} reset --hard && ${GIT_EXECUTABLE} apply --ignore-whitespace --whitespace=nowarn ${CAPSTONE_PATCHES}
     CMAKE_ARGS          -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
                         -DCAPSTONE_BUILD_SHARED=OFF
@@ -102,6 +103,7 @@ ExternalProject_Add(
                         -DCMAKE_CXX_FLAGS_RELEASE:STRING=${DCMAKE_CXX_FLAGS_RELEASE}
                         -DCMAKE_CXX_FLAGS_MINSIZEREL:STRING=${DCMAKE_CXX_FLAGS_MINSIZEREL}
                         -DCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=${DCMAKE_CXX_FLAGS_RELWITHDEBINFO}
+                        -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
 )
 
 # build pugixml
@@ -111,6 +113,7 @@ ExternalProject_Add(
     INSTALL_DIR         "${PUGIXML_ROOT}"
     GIT_REPOSITORY      "${PUGIXML_GIT_URL}"
     GIT_TAG             "${PUGIXML_GIT_TAG}"
+    GIT_SHALLOW         ON
     CMAKE_ARGS          -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
                         -DCMAKE_OSX_SYSROOT:STRING=${CMAKE_OSX_SYSROOT}
                         -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
@@ -124,6 +127,7 @@ ExternalProject_Add(
                         -DCMAKE_CXX_FLAGS_RELEASE:STRING=${DCMAKE_CXX_FLAGS_RELEASE}
                         -DCMAKE_CXX_FLAGS_MINSIZEREL:STRING=${DCMAKE_CXX_FLAGS_MINSIZEREL}
                         -DCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=${DCMAKE_CXX_FLAGS_RELWITHDEBINFO}
+                        -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
 )
 
 add_library(capstone_static STATIC IMPORTED)
@@ -172,5 +176,6 @@ add_ida_plugin(FRIEND EA64
                FRIEND/Settings.cpp
                FRIEND/Settings.hpp)
 
+set_target_properties(FRIEND${_plx} FRIEND${_plx64} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(FRIEND${_plx} pugixml_static capstone_static)
 target_link_libraries(FRIEND${_plx64} pugixml_static capstone_static)
