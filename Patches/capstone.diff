@@ -1,8 +1,8 @@
 diff --git a/arch/AArch64/AArch64InstPrinter.c b/arch/AArch64/AArch64InstPrinter.c
-index 123e69b..75e37f9 100644
+index 26d482f4..4c705950 100644
 --- a/arch/AArch64/AArch64InstPrinter.c
 +++ b/arch/AArch64/AArch64InstPrinter.c
-@@ -346,18 +346,18 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+@@ -477,18 +477,18 @@ static bool printSysAlias(MCInst *MI, SStream *O)
  				if (Op1Val == 0 && Op2Val == 0) {
  					Asm = "ic\tialluis";
  					insn_id = ARM64_INS_IC;
@@ -24,7 +24,7 @@ index 123e69b..75e37f9 100644
  				}
  				break;
  
-@@ -366,48 +366,48 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+@@ -497,48 +497,48 @@ static bool printSysAlias(MCInst *MI, SStream *O)
  				if (Op1Val == 3 && Op2Val == 1) {
  					Asm = "dc\tzva";
  					insn_id = ARM64_INS_DC;
@@ -81,7 +81,7 @@ index 123e69b..75e37f9 100644
  				}
  				break;
  
-@@ -420,30 +420,30 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+@@ -551,30 +551,30 @@ static bool printSysAlias(MCInst *MI, SStream *O)
  						switch (Op2Val) {
  							default:
  								break;
@@ -124,7 +124,7 @@ index 123e69b..75e37f9 100644
  						}
  						break;
  				}
-@@ -462,32 +462,32 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+@@ -593,32 +593,32 @@ static bool printSysAlias(MCInst *MI, SStream *O)
  						switch (Op2Val) {
  							default:
  								break;
@@ -171,7 +171,7 @@ index 123e69b..75e37f9 100644
  						}
  						break;
  				}
-@@ -500,8 +500,8 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+@@ -631,8 +631,8 @@ static bool printSysAlias(MCInst *MI, SStream *O)
  						switch (Op2Val) {
  							default:
  								break;
@@ -182,7 +182,7 @@ index 123e69b..75e37f9 100644
  						}
  						break;
  				}
-@@ -514,8 +514,8 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+@@ -645,8 +645,8 @@ static bool printSysAlias(MCInst *MI, SStream *O)
  						switch (Op2Val) {
  							default:
  								break;
@@ -193,7 +193,7 @@ index 123e69b..75e37f9 100644
  						}
  						break;
  				}
-@@ -528,32 +528,32 @@ static bool printSysAlias(MCInst *MI, SStream *O)
+@@ -659,32 +659,32 @@ static bool printSysAlias(MCInst *MI, SStream *O)
  						switch (Op2Val) {
  							default:
  								break;
@@ -241,13 +241,13 @@ index 123e69b..75e37f9 100644
  						break;
  				}
 diff --git a/arch/AArch64/AArch64Module.c b/arch/AArch64/AArch64Module.c
-index f7fa97f..1475e0f 100644
+index 7fc5ddf4..be6124a9 100644
 --- a/arch/AArch64/AArch64Module.c
 +++ b/arch/AArch64/AArch64Module.c
-@@ -8,6 +8,92 @@
- #include "AArch64Disassembler.h"
+@@ -9,6 +9,90 @@
  #include "AArch64InstPrinter.h"
  #include "AArch64Mapping.h"
+ #include "AArch64Module.h"
 +#include "AArch64BaseInfo.h"
 +
 +const char *AArch64_reg_name_ex(csh handle, unsigned int reg_info)
@@ -259,26 +259,24 @@ index f7fa97f..1475e0f 100644
 +	#define GetRegType(reg_info) ((reg_info >> 24) & 0xFF)
 +	#define GetRegValue(reg_info) (reg_info & 0xFFFFF)
 +	#define GetInsnType(reg_info) ((reg_info >> 20) & 0xF)
-+	
++
 +	arm64_op_type type = GetRegType(reg_info);
 +	if (type == 0)
 +		type = ARM64_OP_REG;
-+	
++
 +	uint32_t value = GetRegValue(reg_info);
-+	
++
 +	switch (type)
 +	{
 +		case ARM64_OP_REG:
 +			if (value < ARM64_REG_ENDING)
 +				return AArch64_reg_name(handle, value);
 +		case ARM64_OP_REG_MRS:
-+			A64SysRegMapper_toString(&AArch64_MRSMapper, value, &valid, regName);
-+			if (valid)
-+				return regName;
++			A64SysRegMapper_toString(&AArch64_MRSMapper, value, regName);
++			return regName;
 +		case ARM64_OP_REG_MSR:
-+			A64SysRegMapper_toString(&AArch64_MSRMapper, value, &valid, regName);
-+			if (valid)
-+				return regName;
++			A64SysRegMapper_toString(&AArch64_MSRMapper, value, regName);
++			return regName;
 +		case ARM64_OP_PSTATE:
 +			regName = A64NamedImmMapper_toString(&A64PState_PStateMapper, value, &valid);
 +			if (valid)
@@ -327,17 +325,17 @@ index f7fa97f..1475e0f 100644
 +				default:
 +					break;
 +			}
-+			
++
 +		default:
 +			return NULL;
 +	}
-+	
++
 +	return NULL;
 +}
  
- static cs_err init(cs_struct *ud)
+ cs_err AArch64_global_init(cs_struct *ud)
  {
-@@ -24,7 +110,7 @@ static cs_err init(cs_struct *ud)
+@@ -20,7 +104,7 @@ cs_err AArch64_global_init(cs_struct *ud)
  	ud->printer_info = mri;
  	ud->getinsn_info = mri;
  	ud->disasm = AArch64_getInstruction;
