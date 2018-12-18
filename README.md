@@ -143,6 +143,9 @@ FRIEND configuration file has following structure:
 
 Please note that you have to put your own \<path\> to pdf file to be able to use external documentation in a browser.
 
+You can use a local file too.  Assuming your pdf is in `/Users/foo/doc/doc.pdf`, just
+put that after `<path>`.  Do not add `file://` as it will be prepended later.
+
 ## Hint Editor
 
 To make contribution to this project easier, there is a simple config editor.  
