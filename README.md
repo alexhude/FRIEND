@@ -26,6 +26,9 @@ FRIEND is an IDA plugin created to improve disassembly and bring register/instru
 
 ![](./Resources/screenshots/settings.png)
 
+Note: it may be confusing if there's only one element group, you still need to
+click on it to enable the features.
+
 ## How to build
 
 ### Preparing the build environment
