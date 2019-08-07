@@ -20,7 +20,11 @@
 	#define idaapi_run_ret_t						bool
 	#define idaapi_run_return(x)					return (x)
 
+#if IDA_SDK_VERSION >= 730
+	#define IDAAPI_IsBE()							(inf_is_be())
+#else
 	#define IDAAPI_IsBE()							(inf.is_be())
+#endif
 	#define IDAAPI_AskForm							ask_form
 	#define IDAAPI_GetFlags							get_flags
 	#define IDAAPI_GetFuncName						get_func_name
