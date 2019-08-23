@@ -26,6 +26,9 @@ FRIEND is an IDA plugin created to improve disassembly and bring register/instru
 
 ![](./Resources/screenshots/settings.png)
 
+Note: it may be confusing if there's only one element group, you still need to
+click on it to enable the features.
+
 ## How to build
 
 ### Preparing the build environment
@@ -142,6 +145,9 @@ FRIEND configuration file has following structure:
 ```
 
 Please note that you have to put your own \<path\> to pdf file to be able to use external documentation in a browser.
+
+You can use a local file too.  Assuming your pdf is in `/Users/foo/doc/doc.pdf`, just
+put that after `<path>`.  Do not add `file://` as it will be prepended later.
 
 ## Hint Editor
 
