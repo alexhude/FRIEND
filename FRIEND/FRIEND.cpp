@@ -153,8 +153,12 @@ public:
 	}
 	
 	// MARK: Static functions
-	
+
+#if IDA_SDK_VERSION >= 750
+	static plugmod_t *s_init(void)
+#else
 	static int s_init(void)
+#endif
 	{
 		if (exist(gPluginNode) == false)
 			gPluginNode.create(gNodeName);
@@ -893,7 +897,11 @@ private:
 //      PLUGIN DESCRIPTION BLOCK
 //
 //--------------------------------------------------------------------------
+#if IDA_SDK_VERSION >= 750
+	plugmod_t *idaapi pluginInit(void)			{ return FRIEND::s_init();		}
+#else
 	int idaapi pluginInit(void)			{ return FRIEND::s_init();		}
+#endif
 	void idaapi pluginTerminate(void)	{ FRIEND::s_term();				}
 #if IDA_SDK_VERSION >= 700
 	bool idaapi pluginRun(size_t args) 	{ return FRIEND::s_run(args);	}
