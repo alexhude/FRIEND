@@ -43,8 +43,10 @@ static const uint32_t kPluginNode_Settings = 'setn';
 static netnode gPluginNode(gNodeName);
 
 #if defined(USE_HEXRAYS)
+#if IDA_SDK_VERSION < 760
 	// Hex-Rays API pointer
 	hexdsp_t *hexdsp = nullptr;
+#endif
 #endif
 
 char gPluginHelp[] = "FRIEND";
@@ -338,26 +340,34 @@ private:
 		#if defined(USE_HEXRAYS)
 			case ui_plugin_loaded:
 			{
+#if IDA_SDK_VERSION < 760
 				if (hexdsp == nullptr)
 				{
+#endif
 					if (is_hexrays_plugin(va_arg(va, plugin_info_t *)))
 					{
 						m_supportsHexRays = init_hexrays_plugin();
 					}
+#if IDA_SDK_VERSION < 760
 				}
+#endif
 				break;
 			}
 			case ui_plugin_unloading:
 			{
+#if IDA_SDK_VERSION < 760
 				if (hexdsp != nullptr)
 				{
+#endif
 					if (is_hexrays_plugin(va_arg(va, plugin_info_t *)))
 					{
 						remove_hexrays_callback(FRIEND::s_hexrays_hook, this);
 						term_hexrays_plugin();
 						m_supportsHexRays = false;
 					}
+#if IDA_SDK_VERSION < 760
 				}
+#endif
 				break;
 			}
 		#endif
