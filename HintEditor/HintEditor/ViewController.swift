@@ -33,7 +33,7 @@ class InfoTextView : NSTextView
 		if selector == #selector(NSResponder.insertTab(_:))
 		{
 			let TAB = String(repeating: " ", count: 4)
-			self.insertText(TAB, replacementRange: NSMakeRange(self.string!.characters.count, self.string!.characters.count))
+            self.insertText(TAB, replacementRange: NSMakeRange(self.string.count, self.string.count))
 		}
 		else
 		{
@@ -214,9 +214,9 @@ class ViewController: NSViewController
 			
 			let attribute = NSMutableAttributedString.init(string: preview)
 			let headerRange = (preview as NSString).range(of: preview)
-			let boldFont = NSFontManager.shared().convert(previewField.font!, toHaveTrait: .boldFontMask)
-			attribute.addAttribute(NSForegroundColorAttributeName, value: previewField.hintHeaderColor!, range: headerRange)
-			attribute.addAttribute(NSFontAttributeName, value: boldFont, range: headerRange)
+            let boldFont = NSFontManager.shared.convert(previewField.font!, toHaveTrait: .boldFontMask)
+            attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: previewField.hintHeaderColor!, range: headerRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: boldFont, range: headerRange)
 			
 			previewField.textStorage?.append(attribute)
 		}
@@ -231,16 +231,16 @@ class ViewController: NSViewController
 			}
 			
 			let kUnicode_LineSeparator = 0x2028
-			let infoString = infoField.string?.replacingOccurrences(of: String(describing: UnicodeScalar(kUnicode_LineSeparator)!), with: "\n ")
+            let infoString = infoField.string.replacingOccurrences(of: String(describing: UnicodeScalar(kUnicode_LineSeparator)!), with: "\n ")
 				.replacingOccurrences(of: "\n", with: "\n ")
 				.replacingOccurrences(of: "\r", with: "\n ")
-			preview += " " + infoString!
+            preview += " " + infoString
 			
 			let attribute = NSMutableAttributedString.init(string: preview)
 			let infoRange = (preview as NSString).range(of: preview)
-			let unboldFont = NSFontManager.shared().convert(previewField.font!, toHaveTrait: .unboldFontMask)
-			attribute.addAttribute(NSForegroundColorAttributeName, value: previewField.hintInfoColor!, range: infoRange)
-			attribute.addAttribute(NSFontAttributeName, value: unboldFont, range: infoRange)
+            let unboldFont = NSFontManager.shared.convert(previewField.font!, toHaveTrait: .unboldFontMask)
+            attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: previewField.hintInfoColor!, range: infoRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: unboldFont, range: infoRange)
 			
 			previewField.textStorage?.append(attribute)
 		}
@@ -260,10 +260,7 @@ class ViewController: NSViewController
 				string == "" || $0.token.localizedCaseInsensitiveContains(string)
 			}
 			
-			if newGroup.hints.count > 0
-			{
-				elementsFiltered.append(newGroup)
-			}
+            elementsFiltered.append(newGroup)
 		}
 		
 		filterString = string
@@ -363,7 +360,7 @@ class ViewController: NSViewController
 			textView.textContainer!.containerSize        = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
 		}
 		
-		let attributes = [NSFontAttributeName: tokenField.font as Any]
+        let attributes = [NSAttributedString.Key.font: tokenField.font as Any]
 		infoField.typingAttributes = attributes
 		previewField.typingAttributes = attributes
 		
@@ -428,7 +425,8 @@ class ViewController: NSViewController
 				let newGroup = Group(name)
 				
 				guard let hints = group["hint"].all else {
-					throw AEXMLError.elementNotFound
+                    elements.append(newGroup)
+                    continue
 				}
 				
 				for token in hints
@@ -498,8 +496,8 @@ class ViewController: NSViewController
 		{
 			// token is same, update element
 			guard
-				let realGroupIdx = elements.index(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
-				let realHintIdx = elements[realGroupIdx].hints.index(where: {$0.token == tokenField.stringValue})
+                let realGroupIdx = elements.firstIndex(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
+                let realHintIdx = elements[realGroupIdx].hints.firstIndex(where: {$0.token == tokenField.stringValue})
 			else
 			{
 				return
@@ -516,7 +514,7 @@ class ViewController: NSViewController
 			element.attributes["header"] = headerField.stringValue
 			
 			let kUnicode_LineSeparator = 0x2028
-			element.value = infoField.string?.replacingOccurrences(of: String(describing: UnicodeScalar(kUnicode_LineSeparator)!), with: "\n")
+            element.value = infoField.string.replacingOccurrences(of: String(describing: UnicodeScalar(kUnicode_LineSeparator)!), with: "\n")
 				.replacingOccurrences(of: "\r", with: "\n")
 			
 			elementChanged = false
@@ -536,17 +534,20 @@ class ViewController: NSViewController
 		}
 
 		guard
-			let realGroupIdx = elements.index(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
+            let realGroupIdx = elements.firstIndex(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
 			let group = xmlDoc?.root["elements"]["group"].all![realGroupIdx]
 		else
 		{
 			return
 		}
 		
-		if group["hint"].all(withAttributes: ["token" : tokenField.stringValue]) != nil
+        if let hints = group["hint"].all(withAttributes: ["token" : tokenField.stringValue])
 		{
-			print("HintEditor: Hint with id=\"\(tokenField.stringValue)\" already exists!")
-			return
+            if !hints.isEmpty
+            {
+                print("HintEditor: Hint with id=\"\(tokenField.stringValue)\" already exists!")
+                return
+            }
 		}
 		
 		let attributes = [
@@ -558,7 +559,7 @@ class ViewController: NSViewController
 		
 		// fix line breaks
 		let kUnicode_LineSeparator = 0x2028
-		let infoString = infoField.string?.replacingOccurrences(of: String(describing: UnicodeScalar(kUnicode_LineSeparator)!), with: "\n")
+        let infoString = infoField.string.replacingOccurrences(of: String(describing: UnicodeScalar(kUnicode_LineSeparator)!), with: "\n")
 			.replacingOccurrences(of: "\r", with: "\n")
 		
 		let newHint = Hint(tokenField.stringValue)
@@ -582,7 +583,7 @@ class ViewController: NSViewController
 		else
 		{
 			let selectedHintToken = elementsFiltered[filteredGroupIndex!].hints[filteredHintIndex!].token
-			guard let realHintIdx = elements[realGroupIdx].hints.index(where: {$0.token == selectedHintToken}) else {
+            guard let realHintIdx = elements[realGroupIdx].hints.firstIndex(where: {$0.token == selectedHintToken}) else {
 				return
 			}
 			
@@ -608,8 +609,8 @@ class ViewController: NSViewController
 		else
 		{
 			guard
-				let groupIdx = elements.index(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
-				let hintIdx = elements[realGroupIdx].hints.index(where: {$0.token == tokenField.stringValue})
+                let groupIdx = elements.firstIndex(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
+                let hintIdx = elements[realGroupIdx].hints.firstIndex(where: {$0.token == tokenField.stringValue})
 			else
 			{
 				return
@@ -643,8 +644,8 @@ class ViewController: NSViewController
 		guard
 			filteredGroupIndex != nil,
 			filteredHintIndex != nil,
-			let realGroupIdx = elements.index(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
-			let realHintIdx = elements[realGroupIdx].hints.index(where: {$0.token == tokenField.stringValue}),
+            let realGroupIdx = elements.firstIndex(where: {$0.name == elementsFiltered[filteredGroupIndex!].name}),
+            let realHintIdx = elements[realGroupIdx].hints.firstIndex(where: {$0.token == tokenField.stringValue}),
 			let element = xmlDoc?.root["elements"]["group"].all![realGroupIdx]["hint"].all![realHintIdx]
 		else {
 			return
@@ -680,7 +681,7 @@ class ViewController: NSViewController
 
 extension ViewController: NSTextFieldDelegate
 {
-	override func controlTextDidChange(_ notification: Notification)
+	func controlTextDidChange(_ notification: Notification)
 	{
 		guard let textField = notification.object as? NSTextField else {
 			return
@@ -709,7 +710,7 @@ extension ViewController: NSControlTextEditingDelegate
 			if textView === headerField
 			{
 				let TAB = String(repeating: " ", count: 4)
-				textView.insertText(TAB, replacementRange: NSMakeRange(textView.string!.characters.count, textView.string!.characters.count))
+                textView.insertText(TAB, replacementRange: NSMakeRange(textView.string.count, textView.string.count))
 				result = true
 			}
 		}
@@ -793,7 +794,7 @@ extension ViewController: NSOutlineViewDelegate {
 			text = hint.token
 		}
 		
-		view = outlineView.make(withIdentifier: "ElementCell", owner: self) as? NSTableCellView
+        view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ElementCell"), owner: self) as? NSTableCellView
 		if let textField = view?.textField
 		{
 			textField.stringValue = text
@@ -804,11 +805,11 @@ extension ViewController: NSOutlineViewDelegate {
 			{
 				if item is Group
 				{
-					textField.font = NSFontManager.shared().convert(font, toHaveTrait: .boldFontMask)
+                    textField.font = NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask)
 				}
 				else
 				{
-					textField.font = NSFontManager.shared().convert(font, toHaveTrait: .unboldFontMask)
+                    textField.font = NSFontManager.shared.convert(font, toHaveTrait: .unboldFontMask)
 				}
 			}
 		}
@@ -839,8 +840,8 @@ extension ViewController: NSOutlineViewDelegate {
 		{
 			guard
 				let group = outlineView.parent(forItem: hint) as? Group,
-				let groupIndex = elementsFiltered.index(where: { $0 === group } ),
-				let hintIndex = group.hints.index(where: { $0 === hint } )
+                let groupIndex = elementsFiltered.firstIndex(where: { $0 === group } ),
+                let hintIndex = group.hints.firstIndex(where: { $0 === hint } )
 			else {
 				print("HintEditor: Unable to get element with index \(selectedIndex)")
 				return
@@ -850,8 +851,8 @@ extension ViewController: NSOutlineViewDelegate {
 			filteredHintIndex = hintIndex
 			
 			guard
-				let realGroupIdx = elements.index(where: {$0.name == group.name}),
-				let realHintIdx = elements[realGroupIdx].hints.index(where: {$0.token == hint.token})
+                let realGroupIdx = elements.firstIndex(where: {$0.name == group.name}),
+                let realHintIdx = elements[realGroupIdx].hints.firstIndex(where: {$0.token == hint.token})
 			else
 			{
 				return
@@ -864,7 +865,7 @@ extension ViewController: NSOutlineViewDelegate {
 		{
 			guard
 				let group = outlineView.item(atRow: selectedIndex) as? Group,
-				let groupIndex = elementsFiltered.index(where: { $0 === group } )
+                let groupIndex = elementsFiltered.firstIndex(where: { $0 === group } )
 			else {
 				print("HintEditor: Unable to get element with index \(selectedIndex)")
 				return

@@ -3,7 +3,7 @@ project(HintEditor Swift)
 
 include(BundleUtilities)
 
-set(CMAKE_Swift_LANGUAGE_VERSION 3.0.1)
+set(CMAKE_Swift_LANGUAGE_VERSION 5)
 
 # use latest macOS SDK
 set(CMAKE_OSX_SYSROOT "macosx")

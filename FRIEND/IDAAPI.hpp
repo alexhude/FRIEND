@@ -19,7 +19,6 @@
 	#define idaapi_run_args_t						size_t
 	#define idaapi_run_ret_t						bool
 	#define idaapi_run_return(x)					return (x)
-
 #if IDA_SDK_VERSION >= 730
 	#define IDAAPI_IsBE()							(inf_is_be())
 #else

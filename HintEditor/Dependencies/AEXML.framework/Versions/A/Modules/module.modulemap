@@ -7,4 +7,5 @@ framework module AEXML {
 
 module AEXML.Swift {
     header "AEXML-Swift.h"
+    requires objc
 }
