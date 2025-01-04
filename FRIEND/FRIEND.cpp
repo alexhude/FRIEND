@@ -34,6 +34,11 @@
     #define ATTR_UNUSED
 #endif
 
+#if (IDA_SDK_VERSION >= 900)
+#define ph PH
+#define IWID_DISASMS IWID_DISASM
+#endif
+
 // The netnode helper.
 // Using this node we will save current configuration information in the
 // IDA database.
@@ -340,34 +345,34 @@ private:
 		#if defined(USE_HEXRAYS)
 			case ui_plugin_loaded:
 			{
-            #if IDA_SDK_VERSION < 760
+#if IDA_SDK_VERSION < 760
 				if (hexdsp == nullptr)
 				{
-            #endif
+#endif
 					if (is_hexrays_plugin(va_arg(va, plugin_info_t *)))
 					{
 						m_supportsHexRays = init_hexrays_plugin();
 					}
-            #if IDA_SDK_VERSION < 760
+#if IDA_SDK_VERSION < 760
 				}
-            #endif
+#endif
 				break;
 			}
 			case ui_plugin_unloading:
 			{
-            #if IDA_SDK_VERSION < 760
+#if IDA_SDK_VERSION < 760
 				if (hexdsp != nullptr)
 				{
-            #endif
+#endif
 					if (is_hexrays_plugin(va_arg(va, plugin_info_t *)))
 					{
 						remove_hexrays_callback(FRIEND::s_hexrays_hook, this);
 						term_hexrays_plugin();
 						m_supportsHexRays = false;
 					}
-            #if IDA_SDK_VERSION < 760
+#if IDA_SDK_VERSION < 760
 				}
-            #endif
+#endif
 				break;
 			}
 		#endif
@@ -899,7 +904,7 @@ private:
 	ProcExtender*		m_procExtender = nullptr;
 	FunctionSummary*	m_funcSummary = nullptr;
 	
-	bool			    m_supportsHexRays = false;
+	bool			m_supportsHexRays = false;
 };
 
 //--------------------------------------------------------------------------
